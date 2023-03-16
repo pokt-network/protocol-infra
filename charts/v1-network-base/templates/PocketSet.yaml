@@ -1,0 +1,5 @@
+apiVersion: nodes.pokt.network/v1alpha1
+kind: PocketSet
+metadata:
+  name: {{ $.Release.Namespace }}
+spec: {}

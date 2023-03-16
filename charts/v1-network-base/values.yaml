@@ -1,0 +1,4 @@
+networkName: "devnet123"
+
+validators:
+  count: 0

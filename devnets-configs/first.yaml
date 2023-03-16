@@ -1,0 +1,4 @@
+networkName: "first"
+
+validators:
+  count: 4

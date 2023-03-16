@@ -1,0 +1,13 @@
+# Create Service Monitors for different services here (e.g. validator)
+# TODO(@okdas): make this a part of PocketValidator spec
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: {{ $.Release.Namespace }}-all-validators
+spec:
+  endpoints:
+  - port: metrics
+  selector:
+    matchLabels:
+      scope: all-validators
+

@@ -1,0 +1,33 @@
+{{- range $idx0 := until (.Values.validators.count | int) }}
+{{- $idx1 := $idx0 | add1 -}}
+apiVersion: nodes.pokt.network/v1alpha1
+kind: PocketValidator
+metadata:
+  name: v1-validator{{ $idx1 }}
+spec:
+  collection:
+    name: {{ $.Release.Namespace }}
+  pocketImage: "ghcr.io/pokt-network/pocket-v1:main-dev"
+  privateKey:
+    secretKeyRef:
+      name: validators-private-keys
+      key: "{{ printf "%03d" $idx1 }}"
+  postgres:
+    user:
+      secretKeyRef:
+        name: main-database-pguser-validators
+        key: user
+    password:
+      secretKeyRef:
+        name: main-database-pguser-validators
+        key: password
+    host: main-database-primary
+    port: "5432"
+    database: validators
+    schema: validator{{ $idx1 }}
+  ports:
+    consensus: 42069
+    rpc: 50832
+    metrics: 9000
+---
+{{- end }}
