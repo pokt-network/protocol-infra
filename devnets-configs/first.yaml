@@ -3,4 +3,4 @@ networkName: "first"
 validators:
   count: 4
   image:
-    tag: sha-133405c-dev
+    tag: sha-947aaaf-dev
