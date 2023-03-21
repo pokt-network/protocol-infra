@@ -1,0 +1,114 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pocket-v1-cli-client
+  namespace: default
+  labels:
+    app: v1-cli-client
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: v1-cli-client
+  template:
+    metadata:
+      labels:
+        app: v1-cli-client
+    spec:
+      serviceAccountName: debug-client-account
+      initContainers:
+        - name: wait-for-v1-validator001
+          image: busybox
+          command:
+            [
+              "sh",
+              "-c",
+              "until nc -z v1-validator001 42069; do echo waiting for v1-validator001...; sleep 2; done;",
+            ]
+      containers:
+        - name: pocket
+          image: client-image
+          imagePullPolicy: IfNotPresent
+          command: ["sleep", "infinity"]
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "250m"
+            limits:
+              memory: "512Mi"
+              cpu: "4"
+          env:
+            - name: POCKET_P2P_IS_CLIENT_ONLY
+              value: "true"
+            - name: CONFIG_PATH
+              value: "/var/pocket/config/config.json"
+            - name: GENESIS_PATH
+              value: "/var/pocket/genesis/genesis.json"
+            - name: POCKET_PRIVATE_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: validators-private-keys
+                  key: "001"
+            - name: POCKET_CONSENSUS_PRIVATE_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: validators-private-keys
+                  key: "001"
+            - name: POCKET_P2P_PRIVATE_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: validators-private-keys
+                  key: "001"
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                    name: main-database-pguser-validators
+                    key: user
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                    name: main-database-pguser-validators
+                    key: password
+            - name: POSTGRES_HOST
+              value: main-database-primary
+            - name: POSTGRES_PORT
+              value: "5432"
+            - name: POSTGRES_DB
+              value: "validators"
+            - name: POCKET_PERSISTENCE_POSTGRES_URL
+              value: "postgres://$(POSTGRES_USER):$(POSTGRES_PASSWORD)@$(POSTGRES_HOST):$(POSTGRES_PORT)/$(POSTGRES_DB)"
+            - name: POCKET_PERSISTENCE_NODE_SCHEMA
+              value: validator001
+              # Any host that is visible and connected to the cluster can be arbitrarily selected as the RPC host
+            - name: RPC_HOST
+              value: v1-validator001
+          volumeMounts:
+            - mountPath: /var/pocket/config
+              name: config-volume
+            - mountPath: /var/pocket/genesis
+              name: genesis-volume
+            - mountPath: /home/root/.pocket
+              name: datadir
+      volumes:
+        - name: config-volume
+          configMap:
+            name: v1-validator001-config
+            defaultMode: 420
+        - name: genesis-volume
+          configMap:
+            name: devnet-first-genesis
+            defaultMode: 420
+        - name: datadir
+          persistentVolumeClaim:
+            claimName: pocket-v1-cli-client-datadir
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: pocket-v1-cli-client-datadir
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
