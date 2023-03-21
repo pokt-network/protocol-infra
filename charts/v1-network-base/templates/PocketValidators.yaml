@@ -7,7 +7,7 @@ metadata:
 spec:
   collection:
     name: {{ $.Release.Namespace }}
-  pocketImage: "ghcr.io/pokt-network/pocket-v1:main-dev"
+  pocketImage: "{{ $.Values.validators.image.repository }}:{{ $.Values.validators.image.tag }}"
   privateKey:
     secretKeyRef:
       name: validators-private-keys

@@ -2,3 +2,7 @@ networkName: "devnet123"
 
 validators:
   count: 0
+  image:
+    repository: ghcr.io/pokt-network/pocket-v1
+    tag: latest
+    pullPolicy: Always
