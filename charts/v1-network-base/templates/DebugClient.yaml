@@ -91,20 +91,20 @@ spec:
       volumes:
         - name: config-volume
           configMap:
-            name: v1-validator001-config
+            name: {{ $.Release.Namespace }}-validator001-config
             defaultMode: 420
         - name: genesis-volume
           configMap:
-            name: devnet-first-genesis
+            name: {{ $.Release.Namespace }}-genesis
             defaultMode: 420
         - name: datadir
           persistentVolumeClaim:
-            claimName: pocket-v1-cli-client-datadir
+            claimName: {{ $.Release.Namespace }}-cli-client-datadir
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: pocket-v1-cli-client-datadir
+  name: {{ $.Release.Namespace }}-cli-client-datadir
 spec:
   accessModes:
     - ReadWriteOnce
