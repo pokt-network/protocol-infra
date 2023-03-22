@@ -1,0 +1,6 @@
+networkName: "e2e-onboard"
+
+validators:
+  count: 4
+  image:
+    tag: sha-947aaaf-dev
