@@ -3,7 +3,7 @@
 apiVersion: nodes.pokt.network/v1alpha1
 kind: PocketValidator
 metadata:
-  name: v1-validator{{ printf "%03d" $idx1  }}
+  name: {{ $.Release.Namespace }}-validator{{ printf "%03d" $idx1  }}
 spec:
   collection:
     name: {{ $.Release.Namespace }}
