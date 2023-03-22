@@ -3,4 +3,4 @@ networkName: "e2e-onboard"
 validators:
   count: 4
   image:
-    tag: sha-947aaaf-dev
+    tag: sha-7722a2f-dev
