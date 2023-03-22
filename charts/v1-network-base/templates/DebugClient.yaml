@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: pocket-v1-cli-client
+  name: {{ $.Release.Namespace }}-cli-client
   labels:
     app: v1-cli-client
 spec:
@@ -16,13 +16,13 @@ spec:
     spec:
       serviceAccountName: debug-client-account
       initContainers:
-        - name: wait-for-v1-validator001
+        - name: wait-for-{{ $.Release.Namespace }}-validator001
           image: busybox
           command:
             [
               "sh",
               "-c",
-              "until nc -z v1-validator001 42069; do echo waiting for v1-validator001...; sleep 2; done;",
+              "until nc -z {{ $.Release.Namespace }}-validator001 42069; do echo waiting for v1-validator001...; sleep 2; done;",
             ]
       containers:
         - name: pocket

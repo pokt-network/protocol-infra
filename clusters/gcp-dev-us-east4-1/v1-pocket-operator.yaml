@@ -30,7 +30,7 @@ spec:
         purpose: pocket-operator
         team: protocol
       images:
-        - ghcr.io/pokt-network/pocket-operator:sha-dd21f95
+        - ghcr.io/pokt-network/pocket-operator:sha-dbecbd4
 ---
 apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
