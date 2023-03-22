@@ -80,7 +80,7 @@ spec:
               value: validator001
               # Any host that is visible and connected to the cluster can be arbitrarily selected as the RPC host
             - name: RPC_HOST
-              value: v1-validator001
+              value: {{ $.Release.Namespace }}-v1-validator001
           volumeMounts:
             - mountPath: /var/pocket/config
               name: config-volume
