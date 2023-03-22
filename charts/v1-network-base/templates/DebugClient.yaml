@@ -26,7 +26,7 @@ spec:
             ]
       containers:
         - name: pocket
-          image: "{{ $.Values.validators.image.repository }}:{{ $.Values.validators.image.tag }}"
+          image: "{{ $.Values.validators.image.repository }}:{{ include "dev-image" . }}"
           imagePullPolicy: IfNotPresent
           command: ["sleep", "infinity"]
           resources:
