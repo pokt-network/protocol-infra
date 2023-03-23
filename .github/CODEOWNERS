@@ -1,5 +1,5 @@
 # This is a CODEOWNERS file that governs access to specific directories in the directory so only
 # PNI members can change critical infrastructure
-/charts @team-blockchains @okdas @Gustavobelfort
-/clusters @team-blockchains @okdas @Gustavobelfort
-/.github @team-blockchains @okdas @Gustavobelfort
+/charts @pokt-network/team-blockchains @okdas @Gustavobelfort
+/clusters @pokt-network/team-blockchains @okdas @Gustavobelfort
+/.github @pokt-network/team-blockchains @okdas @Gustavobelfort
