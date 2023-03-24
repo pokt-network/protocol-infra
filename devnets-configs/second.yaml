@@ -7,4 +7,5 @@ networkName: "second"
 
 validators:
   count: 4
-  image: sha-7722a2f-dev
+  image:
+    tag: sha-7722a2f-dev
