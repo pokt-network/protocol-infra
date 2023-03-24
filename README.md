@@ -1,11 +1,16 @@
 # Protocol infrastructure <!-- omit in toc -->
 
-- [How to provision and remove networks](#how-to-provision-and-remove-networks)
-    - [Scaling/configuration parameters](#scalingconfiguration-parameters)
-    - [How to interact with DevNet on Kubernetes](#how-to-interact-with-devnet-on-kubernetes)
-      - [Run debug client](#run-debug-client)
-      - [Shell into the validator pod](#shell-into-the-validator-pod)
-  - [Directory structure](#directory-structure)
+- [Private PNI infrastructure](#private-pni-infrastructure)
+- [DevNets](#devnets)
+  - [Overview](#overview)
+  - [How to provision and remove networks](#how-to-provision-and-remove-networks)
+  - [Scaling/configuration parameters](#scalingconfiguration-parameters)
+  - [How to interact with DevNet on Kubernetes](#how-to-interact-with-devnet-on-kubernetes)
+    - [Run debug client](#run-debug-client)
+    - [Shell into the validator pod](#shell-into-the-validator-pod)
+  - [Observability](#observability)
+    - [How to query logs](#how-to-query-logs)
+- [Directory structure](#directory-structure)
 
 
 ## Private PNI infrastructure
@@ -34,7 +39,7 @@ kubectl get pod
 
 Replace `devnet-first` with the network name you want to interact with.
 
-# How to provision and remove networks
+### How to provision and remove networks
 
 If you need to create a new network, duplicate [_TEMPLATE_YAML_](devnets-configs/_TEMPLATE_YAML_) in the `devnets-configs` directory and modify its values. Once the file is available in the `main` branch, it will take a few minutes for deployment to complete.
 
@@ -79,6 +84,21 @@ kubectl exec --stdin --tty devnet-first-validator003-0 -- /bin/bash
 
 Make sure the command is executed in the correct namespace.
 
+### Observability
+
+Important feature of DevNets is an ability to get insight of what is going on with the network - look at logs, metrics, network health, etc.
+
+Information on how to access PNI private Grafana instance: https://www.notion.so/pocketnetwork/V1-networks-7d95c10c930c45c3823c871f21d44fca?pvs=4#468618dfd8304336ab5a58f4f264091e
+
+#### How to query logs
+
+In the Explore tab, you can query logs provided by Loki - [example](https://pokt.grafana.net/explore?orgId=1&left=%7B%22datasource%22%3A%22i9csiD4Vz%22%2C%22queries%22%3A%5B%7B%22refId%22%3A%22A%22%2C%22expr%22%3A%22%7Bnamespace%3D%5C%22devnet-first%5C%22%2C+purpose%3D%5C%22validator%5C%22%7D+%7C%3D+%60%60%22%2C%22queryType%22%3A%22range%22%2C%22datasource%22%3A%7B%22type%22%3A%22loki%22%2C%22uid%22%3A%22i9csiD4Vz%22%7D%2C%22editorMode%22%3A%22builder%22%7D%5D%2C%22range%22%3A%7B%22from%22%3A%22now-6h%22%2C%22to%22%3A%22now%22%7D%7D).
+
+We supply additional labels to make it easier to drill down to a particular actor on the network. For example, the following query will return validator logs for `devnet-first` network.
+```logql
+{namespace="devnet-first", purpose="validator"} |= ``
+```
+
 ## Directory structure
 
 ```bash
@@ -88,9 +108,7 @@ charts # Helm charts that create/render the manifests necessary to provision and
     ├── templates
     │   ├── DebugClient.yaml
     │   ├── PocketSet.yaml
-    │   ├── PocketValidators.yaml
-    │   ├── PostgresCluster.yaml
-    │   ├── ServiceMonitors.yaml
+   ... ...
     │   ├── _helpers.tpl
     │   └── pregeneratedKeys.yaml
     └── values.yaml
@@ -102,4 +120,5 @@ clusters # Manifests applied directly on clusters
 devnets-configs # A list of v1 DevNets and their configurations.
 ├── e2e-onboard.yaml
 └── first.yaml
+tmp-grafana-dashboards # temporary place to store Grafana dashboard json definitions to not lose progress during observability infrastructure migrations
 ```
