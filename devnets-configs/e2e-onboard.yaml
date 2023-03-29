@@ -1,4 +1,4 @@
-networkName: "first"
+networkName: "e2e-onboard"
 
 validators:
   count: 4

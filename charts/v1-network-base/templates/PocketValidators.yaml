@@ -3,11 +3,11 @@
 apiVersion: nodes.pokt.network/v1alpha1
 kind: PocketValidator
 metadata:
-  name: v1-validator{{ $idx1 }}
+  name: {{ $.Release.Namespace }}-validator{{ printf "%03d" $idx1  }}
 spec:
   collection:
     name: {{ $.Release.Namespace }}
-  pocketImage: "ghcr.io/pokt-network/pocket-v1:main-dev"
+  pocketImage: "{{ $.Values.validators.image.repository }}:{{ $.Values.validators.image.tag }}"
   privateKey:
     secretKeyRef:
       name: validators-private-keys
@@ -24,7 +24,7 @@ spec:
     host: main-database-primary
     port: "5432"
     database: validators
-    schema: validator{{ $idx1 }}
+    schema: validator{{ printf "%03d" $idx1  }}
   ports:
     consensus: 42069
     rpc: 50832

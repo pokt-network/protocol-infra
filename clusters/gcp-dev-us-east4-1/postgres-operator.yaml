@@ -1,0 +1,27 @@
+# We need postgres operator to provision databases for Validators
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: postgres-operator
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+  labels:
+    provisioned-by: "protocol"
+spec:
+  destination:
+    name: dev-in-cluster
+    namespace: postgres-operator
+  project: default
+  source:
+    path: helm/install
+    repoURL: https://github.com/CrunchyData/postgres-operator-examples.git
+    targetRevision: 5371692f26f97eb26eae4b54e4ef8848a76a278d # Not using HEAD or Master so we are pinned to the particular version
+    helm: {}
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - Replace=true

@@ -1,0 +1,11 @@
+# Please refer to this file to see available variables you can modify: https://github.com/pokt-network/protocol-infra/blob/main/charts/v1-network-base/values.yaml
+
+# Name of the network. Please only utilize DNS valid characters: letters, numbers and hyphens (-) only.
+# Name of the file should match this value.
+# The network is going to be deployed to `devnet-${networkName}` kubernetes namespace.
+networkName: "superchain"
+
+validators:
+  count: 4
+  image:
+    tag: sha-7722a2f-dev
