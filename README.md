@@ -5,6 +5,7 @@
   - [Overview](#overview)
   - [How to provision and remove networks](#how-to-provision-and-remove-networks)
   - [Scaling/configuration parameters](#scalingconfiguration-parameters)
+  - [How to run a pocket version from the developer's branch](#how-to-run-a-pocket-version-from-the-developers-branch)
   - [How to interact with DevNet on Kubernetes](#how-to-interact-with-devnet-on-kubernetes)
     - [Run debug client](#run-debug-client)
     - [Shell into the validator pod](#shell-into-the-validator-pod)
@@ -48,6 +49,10 @@ When the network is no longer needed, just remove the file and resources are goi
 ### Scaling/configuration parameters
 
 Configuration files for each DevNet can be found in the `devnet-configs` directory.
+
+### How to run a pocket version from the developer's branch
+
+On DevNets, you might want to run a version of blockchain actors that have not been released yet. For that, you can resort to this guide https://github.com/pokt-network/pocket/blob/okdas/devnet-tweaks/docs/development/README.md#creating-a-container-image-from-developers-branches to create a container image from your branch. Once the CI on pocket side finished, update the DevNet configuration YAML file in the `devnet-configs` directory.
 
 ### How to interact with DevNet on Kubernetes
 

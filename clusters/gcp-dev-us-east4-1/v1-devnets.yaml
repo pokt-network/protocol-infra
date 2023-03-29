@@ -12,7 +12,7 @@ spec:
   generators:
     - git:
         repoURL: https://github.com/pokt-network/protocol-infra.git
-        revision: dk-init
+        revision: main
         files:
           - path: devnets-configs/**.yaml
   template:
@@ -32,7 +32,7 @@ spec:
       source:
         path: charts/v1-network-base
         repoURL: https://github.com/pokt-network/protocol-infra.git
-        targetRevision: dk-init
+        targetRevision: main
         helm:
           valueFiles: # Must be in the same repo https://argo-cd.readthedocs.io/en/stable/user-guide/helm/#values-files
             - ../../devnets-configs/{{networkName}}.yaml
