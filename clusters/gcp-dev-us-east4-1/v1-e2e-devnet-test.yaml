@@ -1,0 +1,63 @@
+# ApplicationSet that creates a devnet for each yaml file in the devnets-configs directory
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: v1-devnets-e2e-devnet-test-label
+  namespace: argocd
+  labels:
+    team: "protocol"
+    purpose: "e2e-devnet-test"
+    provisioned-by: "protocol"
+spec:
+  generators:
+    - pullRequest:
+        github:
+          # The GitHub organization or user.
+          owner: pokt-network
+          # The Github repository
+          repo: pocket
+          # Reference to a Secret containing an access token. (optional)
+          tokenRef:
+            secretName: validator-private-key
+            key: gihub-pat-okdas
+          # Labels is used to filter the PRs that you want to target. (optional)
+          labels:
+            - e2e-devnet-test
+        requeueAfterSeconds: 60
+  template:
+    metadata:
+      name: "devnet-e2e-{{number}}"
+      namespace: argocd
+      labels:
+        team: "protocol"
+        purpose: "e2e-devnet-test"
+        devnet: "devnet-e2e-{{number}}"
+        issue-number: "{{number}}"
+        provisioned-by: "protocol"
+    spec:
+      destination:
+        name: dev-in-cluster
+        namespace: "devnet-e2e-{{number}}"
+      project: default
+      source:
+        path: charts/v1-network-base
+        repoURL: https://github.com/pokt-network/protocol-infra.git
+        targetRevision: issue/674-use-helm-charts-for-validators
+        helm:
+          valueFiles: # Must be in the same repo https://argo-cd.readthedocs.io/en/stable/user-guide/helm/#values-files
+            - ../../devnets-configs/_TEMPLATE_YAML_
+          values: |
+            networkName: "devnet-e2e-{{number}}"
+            validators:
+              image:
+                tag: sha-{{head_sha}}-dev
+            dev:
+              pocket:
+                branch: "{{branch}}"
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+          - Replace=true

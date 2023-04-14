@@ -1,5 +1,9 @@
 networkName: "devnet123"
 
+dev:
+  pocket:
+    branch: "main"
+
 validators:
   count: 0
   image:
