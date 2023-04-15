@@ -2,12 +2,13 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: v1-devnets-e2e-devnet-test-label
+  name: v1-devnets-github-label-e2e-devnet-test
   namespace: argocd
   labels:
     team: "protocol"
-    purpose: "e2e-devnet-test"
+    purpose: "devnet-github-label"
     provisioned-by: "protocol"
+    github-label: e2e-devnet-test
 spec:
   generators:
     - pullRequest:
@@ -26,18 +27,18 @@ spec:
         requeueAfterSeconds: 60
   template:
     metadata:
-      name: "devnet-e2e-{{number}}"
+      name: "devnet-issue-{{number}}"
       namespace: argocd
       labels:
         team: "protocol"
-        purpose: "e2e-devnet-test"
-        devnet: "devnet-e2e-{{number}}"
-        issue-number: "{{number}}"
+        purpose: "devnet-github-label"
+        devnet: "devnet-issue-{{number}}"
+        github-issue-number: "{{number}}"
         provisioned-by: "protocol"
     spec:
       destination:
         name: dev-in-cluster
-        namespace: "devnet-e2e-{{number}}"
+        namespace: "devnet-issue-{{number}}"
       project: default
       source:
         path: charts/v1-network-base
@@ -47,7 +48,7 @@ spec:
           valueFiles: # Must be in the same repo https://argo-cd.readthedocs.io/en/stable/user-guide/helm/#values-files
             - ../../devnets-configs/_TEMPLATE_YAML_
           values: |
-            networkName: "devnet-e2e-{{number}}"
+            networkName: "devnet-issue-{{number}}"
             validators:
               image:
                 tag: sha-{{head_sha}}-dev

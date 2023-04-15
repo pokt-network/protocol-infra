@@ -1,0 +1,75 @@
+{{- range $idx0 := until (.Values.validators.count | int) }}
+{{- $idx1 := $idx0 | add1 -}}
+# apiVersion: nodes.pokt.network/v1alpha1
+# kind: PocketValidator
+# metadata:
+#   name: {{ $.Release.Namespace }}-validator{{ printf "%03d" $idx1  }}
+# spec:
+#   collection:
+#     name: {{ $.Release.Namespace }}
+#   pocketImage: "{{ $.Values.validators.image.repository }}:{{ $.Values.validators.image.tag }}"
+#   privateKey:
+#     secretKeyRef:
+#       name: validators-private-keys
+#       key: "{{ printf "%03d" $idx1 }}"
+#   postgres:
+#     user:
+#       secretKeyRef:
+#         name: main-database-pguser-validators
+#         key: user
+#     password:
+#       secretKeyRef:
+#         name: main-database-pguser-validators
+#         key: password
+#     host: main-database-primary
+#     port: "5432"
+#     database: validators
+#     schema: validator{{ printf "%03d" $idx1  }}
+#   ports:
+#     consensus: 42069
+#     rpc: 50832
+#     metrics: 9000
+# ---
+{{- end }}
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: {{ .Values.networkName }}-validators
+  namespace: argocd # This is the namespace where the ApplicationSet controller is running
+spec:
+  generators:
+  - list:
+      elements:
+{{- range $idx0 := until (.Values.validators.count | int) }}
+{{- $idx1 := $idx0 | add1 -}}
+      - validatorName: {{ printf "%03d" $idx1  }}
+{{- end }}
+  template:
+    metadata:
+      name: '{{ .Values.networkName }}-validator-{{validatorName}}'
+    spec:
+      project: default
+      source:
+        repoURL: git@github.com:pokt-network/pocket.git
+        targetRevision: {{ .Values.dev.pocket.branch }}
+        path: charts/pocket
+        helm:
+          values: |
+            privateKeySecretKeyRef:
+              name: validators-private-keys
+              key: "{{validatorName}}"
+            genesis:
+              preProvisionedGenesis:
+                enabled: false
+              externalConfigMap:
+                name: v1-devnet-genesis
+                key: genesis.json
+            postgresql:
+              primary:
+                persistence:
+                  enabled: false
+
+      destination:
+        server: dev-in-cluster
+        namespace: {{ $.Release.Namespace }}
+
