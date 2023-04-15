@@ -36,10 +36,10 @@ kind: ApplicationSet
 metadata:
   name: {{ .Values.networkName }}-validators
   namespace: argocd # This is the namespace where the ApplicationSet controller is running
-  {{ with .Values.global.labels }}
+{{ with .Values.global.labels }}
   labels:
-    {{ toYaml . | indent 4 }}
-  {{ end }}
+{{ toYaml . | indent 4 -}}
+{{- end }}
 spec:
   generators:
   - list:
@@ -52,10 +52,10 @@ spec:
     metadata:
       name: '{{ .Values.networkName }}-validator-{{ "{{" }}validatorName{{ "}}" }}'
       namespace: argocd
-      {{ with .Values.global.labels }}
+{{ with .Values.global.labels }}
       labels:
-        {{ toYaml . | indent 8 }}
-      {{ end }}
+{{ toYaml . | indent 8 }}
+{{ end }}
     spec:
       project: default
       source:

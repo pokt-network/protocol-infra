@@ -1,5 +1,8 @@
 global:
-  labels: {}
+  labels:
+    {}
+    # team: "protocol"
+    # provisioned-by: "protocol"
 
 networkName: "devnet123"
 
