@@ -46,7 +46,7 @@ spec:
 {{- end }}
   template:
     metadata:
-      name: '{{ .Values.networkName }}-validator-{{ "{{" "}}validatorName{{ "}}" "}}'
+      name: '{{ .Values.networkName }}-validator-{{ "{{" }}validatorName{{ "}}" }}'
     spec:
       project: default
       source:
@@ -57,7 +57,7 @@ spec:
           values: |
             privateKeySecretKeyRef:
               name: validators-private-keys
-              key: "{{ "{{" "}}validatorName{{ "}}" "}}"
+              key: '{{ "{{" }}validatorName{{ "}}" }}'
             genesis:
               preProvisionedGenesis:
                 enabled: false
