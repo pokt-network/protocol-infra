@@ -51,6 +51,7 @@ spec:
             validators:
               image:
                 tag: sha-{{head_sha}}-dev
+              count: 4
             dev:
               pocket:
                 branch: "{{branch}}"
