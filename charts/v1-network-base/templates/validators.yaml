@@ -79,6 +79,6 @@ spec:
                   enabled: false
 
       destination:
-        server: dev-in-cluster
+        name: dev-in-cluster
         namespace: {{ $.Release.Namespace }}
 
