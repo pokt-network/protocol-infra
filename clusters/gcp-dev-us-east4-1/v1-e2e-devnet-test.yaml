@@ -1,4 +1,3 @@
-# ApplicationSet that creates a devnet for each yaml file in the devnets-configs directory
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
@@ -45,8 +44,6 @@ spec:
         repoURL: https://github.com/pokt-network/protocol-infra.git
         targetRevision: issue/674-use-helm-charts-for-validators
         helm:
-          valueFiles: # Must be in the same repo https://argo-cd.readthedocs.io/en/stable/user-guide/helm/#values-files
-            - ../../devnets-configs/_TEMPLATE_YAML_
           values: |
             networkName: "devnet-issue-{{number}}"
             validators:
