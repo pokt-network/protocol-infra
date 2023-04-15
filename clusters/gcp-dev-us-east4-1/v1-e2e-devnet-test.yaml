@@ -47,6 +47,13 @@ spec:
           valueFiles: # Must be in the same repo https://argo-cd.readthedocs.io/en/stable/user-guide/helm/#values-files
             - ../../devnets-configs/_TEMPLATE_YAML_
           values: |
+            global:
+              labels:
+                team: "protocol"
+                purpose: "devnet-github-label"
+                devnet: "devnet-issue-{{number}}"
+                github-issue-number: "{{number}}"
+                provisioned-by: "protocol"
             networkName: "devnet-issue-{{number}}"
             validators:
               image:

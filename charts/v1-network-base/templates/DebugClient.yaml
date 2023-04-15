@@ -4,6 +4,9 @@ metadata:
   name: cli-client
   labels:
     app: v1-cli-client
+    {{ with .Values.global.labels }}
+      {{ toYaml . | nindent 4 }}
+    {{ end }}
 spec:
   replicas: 1
   selector:
@@ -13,6 +16,9 @@ spec:
     metadata:
       labels:
         app: v1-cli-client
+        {{ with .Values.global.labels }}
+          {{ toYaml . | nindent 8 }}
+        {{ end }}
     spec:
       serviceAccountName: debug-client-account
       initContainers:

@@ -1,3 +1,6 @@
+global:
+  labels: {}
+
 networkName: "devnet123"
 
 dev:
