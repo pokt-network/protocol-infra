@@ -77,8 +77,17 @@ spec:
               primary:
                 persistence:
                   enabled: false
+            podAnnotations:
+              argocd.argoproj.io/sync-options: Replace=true # This is needed to force the redeployment of the validator
 
       destination:
         name: dev-in-cluster
         namespace: {{ $.Release.Namespace }}
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        # syncOptions:
+        #   - Replace=true
+
 
