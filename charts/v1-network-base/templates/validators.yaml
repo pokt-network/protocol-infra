@@ -59,7 +59,7 @@ spec:
     spec:
       project: default
       source:
-        repoURL: git@github.com:pokt-network/pocket.git
+        repoURL: https://github.com/pokt-network/pocket.git
         targetRevision: {{ .Values.dev.pocket.branch }}
         path: charts/pocket
         helm:
