@@ -40,10 +40,10 @@ spec:
   generators:
   - list:
       elements:
-{{- range $idx0 := until (.Values.validators.count | int) }}
-{{- $idx1 := $idx0 | add1 -}}
-      - validatorName: {{ printf "%03d" $idx1  }}
-{{- end }}
+{{- range $idx0 := until (.Values.validators.count | int) -}}
+{{- $idx1 := $idx0 | add1 }}
+      - validatorName: {{ printf "%03d" $idx1 | quote }}
+{{ end -}}
   template:
     metadata:
       name: '{{ .Values.networkName }}-validator-{{ "{{" }}validatorName{{ "}}" }}'
