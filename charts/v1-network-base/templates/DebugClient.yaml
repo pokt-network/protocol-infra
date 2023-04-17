@@ -28,7 +28,7 @@ spec:
             [
               "sh",
               "-c",
-              "until nc -vz {{ $.Release.Namespace }}-validator001 42069; do echo waiting for {{ $.Release.Namespace }}-validator001...; sleep 2; done;",
+              'until wget -q -O - "http://{{ $.Release.Namespace }}-validator-001-pocket:50832/v1/health" --timeout=2 --tries=2 --spider >/dev/null 2>&1; do echo waiting for validator-001-pocket to be online and healthy...; sleep 2; done;',
             ]
       containers:
         - name: pocket
@@ -101,7 +101,7 @@ spec:
       volumes:
         - name: config-volume
           configMap:
-            name: {{ $.Release.Namespace }}-validator001-pocket-config
+            name: {{ $.Release.Namespace }}-validator-001-pocket-config
             defaultMode: 420
         - name: genesis-volume
           configMap:
