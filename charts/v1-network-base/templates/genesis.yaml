@@ -4242,4 +4242,3 @@ data:
 kind: ConfigMap
 metadata:
   name: v1-devnet-genesis
-  namespace: default
