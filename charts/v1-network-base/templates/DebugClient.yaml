@@ -101,11 +101,11 @@ spec:
       volumes:
         - name: config-volume
           configMap:
-            name: {{ $.Release.Namespace }}-validator001-config
+            name: {{ $.Release.Namespace }}-validator001-pocket-config
             defaultMode: 420
         - name: genesis-volume
           configMap:
-            name: {{ $.Release.Namespace }}-genesis
+            name: v1-devnet-genesis
             defaultMode: 420
         - name: datadir
           persistentVolumeClaim:
