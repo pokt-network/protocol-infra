@@ -89,6 +89,8 @@ spec:
               requests:
                 cpu: 500m
                 memory: 3Gi
+            image:
+              tag: {{ .Values.validators.image.tag }}
 
       destination:
         name: dev-in-cluster
