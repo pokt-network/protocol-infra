@@ -82,6 +82,13 @@ spec:
               size: 8Gi
             podAnnotations:
               argocd.argoproj.io/sync-options: Replace=true # This is needed to force the redeployment of the validator
+            resources:
+              limits:
+                cpu: 2000m
+                memory: 4Gi
+              requests:
+                cpu: 500m
+                memory: 3Gi
 
       destination:
         name: dev-in-cluster
