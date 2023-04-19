@@ -69,15 +69,9 @@ spec:
                   name: validators-private-keys
                   key: "001"
             - name: POSTGRES_USER
-              valueFrom:
-                secretKeyRef:
-                    name: main-database-pguser-validators
-                    key: user
+              value: mock
             - name: POSTGRES_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                    name: main-database-pguser-validators
-                    key: password
+              value: mock
             - name: POSTGRES_HOST
               value: main-database-primary
             - name: POSTGRES_PORT
