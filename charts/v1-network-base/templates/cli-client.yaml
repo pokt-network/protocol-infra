@@ -1,0 +1,159 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cli-client
+  labels:
+    app: v1-cli-client
+    {{ with .Values.global.labels }}
+      {{ toYaml . | nindent 4 }}
+    {{ end }}
+  annotations:
+    argocd.argoproj.io/sync-options: Replace=true # This is needed to force the redeployment of the validator in volatile (development) environments
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: v1-cli-client
+  template:
+    metadata:
+      labels:
+        app: v1-cli-client
+        {{ with .Values.global.labels }}
+          {{ toYaml . | nindent 8 }}
+        {{ end }}
+      annotations:
+        argocd.argoproj.io/sync-options: Replace=true # This is needed to force the redeployment of the validator in volatile (development) environments
+    spec:
+      serviceAccountName: debug-client-account
+      initContainers:
+        - name: wait-for-{{ $.Release.Namespace }}-validator001
+          image: busybox
+          command:
+            [
+              "sh",
+              "-c",
+              'until wget -q -O - "http://validator-001-pocket:50832/v1/health" --timeout=2 --tries=2 --spider >/dev/null 2>&1; do echo waiting for validator-001-pocket to be online and healthy...; sleep 2; done;',
+            ]
+      containers:
+        - name: pocket
+          image: "{{ $.Values.validators.image.repository }}:{{ include "dev-image" . }}"
+          imagePullPolicy: IfNotPresent
+          command: ["sleep", "infinity"]
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "250m"
+            limits:
+              memory: "512Mi"
+              cpu: "4"
+          env:
+            - name: POCKET_P2P_IS_CLIENT_ONLY
+              value: "true"
+            - name: CONFIG_PATH
+              value: "/var/pocket/config/config.json"
+            - name: GENESIS_PATH
+              value: "/var/pocket/genesis/genesis.json"
+            - name: POCKET_PRIVATE_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: validators-private-keys
+                  key: "001"
+            - name: POCKET_CONSENSUS_PRIVATE_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: validators-private-keys
+                  key: "001"
+            - name: POCKET_P2P_PRIVATE_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: validators-private-keys
+                  key: "001"
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                    name: main-database-pguser-validators
+                    key: user
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                    name: main-database-pguser-validators
+                    key: password
+            - name: POSTGRES_HOST
+              value: main-database-primary
+            - name: POSTGRES_PORT
+              value: "5432"
+            - name: POSTGRES_DB
+              value: "validators"
+            - name: POCKET_PERSISTENCE_POSTGRES_URL
+              value: "postgres://$(POSTGRES_USER):$(POSTGRES_PASSWORD)@$(POSTGRES_HOST):$(POSTGRES_PORT)/$(POSTGRES_DB)"
+            - name: POCKET_PERSISTENCE_NODE_SCHEMA
+              value: validator001
+              # Any host that is visible and connected to the cluster can be arbitrarily selected as the RPC host
+            - name: RPC_HOST
+              value: {{ $.Release.Namespace }}-validator001
+            - name: POCKET_P2P_HOSTNAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.podIP
+          volumeMounts:
+            - mountPath: /var/pocket/config
+              name: config-volume
+            - mountPath: /var/pocket/genesis
+              name: genesis-volume
+            - mountPath: /home/root/.pocket
+              name: datadir
+      volumes:
+        - name: config-volume
+          configMap:
+            name: {{ $.Release.Namespace }}-validator-001-pocket-config
+            defaultMode: 420
+        - name: genesis-volume
+          configMap:
+            name: v1-devnet-genesis
+            defaultMode: 420
+        - name: datadir
+          persistentVolumeClaim:
+            claimName: {{ $.Release.Namespace }}-cli-client-datadir
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ $.Release.Namespace }}-cli-client-datadir
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+  storageClassName: standard-rwo
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: debug-client-account
+---
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: debug-client-account
+subjects:
+  - kind: ServiceAccount
+    name: debug-client-account
+    apiGroup: ""
+roleRef:
+  kind: Role
+  name: debug-client-account
+  apiGroup: ""
+---
+kind: Role
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: debug-client-account
+rules:
+  - apiGroups: [""]
+    resources: ["secrets"]
+    resourceNames: ["validators-private-keys"]
+    verbs: ["get"]
+  - apiGroups: [""]
+    resources: ["services"]
+    verbs: ["watch"]

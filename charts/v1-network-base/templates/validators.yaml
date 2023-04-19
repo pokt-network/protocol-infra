@@ -102,7 +102,7 @@ spec:
         - kind: Secret
           name: {{ .Values.networkName }}-validator-{{ "{{" }}validatorName{{ "}}" }}-postgresql
           jsonPointers:
-            - /postgres-password
+            - /data/postgres-password
       syncPolicy:
         automated:
           prune: true

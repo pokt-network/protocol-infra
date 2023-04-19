@@ -1,9 +1,9 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: cli-client
+  name: cluster-manager
   labels:
-    app: v1-cli-client
+    app: v1-cluster-manager
     {{ with .Values.global.labels }}
       {{ toYaml . | nindent 4 }}
     {{ end }}
@@ -13,11 +13,11 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      app: v1-cli-client
+      app: v1-cluster-manager
   template:
     metadata:
       labels:
-        app: v1-cli-client
+        app: v1-cluster-manager
         {{ with .Values.global.labels }}
           {{ toYaml . | nindent 8 }}
         {{ end }}
@@ -32,7 +32,7 @@ spec:
             [
               "sh",
               "-c",
-              'until wget -q -O - "http://{{ $.Release.Namespace }}-validator-001-pocket:50832/v1/health" --timeout=2 --tries=2 --spider >/dev/null 2>&1; do echo waiting for validator-001-pocket to be online and healthy...; sleep 2; done;',
+              'until wget -q -O - "http://validator-001-pocket:50832/v1/health" --timeout=2 --tries=2 --spider >/dev/null 2>&1; do echo waiting for validator-001-pocket to be online and healthy...; sleep 2; done;',
             ]
       containers:
         - name: pocket
@@ -113,12 +113,12 @@ spec:
             defaultMode: 420
         - name: datadir
           persistentVolumeClaim:
-            claimName: {{ $.Release.Namespace }}-cli-client-datadir
+            claimName: {{ $.Release.Namespace }}-cluster-manager-datadir
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: {{ $.Release.Namespace }}-cli-client-datadir
+  name: {{ $.Release.Namespace }}-cluster-manager-datadir
 spec:
   accessModes:
     - ReadWriteOnce
