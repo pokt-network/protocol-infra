@@ -84,7 +84,7 @@ spec:
               value: validator001
               # Any host that is visible and connected to the cluster can be arbitrarily selected as the RPC host
             - name: RPC_HOST
-              value: {{ $.Release.Namespace }}-validator001
+              value: pocket-validators
             - name: POCKET_P2P_HOSTNAME
               valueFrom:
                 fieldRef:
