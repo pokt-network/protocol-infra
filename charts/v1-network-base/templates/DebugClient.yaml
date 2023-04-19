@@ -7,6 +7,8 @@ metadata:
     {{ with .Values.global.labels }}
       {{ toYaml . | nindent 4 }}
     {{ end }}
+  annotations:
+    argocd.argoproj.io/sync-options: Replace=true # This is needed to force the redeployment of the validator in volatile (development) environments
 spec:
   replicas: 1
   selector:
@@ -19,6 +21,8 @@ spec:
         {{ with .Values.global.labels }}
           {{ toYaml . | nindent 8 }}
         {{ end }}
+      annotations:
+        argocd.argoproj.io/sync-options: Replace=true # This is needed to force the redeployment of the validator in volatile (development) environments
     spec:
       serviceAccountName: debug-client-account
       initContainers:

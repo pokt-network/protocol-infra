@@ -81,7 +81,7 @@ spec:
               storageClass: standard-rwo
               size: 8Gi
             podAnnotations:
-              argocd.argoproj.io/sync-options: Replace=true # This is needed to force the redeployment of the validator
+              argocd.argoproj.io/sync-options: Replace=true # This is needed to force the redeployment of the validator in volatile (development) environments
             resources:
               limits:
                 cpu: 2000m
