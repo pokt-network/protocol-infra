@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: cluster-manager
   labels:
-    app: v1-cluster-manager
+    app: dev-cluster-manager
     {{ with .Values.global.labels }}
       {{ toYaml . | nindent 4 }}
     {{ end }}
@@ -13,18 +13,18 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      app: v1-cluster-manager
+      app: dev-cluster-manager
   template:
     metadata:
       labels:
-        app: v1-cluster-manager
+        app: dev-cluster-manager
         {{ with .Values.global.labels }}
           {{ toYaml . | nindent 8 }}
         {{ end }}
       annotations:
         argocd.argoproj.io/sync-options: Replace=true # This is needed to force the redeployment of the validator in volatile (development) environments
     spec:
-      serviceAccountName: debug-client-account
+      serviceAccountName: cluster-manager
       initContainers:
         - name: wait-for-{{ $.Release.Namespace }}-validator001
           image: busybox
@@ -38,7 +38,7 @@ spec:
         - name: pocket
           image: "{{ $.Values.validators.image.repository }}:{{ include "dev-image" . }}"
           imagePullPolicy: IfNotPresent
-          command: ["sleep", "infinity"]
+          command: ["cluster-manager"]
           resources:
             requests:
               memory: "64Mi"
@@ -47,108 +47,31 @@ spec:
               memory: "512Mi"
               cpu: "4"
           env:
-            - name: POCKET_P2P_IS_CLIENT_ONLY
-              value: "true"
-            - name: CONFIG_PATH
-              value: "/var/pocket/config/config.json"
-            - name: GENESIS_PATH
-              value: "/var/pocket/genesis/genesis.json"
-            - name: POCKET_PRIVATE_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: validators-private-keys
-                  key: "001"
-            - name: POCKET_CONSENSUS_PRIVATE_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: validators-private-keys
-                  key: "001"
-            - name: POCKET_P2P_PRIVATE_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: validators-private-keys
-                  key: "001"
-            - name: POSTGRES_USER
-              valueFrom:
-                secretKeyRef:
-                    name: main-database-pguser-validators
-                    key: user
-            - name: POSTGRES_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                    name: main-database-pguser-validators
-                    key: password
-            - name: POSTGRES_HOST
-              value: main-database-primary
-            - name: POSTGRES_PORT
-              value: "5432"
-            - name: POSTGRES_DB
-              value: "validators"
-            - name: POCKET_PERSISTENCE_POSTGRES_URL
-              value: "postgres://$(POSTGRES_USER):$(POSTGRES_PASSWORD)@$(POSTGRES_HOST):$(POSTGRES_PORT)/$(POSTGRES_DB)"
-            - name: POCKET_PERSISTENCE_NODE_SCHEMA
-              value: validator001
-              # Any host that is visible and connected to the cluster can be arbitrarily selected as the RPC host
-            - name: RPC_HOST
-              value: {{ $.Release.Namespace }}-validator001
-            - name: POCKET_P2P_HOSTNAME
-              valueFrom:
-                fieldRef:
-                  fieldPath: status.podIP
-          volumeMounts:
-            - mountPath: /var/pocket/config
-              name: config-volume
-            - mountPath: /var/pocket/genesis
-              name: genesis-volume
-            - mountPath: /home/root/.pocket
-              name: datadir
-      volumes:
-        - name: config-volume
-          configMap:
-            name: {{ $.Release.Namespace }}-validator-001-pocket-config
-            defaultMode: 420
-        - name: genesis-volume
-          configMap:
-            name: v1-devnet-genesis
-            defaultMode: 420
-        - name: datadir
-          persistentVolumeClaim:
-            claimName: {{ $.Release.Namespace }}-cluster-manager-datadir
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: {{ $.Release.Namespace }}-cluster-manager-datadir
-spec:
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 1Gi
-  storageClassName: standard-rwo
+          - name: RPC_HOST
+            value: pocket-validators
 ---
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-  name: debug-client-account
+  name: cluster-manager
 ---
 kind: RoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: debug-client-account
+  name: cluster-manager
 subjects:
   - kind: ServiceAccount
-    name: debug-client-account
+    name: cluster-manager
     apiGroup: ""
 roleRef:
   kind: Role
-  name: debug-client-account
+  name: cluster-manager
   apiGroup: ""
 ---
 kind: Role
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: debug-client-account
+  name: cluster-manager
 rules:
   - apiGroups: [""]
     resources: ["secrets"]

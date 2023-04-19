@@ -1,9 +1,9 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: cli-client
+  name: dev-cli-client
   labels:
-    app: v1-cli-client
+    app: dev-cli-client
     {{ with .Values.global.labels }}
       {{ toYaml . | nindent 4 }}
     {{ end }}
@@ -13,11 +13,11 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      app: v1-cli-client
+      app: dev-cli-client
   template:
     metadata:
       labels:
-        app: v1-cli-client
+        app: dev-cli-client
         {{ with .Values.global.labels }}
           {{ toYaml . | nindent 8 }}
         {{ end }}
