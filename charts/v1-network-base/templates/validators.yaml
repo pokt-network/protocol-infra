@@ -95,6 +95,12 @@ spec:
       destination:
         name: dev-in-cluster
         namespace: {{ $.Release.Namespace }}
+      ignoreDifferences:
+        # Do not regenerate the postgres password on every sync
+        - kind: Secret
+          name: {{ .Values.networkName }}-validator-{{ "{{" }}validatorName{{ "}}" }}-postgresql
+          jsonPointers:
+            - /postgres-password
       syncPolicy:
         automated:
           prune: true

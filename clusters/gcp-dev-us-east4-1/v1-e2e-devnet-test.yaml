@@ -68,6 +68,7 @@ spec:
         syncOptions:
           - CreateNamespace=true
           - Replace=true
+          - RespectIgnoreDifferences=true
       ignoreDifferences:
         - jsonPointers:
             - /spec/volumeName
