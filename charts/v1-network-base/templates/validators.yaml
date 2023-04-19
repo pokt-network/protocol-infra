@@ -80,6 +80,8 @@ spec:
             persistence:
               storageClass: standard-rwo
               size: 8Gi
+            service:
+              nameOverride: validator-{{ "{{" }}validatorName{{ "}}" }}-pocket # Match the hostname from the genesis file
             podAnnotations:
               argocd.argoproj.io/sync-options: Replace=true # This is needed to force the redeployment of the validator in volatile (development) environments
             resources:
