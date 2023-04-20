@@ -38,9 +38,22 @@ spec:
             - ../../devnets-configs/{{networkName}}.yaml
           values: |
             networkName: {{networkName}}
+            global:
+              labels:
+                team: "protocol"
+                purpose: "devnet"
+                devnet: "{{networkName}}"
+                provisioned-by: "protocol"
       syncPolicy:
         automated:
           prune: true
           selfHeal: true
         syncOptions:
           - CreateNamespace=true
+          - Replace=true
+          - RespectIgnoreDifferences=true
+      ignoreDifferences:
+        - jsonPointers:
+            - /spec/volumeName
+            - /spec/storageClassName
+          kind: PersistentVolumeClaim
