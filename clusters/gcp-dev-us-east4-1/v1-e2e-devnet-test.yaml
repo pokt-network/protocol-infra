@@ -54,7 +54,7 @@ spec:
                 devnet: "devnet-issue-{{number}}"
                 github-issue-number: "{{number}}"
                 provisioned-by: "protocol"
-            networkName: "devnet-issue-{{number}}"
+            networkName: "issue-{{number}}"
             validators:
               image:
                 tag: sha-{{head_sha}}-dev
