@@ -99,7 +99,7 @@ spec:
       volumes:
         - name: config-volume
           configMap:
-            name: {{ $.Release.Namespace }}-validator-001-pocket-config
+            name: {{ .Values.networkName }}-validator-001-pocket-config
             defaultMode: 420
         - name: genesis-volume
           configMap:
