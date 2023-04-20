@@ -1,18 +1,28 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: cli-client
+  name: dev-cli-client
   labels:
-    app: v1-cli-client
+    app: dev-cli-client
+    {{ with .Values.global.labels }}
+      {{ toYaml . | nindent 4 }}
+    {{ end }}
+  annotations:
+    argocd.argoproj.io/sync-options: Replace=true # This is needed to force the redeployment of the validator in volatile (development) environments
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: v1-cli-client
+      app: dev-cli-client
   template:
     metadata:
       labels:
-        app: v1-cli-client
+        app: dev-cli-client
+        {{ with .Values.global.labels }}
+          {{ toYaml . | nindent 8 }}
+        {{ end }}
+      annotations:
+        argocd.argoproj.io/sync-options: Replace=true # This is needed to force the redeployment of the validator in volatile (development) environments
     spec:
       serviceAccountName: debug-client-account
       initContainers:
@@ -22,7 +32,7 @@ spec:
             [
               "sh",
               "-c",
-              "until nc -vz {{ $.Release.Namespace }}-validator001 42069; do echo waiting for {{ $.Release.Namespace }}-validator001...; sleep 2; done;",
+              'until wget -q -O - "http://validator-001-pocket:50832/v1/health" --timeout=2 --tries=2 --spider >/dev/null 2>&1; do echo waiting for validator-001-pocket to be online and healthy...; sleep 2; done;',
             ]
       containers:
         - name: pocket
@@ -59,15 +69,9 @@ spec:
                   name: validators-private-keys
                   key: "001"
             - name: POSTGRES_USER
-              valueFrom:
-                secretKeyRef:
-                    name: main-database-pguser-validators
-                    key: user
+              value: mock
             - name: POSTGRES_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                    name: main-database-pguser-validators
-                    key: password
+              value: mock
             - name: POSTGRES_HOST
               value: main-database-primary
             - name: POSTGRES_PORT
@@ -80,7 +84,7 @@ spec:
               value: validator001
               # Any host that is visible and connected to the cluster can be arbitrarily selected as the RPC host
             - name: RPC_HOST
-              value: {{ $.Release.Namespace }}-validator001
+              value: pocket-validators
             - name: POCKET_P2P_HOSTNAME
               valueFrom:
                 fieldRef:
@@ -95,11 +99,11 @@ spec:
       volumes:
         - name: config-volume
           configMap:
-            name: {{ $.Release.Namespace }}-validator001-config
+            name: {{ $.Release.Namespace }}-validator-001-pocket-config
             defaultMode: 420
         - name: genesis-volume
           configMap:
-            name: {{ $.Release.Namespace }}-genesis
+            name: v1-devnet-genesis
             defaultMode: 420
         - name: datadir
           persistentVolumeClaim:
@@ -115,6 +119,7 @@ spec:
   resources:
     requests:
       storage: 1Gi
+  storageClassName: standard-rwo
 ---
 apiVersion: v1
 kind: ServiceAccount

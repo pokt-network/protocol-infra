@@ -1,7 +1,17 @@
+global:
+  labels:
+    {}
+    # team: "protocol"
+    # provisioned-by: "protocol"
+
 networkName: "devnet123"
 
+dev:
+  pocket:
+    branch: "main"
+
 validators:
-  count: 0
+  count: 4
   image:
     repository: ghcr.io/pokt-network/pocket-v1
     tag: latest

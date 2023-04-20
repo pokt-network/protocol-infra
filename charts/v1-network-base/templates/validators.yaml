@@ -1,0 +1,97 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: {{ .Values.networkName }}-validators
+  namespace: argocd # This is the namespace where the ApplicationSet controller is running
+{{ with .Values.global.labels }}
+  labels:
+{{ toYaml . | indent 4 -}}
+{{- end }}
+spec:
+  generators:
+  - list:
+      elements:
+{{- range $idx0 := until (.Values.validators.count | int) -}}
+{{- $idx1 := $idx0 | add1 }}
+      - validatorName: {{ printf "%03d" $idx1 | quote }}
+{{ end }}
+  template:
+    metadata:
+      name: '{{ .Values.networkName }}-validator-{{ "{{" }}validatorName{{ "}}" }}'
+      namespace: argocd
+{{ with .Values.global.labels }}
+      labels:
+{{ toYaml . | indent 8 }}
+{{ end }}
+    spec:
+      project: default
+      source:
+        repoURL: https://github.com/pokt-network/pocket.git
+        targetRevision: {{ .Values.dev.pocket.branch }}
+        path: charts/pocket
+        helm:
+          values: |
+            privateKeySecretKeyRef:
+              name: validators-private-keys
+              key: '{{ "{{" }}validatorName{{ "}}" }}'
+            genesis:
+              preProvisionedGenesis:
+                enabled: false
+              externalConfigMap:
+                name: v1-devnet-genesis
+                key: genesis.json
+            postgresql:
+              primary:
+                persistence:
+                  enabled: false
+            persistence:
+              storageClass: standard-rwo
+              size: 8Gi
+            service:
+              nameOverride: validator-{{ "{{" }}validatorName{{ "}}" }}-pocket # Match the hostname from the genesis file
+            podAnnotations:
+              argocd.argoproj.io/sync-options: Replace=true # This is needed to force the redeployment of the validator in volatile (development) environments
+            resources:
+              limits:
+                cpu: 2000m
+                memory: 4Gi
+              requests:
+                cpu: 500m
+                memory: 3Gi
+            image:
+              tag: {{ .Values.validators.image.tag }}
+
+      destination:
+        name: dev-in-cluster
+        namespace: {{ $.Release.Namespace }}
+      ignoreDifferences:
+        # Do not regenerate the postgres password on every sync
+        - kind: Secret
+          name: {{ .Values.networkName }}-validator-{{ "{{" }}validatorName{{ "}}" }}-postgresql
+          jsonPointers:
+            - /data/postgres-password
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: pocket-validators
+spec:
+  selector:
+    pokt.network/purpose: validator
+  ports:
+  - name: consensus
+    port: 42069
+    protocol: TCP
+    targetPort: 42069
+  - name: rpc
+    port: 50832
+    protocol: TCP
+    targetPort: 50832
+  - name: metrics
+    port: 9000
+    protocol: TCP
+    targetPort: 9000
