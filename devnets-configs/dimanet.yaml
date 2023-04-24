@@ -3,7 +3,7 @@ networkName: "dimanet"
 validators:
   count: 4
   image:
-    tag: sha-60054fe-dev
+    tag: sha-b8be077-dev
 
 dev:
   pocket:
