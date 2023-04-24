@@ -1,7 +1,7 @@
 networkName: "dimanet"
 
 validators:
-  count: 4
+  count: 10
   image:
     tag: sha-186c3bc-dev
 
