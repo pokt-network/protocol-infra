@@ -70,11 +70,14 @@ spec:
           group: ""
           name: {{ .Values.networkName }}-validator-{{ "{{" }}validatorName{{ "}}" }}-postgresql
           jsonPointers:
-            - /data/postgres-password
+            - /data
+            - /stringData
       syncPolicy:
         automated:
           prune: true
           selfHeal: true
+        syncOptions:
+        - RespectIgnoreDifferences=true
 ---
 apiVersion: v1
 kind: Service
