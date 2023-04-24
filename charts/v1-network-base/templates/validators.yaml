@@ -67,6 +67,7 @@ spec:
       ignoreDifferences:
         # Do not regenerate the postgres password on every sync
         - kind: Secret
+          group: ""
           name: {{ .Values.networkName }}-validator-{{ "{{" }}validatorName{{ "}}" }}-postgresql
           jsonPointers:
             - /data/postgres-password
