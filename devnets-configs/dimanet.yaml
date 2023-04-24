@@ -1,0 +1,10 @@
+networkName: "dimanet"
+
+validators:
+  count: 4
+  image:
+    tag: sha-e3319e4-dev
+
+dev:
+  pocket:
+    branch: "issue/674-cluster-manager-devnet"

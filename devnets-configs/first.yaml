@@ -3,4 +3,8 @@ networkName: "first"
 validators:
   count: 4
   image:
-    tag: sha-ef18b4f-dev 
+    tag: sha-ef18b4f-dev
+
+dev:
+  pocket:
+    branch: "main" # you can change this to the branch you want `pocket` helm chart to get deployed from
