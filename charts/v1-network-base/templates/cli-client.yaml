@@ -158,7 +158,6 @@ rules:
     verbs: ["get", "list"]
   - apiGroups: [""]
     resources: ["pods", "pods/log"]
-    resourceNames: ["pocket-v1-cli-client"]
     verbs: ["get", "list"]
   - apiGroups: [""]
     resources: ["pods/exec"]
