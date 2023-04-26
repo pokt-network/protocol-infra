@@ -153,8 +153,11 @@ rules:
     verbs: ["watch"]
 
     # Allow to shell into `pocket-v1-cli-client` pod
+  - apiGroups: ["apps"]
+    resources: ["deployments"]
+    verbs: ["get", "list"]
   - apiGroups: [""]
-    resources: ["pods", "pods/log", "deployments", "services"]
+    resources: ["pods", "pods/log"]
     resourceNames: ["pocket-v1-cli-client"]
     verbs: ["get", "list"]
   - apiGroups: [""]
