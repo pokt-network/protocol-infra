@@ -83,7 +83,7 @@ rules:
 
     # Allow to shell into `pocket-v1-cli-client` pod
   - apiGroups: [""]
-    resources: ["pods", "pods/log"]
+    resources: ["pods", "pods/log", "deployments", "services"]
     resourceNames: ["pocket-v1-cli-client"]
     verbs: ["get", "list"]
   - apiGroups: [""]
