@@ -161,5 +161,4 @@ rules:
     verbs: ["get", "list"]
   - apiGroups: [""]
     resources: ["pods/exec"]
-    resourceNames: ["pocket-v1-cli-client"]
     verbs: ["create"]
