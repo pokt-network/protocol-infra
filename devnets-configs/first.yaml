@@ -3,7 +3,7 @@ networkName: "first"
 validators:
   count: 4
   image:
-    tag: sha-ef18b4f-dev
+    tag: sha-98d2d6b-dev
 
 dev:
   pocket:
