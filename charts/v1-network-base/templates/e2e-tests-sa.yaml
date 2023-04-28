@@ -28,3 +28,14 @@ rules:
   - apiGroups: [""]
     resources: ["services"]
     verbs: ["watch"]
+
+    # Allow to shell into `pocket-v1-cli-client` pod
+  - apiGroups: ["apps"]
+    resources: ["deployments"]
+    verbs: ["get", "list"]
+  - apiGroups: [""]
+    resources: ["pods", "pods/log"]
+    verbs: ["get", "list"]
+  - apiGroups: [""]
+    resources: ["pods/exec"]
+    verbs: ["create"]

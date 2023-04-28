@@ -1,0 +1,24 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: dev-e2e-tests-{{ .Values.validators.image.tag }} # unique job for each image
+spec:
+  template:
+    spec:
+      serviceAccountName: e2e-tests
+      containers:
+      - name: e2e-tests
+        image: "{{ $.Values.validators.image.repository }}:{{ include "dev-image" . }}"
+        command: ["make",  "test_e2e"]
+        resources:
+        requests:
+            memory: "512Mi"
+            cpu: "250m"
+        limits:
+            memory: "1Gi"
+            cpu: "4"
+        env:
+        - name: RPC_HOST
+          value: pocket-validators
+      restartPolicy: Never
+  backoffLimit: 4
