@@ -47,6 +47,7 @@ spec:
             persistence:
               storageClass: standard-rwo
               size: 8Gi
+            nodeType: validator
             service:
               nameOverride: validator-{{ "{{" }}validatorName{{ "}}" }}-pocket # Match the hostname from the genesis file
             podAnnotations:
