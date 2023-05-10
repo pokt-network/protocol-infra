@@ -15,7 +15,7 @@ spec:
         parameters:
         - name: gitsha
       container:
-        image: "ghcr.io/pokt-network/pocket-v1:sha-{{inputs.parameters.gitsha}}-dev"
+        image: "ghcr.io/pokt-network/pocket-v1:sha-{{ "{{" }}inputs.parameters.gitsha{{ "}}" }}-dev"
         imagePullPolicy: IfNotPresent
         command: [make, test_e2e]
         env:
