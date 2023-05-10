@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: WorkflowTemplate
 metadata:
-  generateName: dev-e2e-tests-
+  name: dev-e2e-tests
 spec:
   serviceAccountName: e2e-tests
   entrypoint: test-e2e
