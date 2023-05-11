@@ -6,13 +6,14 @@ global:
 
 networkName: "devnet123"
 
+image:
+  repository: ghcr.io/pokt-network/pocket-v1
+  tag: latest
+  pullPolicy: Always
+
 dev:
   pocket:
     branch: "main"
 
 validators:
   count: 4
-  image:
-    repository: ghcr.io/pokt-network/pocket-v1
-    tag: latest
-    pullPolicy: Always

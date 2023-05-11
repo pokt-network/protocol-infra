@@ -36,7 +36,7 @@ spec:
             ]
       containers:
         - name: pocket
-          image: "{{ $.Values.validators.image.repository }}:{{ include "dev-image" . }}"
+          image: "{{ $.Values.image.repository }}:{{ include "dev-image" . }}"
           imagePullPolicy: IfNotPresent
           command: ["cluster-manager"]
           resources:

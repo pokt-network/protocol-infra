@@ -60,7 +60,7 @@ spec:
                 cpu: 500m
                 memory: 3Gi
             image:
-              tag: {{ .Values.validators.image.tag }}
+              tag: {{ .Values.image.tag }}
 
       destination:
         name: dev-in-cluster
