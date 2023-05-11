@@ -55,9 +55,8 @@ spec:
                 github-issue-number: "{{number}}"
                 provisioned-by: "protocol"
             networkName: "issue-{{number}}"
-            validators:
-              image:
-                tag: sha-{{head_sha}}-dev
+            image:
+              tag: sha-{{head_sha}}-dev
             dev:
               pocket:
                 branch: "{{branch}}"
