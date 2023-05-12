@@ -15,6 +15,10 @@ spec:
         revision: main
         files:
           - path: devnets-configs/**.yaml
+
+          # devnets-configs/issue-*.yaml are taken care of by `v1-devnets-github-label-e2e-devnet-test ApplicationSet instead`
+          - path: devnets-configs/issue-*.yaml
+            exclude: true
   template:
     metadata:
       name: "devnet-{{networkName}}"

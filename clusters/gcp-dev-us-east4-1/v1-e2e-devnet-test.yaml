@@ -45,7 +45,7 @@ spec:
         targetRevision: main
         helm:
           valueFiles: # Must be in the same repo https://argo-cd.readthedocs.io/en/stable/user-guide/helm/#values-files
-            - ../../devnets-configs/_TEMPLATE_YAML_
+            - ../../devnets-configs/issue-{{number}}.yaml
           values: |
             global:
               labels:
