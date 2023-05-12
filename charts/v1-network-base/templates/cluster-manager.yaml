@@ -25,15 +25,15 @@ spec:
         argocd.argoproj.io/sync-options: Replace=true # This is needed to force the redeployment of the validator in volatile (development) environments
     spec:
       serviceAccountName: cluster-manager
-      initContainers:
-        - name: wait-for-{{ $.Release.Namespace }}-validator001
-          image: busybox
-          command:
-            [
-              "sh",
-              "-c",
-              'until wget -q -O - "http://validator-001-pocket:50832/v1/health" --timeout=2 --tries=2 >/dev/null 2>&1; do echo waiting for validator-001-pocket to be online and healthy...; sleep 2; done;',
-            ]
+      # initContainers:
+      #   - name: wait-for-{{ $.Release.Namespace }}-validator001
+      #     image: busybox
+      #     command:
+      #       [
+      #         "sh",
+      #         "-c",
+      #         'until wget -q -O - "http://validator-001-pocket:50832/v1/health" --timeout=2 --tries=2 >/dev/null 2>&1; do echo waiting for validator-001-pocket to be online and healthy...; sleep 2; done;',
+      #       ]
       containers:
         - name: pocket
           image: "{{ $.Values.image.repository }}:{{ include "dev-image" . }}"
