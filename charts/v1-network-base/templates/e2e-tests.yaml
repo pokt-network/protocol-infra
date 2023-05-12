@@ -1,24 +1,112 @@
-apiVersion: batch/v1
-kind: Job
+apiVersion: argoproj.io/v1alpha1
+kind: WorkflowTemplate
 metadata:
-  name: dev-e2e-tests-{{ .Values.image.tag }} # unique job for each image
+  name: dev-e2e-tests
 spec:
-  template:
-    spec:
-      serviceAccountName: e2e-tests
-      containers:
-      - name: e2e-tests
-        image: "{{ $.Values.image.repository }}:{{ include "dev-image" . }}"
-        command: ["make",  "test_e2e"]
-        resources:
-          requests:
-              memory: "512Mi"
-              cpu: "250m"
-          limits:
-              memory: "1Gi"
-              cpu: "4"
+  serviceAccountName: e2e-tests
+  entrypoint: test-e2e
+  arguments:
+    parameters:
+      - name: gitsha
+
+  templates:
+
+    # This script ensures that all pods are running the expected image
+    - name: ensure-version
+      script:
+        image: debian:stable
+        command: [bash]
+        source: |
+          #!/bin/bash
+
+          EXPECTED_IMAGE="sha-{{ "{{" }}inputs.parameters.gitsha{{ "}}" }}"
+
+          while true; do
+              # Get all pods with label 'pokt.network/purpose'
+              PODS=$(kubectl get pods -l pokt.network/purpose -o jsonpath='{range .items[*]}{@.metadata.name}{"\n"}{end}')
+
+              UNEXPECTED_PODS=""
+
+              # For each pod, get the image of the container named 'pocket'
+              for POD in $PODS; do
+                  IMAGE=$(kubectl get pod $POD -o jsonpath='{.spec.containers[?(@.name=="pocket")].image}')
+
+                  # Compare the image with the expected image
+                  if [[ "$IMAGE" != "$EXPECTED_IMAGE" ]]; then
+                      UNEXPECTED_PODS+="$POD "
+                  fi
+              done
+
+              # If all pods meet the expectation, break the loop
+              if [[ -z "$UNEXPECTED_PODS" ]]; then
+                  echo "All pods meet the expectations."
+                  break
+              else
+                  echo "The following pods do not meet the expectations: $UNEXPECTED_PODS"
+                  echo "Retrying in 10 seconds..."
+                  sleep 10
+              fi
+          done
+
+    - name: test-e2e
+      inputs:
+        parameters:
+        - name: gitsha
+      container:
+        image: "ghcr.io/pokt-network/pocket-v1:sha-{{ "{{" }}inputs.parameters.gitsha{{ "}}" }}-dev"
+        imagePullPolicy: IfNotPresent
+        command: [make, test_e2e]
         env:
-        - name: RPC_HOST
-          value: pocket-validators
-      restartPolicy: Never
-  backoffLimit: 4
+          - name: RPC_HOST
+            value: pocket-validators
+        resources:
+          limits:
+            cpu: "4"
+            memory: 1Gi
+          requests:
+            cpu: 250m
+            memory: 512Mi
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: e2e-tests
+---
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: e2e-tests
+subjects:
+  - kind: ServiceAccount
+    name: e2e-tests
+    apiGroup: ""
+roleRef:
+  kind: Role
+  name: e2e-tests
+  apiGroup: ""
+---
+kind: Role
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: e2e-tests
+rules:
+  - apiGroups: [""]
+    resources: ["secrets"]
+    resourceNames: ["validators-private-keys"]
+    verbs: ["get"]
+  - apiGroups: [""]
+    resources: ["services"]
+    verbs: ["watch"]
+
+    # Allow to shell into `pocket-v1-cli-client` pod
+  - apiGroups: ["apps"]
+    resources: ["deployments"]
+    verbs: ["get", "list"]
+  - apiGroups: [""]
+    resources: ["pods", "pods/log"]
+    verbs: ["get", "list"]
+  - apiGroups: [""]
+    resources: ["pods/exec"]
+    verbs: ["create"]
