@@ -94,8 +94,8 @@ spec:
               name: config-volume
             - mountPath: /var/pocket/genesis
               name: genesis-volume
-            - mountPath: /home/root/.pocket
-              name: datadir
+            # - mountPath: /home/root/.pocket
+            #   name: datadir
       volumes:
         - name: config-volume
           configMap:
@@ -105,21 +105,21 @@ spec:
           configMap:
             name: v1-devnet-genesis
             defaultMode: 420
-        - name: datadir
-          persistentVolumeClaim:
-            claimName: {{ $.Release.Namespace }}-cli-client-datadir
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: {{ $.Release.Namespace }}-cli-client-datadir
-spec:
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 1Gi
-  storageClassName: standard-rwo
+        # - name: datadir
+        #   persistentVolumeClaim:
+        #     claimName: {{ $.Release.Namespace }}-cli-client-datadir
+# ---
+# apiVersion: v1
+# kind: PersistentVolumeClaim
+# metadata:
+#   name: {{ $.Release.Namespace }}-cli-client-datadir
+# spec:
+#   accessModes:
+#     - ReadWriteOnce
+#   resources:
+#     requests:
+#       storage: 1Gi
+#   storageClassName: standard-rwo
 ---
 apiVersion: v1
 kind: ServiceAccount
