@@ -13,6 +13,9 @@ spec:
 
     # This script ensures that all pods are running the expected image
     - name: ensure-version
+      inputs:
+        parameters:
+        - name: gitsha
       script:
         image: debian:stable
         command: [bash]
