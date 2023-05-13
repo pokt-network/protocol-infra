@@ -31,7 +31,8 @@ spec:
         parameters:
         - name: gitsha
       script:
-        image: debian:stable
+        image: bitnami/kubectl:1.26-debian-11
+        entrypoint: [""]
         command: [bash]
         source: |
           #!/bin/bash
