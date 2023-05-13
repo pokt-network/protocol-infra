@@ -5,6 +5,7 @@ metadata:
 spec:
   serviceAccountName: e2e-tests
   entrypoint: main
+  activeDeadlineSeconds: 3600
   arguments:
     parameters:
       - name: gitsha
