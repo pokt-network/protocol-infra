@@ -22,7 +22,7 @@ spec:
         source: |
           #!/bin/bash
 
-          EXPECTED_IMAGE="sha-{{ "{{" }}inputs.parameters.gitsha{{ "}}" }}"
+          EXPECTED_IMAGE_TAG="sha-{{ "{{" }}inputs.parameters.gitsha{{ "}}" }}"
 
           while true; do
               # Get all pods with label 'pokt.network/purpose'
@@ -32,10 +32,17 @@ spec:
 
               # For each pod, get the image of the container named 'pocket'
               for POD in $PODS; do
-                  IMAGE=$(kubectl get pod $POD -o jsonpath='{.spec.containers[?(@.name=="pocket")].image}')
+                  FULL_IMAGE=$(kubectl get pod $POD -o jsonpath='{.spec.containers[?(@.name=="pocket")].image}')
+
+                  # Extract the tag from the image string
+                  IMAGE_TAG=${FULL_IMAGE##*:}
+
+                  # Remove the '-dev' suffix from the image tag
+                  IMAGE_TAG=${IMAGE_TAG%-dev}
+
 
                   # Compare the image with the expected image
-                  if [[ "$IMAGE" != "$EXPECTED_IMAGE" ]]; then
+                  if [[ "$IMAGE_TAG" != "$EXPECTED_IMAGE_TAG" ]]; then
                       UNEXPECTED_PODS+="$POD "
                   fi
               done
