@@ -75,5 +75,5 @@ rules:
     resources: ["pods"]
     verbs: ["delete"]
   - apiGroups: ["apps"]
-    resources: ["statefulset"]
+    resources: ["statefulsets"]
     verbs: ["get"]
