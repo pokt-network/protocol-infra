@@ -59,6 +59,8 @@ spec:
               requests:
                 cpu: 500m
                 memory: 3Gi
+            podAnnotations:
+              cluster-manager-delete-on-crash-container: "pocket"
             image:
               tag: {{ .Values.image.tag }}
 
