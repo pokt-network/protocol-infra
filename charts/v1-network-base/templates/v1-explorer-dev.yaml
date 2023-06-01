@@ -1,0 +1,103 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: explorer-dev
+  labels:
+    app: explorer-dev
+    {{ with .Values.global.labels }}
+      {{ toYaml . | nindent 4 }}
+    {{ end }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: explorer-dev
+  template:
+    metadata:
+      labels:
+        app: explorer-dev
+        {{ with .Values.global.labels }}
+          {{ toYaml . | nindent 8 }}
+        {{ end }}
+      annotations:
+        argocd.argoproj.io/sync-options: Replace=true # This is needed to force the redeployment of the validator in volatile (development) environments
+    spec:
+      serviceAccountName: explorer-dev
+      containers:
+        - name: explorer
+          image: "ghcr.io/pokt-network/v1-explorer-dev:main"
+          imagePullPolicy: Always
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "250m"
+            limits:
+              memory: "512Mi"
+              cpu: "1"
+          env:
+            - name: POSTGRES_USER
+              value: mock
+            - name: POSTGRES_PASSWORD
+              value: mock
+            - name: POSTGRES_HOST
+              value: main-database-primary
+            - name: POSTGRES_PORT
+              value: "5432"
+            - name: POSTGRES_DB
+              value: "validators"
+            - name: POCKET_PERSISTENCE_NODE_SCHEMA
+              value: validator001
+            - name: DATABASE_URL
+              value: "postgres://$(POSTGRES_USER):$(POSTGRES_PASSWORD)@$(POSTGRES_HOST):$(POSTGRES_PORT)/$(POSTGRES_DB)?schema=$(POCKET_PERSISTENCE_NODE_SCHEMA)"
+
+              # Any host that is visible and connected to the cluster can be arbitrarily selected as the RPC host
+            - name: NETWORK_NAME
+              value: {{ .Values.networkName }}
+            - name: KUBERNETES_NAMESPACE
+                valueFrom:
+                    fieldRef:
+                    fieldPath: metadata.namespace
+            - name: POCKET_RPC_ENDPOINT
+              value: http://pocket-validators:50832
+
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: explorer-dev
+---
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: explorer-dev
+subjects:
+  - kind: ServiceAccount
+    name: explorer-dev
+    apiGroup: ""
+roleRef:
+  kind: Role
+  name: explorer-dev
+  apiGroup: ""
+---
+kind: Role
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: explorer-dev
+rules:
+#   - apiGroups: [""]
+#     resources: ["secrets"]
+#     resourceNames: ["validators-private-keys"]
+#     verbs: ["get"]
+#   - apiGroups: [""]
+#     resources: ["services"]
+#     verbs: ["watch"]
+    # Allow to shell into `pocket-v1-cli-client` pod
+  - apiGroups: ["apps"]
+    resources: ["deployments"]
+    verbs: ["get", "list"]
+  - apiGroups: [""]
+    resources: ["pods", "pods/log"]
+    verbs: ["get", "list"]
+  - apiGroups: [""]
+    resources: ["pods/exec"]
+    verbs: ["create"]
