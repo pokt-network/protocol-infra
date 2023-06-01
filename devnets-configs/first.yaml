@@ -1,7 +1,7 @@
 networkName: "first"
 
 image:
-  tag: sha-98d2d6b-dev
+  tag: sha-5d1944c-dev
 
 validators:
   count: 4
