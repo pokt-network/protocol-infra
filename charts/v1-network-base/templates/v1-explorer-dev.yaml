@@ -59,6 +59,8 @@ spec:
                   fieldPath: metadata.namespace
             - name: POCKET_RPC_ENDPOINT
               value: http://pocket-validators:50832
+            - name: CLI_CLIENT_POD_SELECTOR
+              value: app=dev-cli-client
           ports:
           - containerPort: 3000
             name: http
