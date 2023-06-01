@@ -59,7 +59,16 @@ spec:
                   fieldPath: metadata.namespace
             - name: POCKET_RPC_ENDPOINT
               value: http://pocket-validators:50832
-
+          ports:
+          - containerPort: 3000
+            name: http
+            protocol: TCP
+          livenessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /
+              port: http
+              scheme: HTTP
 ---
 apiVersion: v1
 kind: ServiceAccount
@@ -101,3 +110,16 @@ rules:
   - apiGroups: [""]
     resources: ["pods/exec"]
     verbs: ["create"]
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: explorer-dev
+spec:
+  selector:
+    app: explorer-dev
+  ports:
+  - name: http
+    port: 3000
+    protocol: TCP
+    targetPort: 3000
