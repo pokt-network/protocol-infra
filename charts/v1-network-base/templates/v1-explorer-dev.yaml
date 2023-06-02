@@ -35,6 +35,8 @@ spec:
               memory: "512Mi"
               cpu: "1"
           env:
+            - name: NODE_ENV
+              value: "production"
             - name: POSTGRES_USER
               value: mock
             - name: POSTGRES_PASSWORD
