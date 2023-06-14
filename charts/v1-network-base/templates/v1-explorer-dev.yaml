@@ -127,3 +127,28 @@ spec:
     port: 3000
     protocol: TCP
     targetPort: 3000
+---
+kind: Mapping
+apiVersion: getambassador.io/v3alpha1
+metadata:
+  name: explorer-dev
+  namespace: {{ .Release.Namespace }}
+spec:
+  hostname: {{ .Release.Namespace }}-dashboard.dev-us-east4-1.poktnodes.network
+  prefix: /
+  service: explorer-dev.{{ .Release.Namespace }}:3000
+  timeout_ms: 0
+  idle_timeout_ms: 3600000
+  connect_timeout_ms: 10000
+---
+kind: Host
+apiVersion: getambassador.io/v3alpha1
+metadata:
+  name: explorer-dev
+  annotations:
+    external-dns.ambassador-service: emissary-ingress.emissary-ingress
+spec:
+  hostname: "{{ .Release.Namespace }}-dashboard.dev-us-east4-1.poktnodes.network"
+  tlsSecret:
+    name: "wildcard-dev-us-east4-1--poktnodes--network-tls"
+    namespace: emissary-ingress
