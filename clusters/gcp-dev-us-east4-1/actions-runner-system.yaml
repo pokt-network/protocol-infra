@@ -71,8 +71,8 @@ spec:
   scaleTargetRef:
     kind: RunnerDeployment
     name: pokt-network-pocket
-  minReplicas: 1
-  maxReplicas: 10
+  minReplicas: 2
+  maxReplicas: 15
   metrics:
   - type: TotalNumberOfQueuedAndInProgressWorkflowRuns
     repositoryNames:

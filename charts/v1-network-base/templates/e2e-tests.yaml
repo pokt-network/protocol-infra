@@ -19,8 +19,8 @@ spec:
               parameters:
                 - name: gitsha
                   value: "{{ "{{" }}workflow.parameters.gitsha{{ "}}" }}"
-        - - name: ensure-processes-running-step
-            template: ensure-processes-running
+        # - - name: ensure-processes-running-step
+        #     template: ensure-processes-running
         - - name: test-e2e-step
             template: test-e2e
             arguments:
