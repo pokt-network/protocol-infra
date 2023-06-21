@@ -49,3 +49,17 @@ spec:
       repository: pokt-network/pocket
       labels:
         - custom-runner
+      resources:
+        limits:
+          cpu: "16.0"
+          memory: "16Gi"
+        requests:
+          cpu: "2.0"
+          memory: "8Gi"
+      dockerdContainerResources:
+        limits:
+          cpu: "16.0"
+          memory: "16Gi"
+        requests:
+          cpu: "2.0"
+          memory: "8Gi"

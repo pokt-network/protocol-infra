@@ -19,6 +19,8 @@ spec:
               parameters:
                 - name: gitsha
                   value: "{{ "{{" }}workflow.parameters.gitsha{{ "}}" }}"
+        - - name: ensure-processes-running-step
+            template: ensure-processes-running
         - - name: test-e2e-step
             template: test-e2e
             arguments:
@@ -73,6 +75,42 @@ spec:
                   sleep 10
               fi
           done
+
+    - name: ensure-processes-running
+      script:
+        image: bitnami/kubectl:1.26-debian-11
+        entrypoint: [""]
+        command: [bash]
+        source: |
+          #!/bin/bash
+
+          while true; do
+              # Get all pods with label 'pokt.network/purpose'
+              PODS=$(kubectl get pods -l pokt.network/purpose -o jsonpath='{range .items[*]}{@.metadata.name}{"\n"}{end}')
+
+              NOT_RUNNING_PODS=""
+
+              # For each pod, get the status of the container named 'pocket'
+              for POD in $PODS; do
+                  CONTAINER_STATUS=$(kubectl get pod $POD -o jsonpath='{.status.containerStatuses[?(@.name=="pocket")].state.running}')
+
+                  # Compare the status with 'Running'
+                  if [[ "$CONTAINER_STATUS" != "{running:{}}" ]]; then
+                      NOT_RUNNING_PODS+="$POD "
+                  fi
+              done
+
+              # If all pods are running, break the loop
+              if [[ -z "$NOT_RUNNING_PODS" ]]; then
+                  echo "All pods are running."
+                  break
+              else
+                  echo "The following pods are not running: $NOT_RUNNING_PODS"
+                  echo "Retrying in 10 seconds..."
+                  sleep 10
+              fi
+          done
+
 
     - name: test-e2e
       inputs:
