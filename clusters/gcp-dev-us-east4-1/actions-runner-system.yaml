@@ -43,7 +43,6 @@ metadata:
   name: pokt-network-pocket
   namespace: actions-runner-system
 spec:
-  replicas: 2
   template:
     spec:
       repository: pokt-network/pocket
@@ -63,3 +62,18 @@ spec:
         requests:
           cpu: "2.0"
           memory: "8Gi"
+---
+apiVersion: actions.summerwind.dev/v1alpha1
+kind: HorizontalRunnerAutoscaler
+metadata:
+  name: pokt-network-pocket
+spec:
+  scaleTargetRef:
+    kind: RunnerDeployment
+    name: pokt-network-pocket
+  minReplicas: 1
+  maxReplicas: 10
+  metrics:
+  - type: TotalNumberOfQueuedAndInProgressWorkflowRuns
+    repositoryNames:
+    - pocket
