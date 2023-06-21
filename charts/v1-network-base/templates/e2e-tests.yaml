@@ -105,7 +105,7 @@ spec:
                   echo "All pods are running."
                   break
               else
-                  echo "The following pods are not running: $NOT_RUNNING_PODS"
+                  echo "The following pods are not running: $NOT_RUNNING_PODS. Check logs for more information."
                   echo "Retrying in 10 seconds..."
                   sleep 10
               fi
