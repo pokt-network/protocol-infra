@@ -85,6 +85,8 @@ spec:
         env:
           - name: RPC_HOST
             value: pocket-validators
+          - name: POCKET_REMOTE_CLI_URL
+            value: http://pocket-validators:50832
         resources:
           limits:
             cpu: "4"

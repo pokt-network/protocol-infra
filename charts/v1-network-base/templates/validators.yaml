@@ -36,10 +36,8 @@ spec:
               key: '{{ "{{" }}validatorName{{ "}}" }}'
             genesis:
               preProvisionedGenesis:
-                enabled: false
-              externalConfigMap:
-                name: v1-devnet-genesis
-                key: genesis.json
+                enabled: true
+                type: devnet
             postgresql:
               primary:
                 persistence:

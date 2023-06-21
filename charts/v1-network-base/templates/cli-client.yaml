@@ -85,6 +85,8 @@ spec:
               # Any host that is visible and connected to the cluster can be arbitrarily selected as the RPC host
             - name: RPC_HOST
               value: pocket-validators
+            - name: POCKET_REMOTE_CLI_URL
+              value: http://pocket-validators:50832
             - name: POCKET_P2P_HOSTNAME
               valueFrom:
                 fieldRef:
