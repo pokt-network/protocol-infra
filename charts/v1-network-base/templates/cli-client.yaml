@@ -105,7 +105,7 @@ spec:
             defaultMode: 420
         - name: genesis-volume
           configMap:
-            name: v1-devnet-genesis
+            name: {{ .Values.networkName }}-validator-001-pocket-genesis
             defaultMode: 420
         # - name: datadir
         #   persistentVolumeClaim:
