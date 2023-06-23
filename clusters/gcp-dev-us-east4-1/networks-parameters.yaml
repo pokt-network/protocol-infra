@@ -1,0 +1,107 @@
+# This is a part of the infrastructure that provides an ability to scale networks programmatically and/or through the UI
+# By default, when ArgoCD queries `https://v1-networks-parameters.dev-us-east4-1.poktnodes.network:8443/NETWORK_NAME` the static
+# file from `networks-parameters-defaults-static-files` config map is returned. Different networks will have their own
+# Ambassador Mappings, and they will take the priority over this default mapping.
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: networks-parameters-defaults-static-files
+  namespace: default
+data:
+  default-parameters.yaml: |
+    yayaya: test
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: networks-parameters-defaults
+  namespace: default
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: networks-parameters-defaults
+  template:
+    metadata:
+      labels:
+        app: networks-parameters-defaults
+    spec:
+      volumes:
+      - name: static-files
+        configMap:
+          name: networks-parameters-defaults-static-files
+      - name: nginx-config-volume
+        configMap:
+          name: networks-parameters-defaults-nginx-config
+      containers:
+      - name: nginx
+        image: nginx:alpine
+        resources:
+          requests:
+            cpu: 100m
+            memory: 128Mi
+          limits:
+            cpu: 300m
+            memory: 128Mi
+        ports:
+        - containerPort: 80
+        volumeMounts:
+        - name: static-files
+          mountPath: /usr/share/nginx/html
+        - name: nginx-config-volume
+          mountPath: /etc/nginx/conf.d
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: networks-parameters-defaults-nginx-config
+  namespace: default
+data:
+  default.conf: |
+    server {
+        listen 80;
+        location / {
+            root /usr/share/nginx/html;
+            try_files /default-parameters.yaml =404;
+            default_type 'text/plain';
+        }
+    }
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: networks-parameters-defaults
+  namespace: default
+spec:
+  ports:
+  - port: 80
+  selector:
+    app: networks-parameters-defaults
+---
+kind: Host
+apiVersion: getambassador.io/v3alpha1
+metadata:
+  name: networks-parameters
+  namespace: default
+  annotations:
+    external-dns.ambassador-service: emissary-ingress.emissary-ingress
+spec:
+  hostname: "v1-networks-parameters.dev-us-east4-1.poktnodes.network"
+  tlsSecret:
+    name: "wildcard-dev-us-east4-1--poktnodes--network-tls"
+    namespace: emissary-ingress
+---
+kind: Mapping
+apiVersion: getambassador.io/v3alpha1
+metadata:
+  name: networks-parameters
+  namespace: default
+spec:
+  hostname: v1-networks-parameters.dev-us-east4-1.poktnodes.network
+  prefix: /
+  service: networks-parameters-defaults:80
+  timeout_ms: 0
+  idle_timeout_ms: 3600000
+  connect_timeout_ms: 10000
+
