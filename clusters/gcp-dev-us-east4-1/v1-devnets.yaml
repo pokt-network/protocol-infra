@@ -29,8 +29,6 @@ spec:
               input:
                 parameters:
                   networkName: "{{.networkName}}"
-              # values:
-              #   branchLink: "https://git.example.com/org/repo/tree/{{.branch}}"
   template:
     metadata:
       name: "devnet-{{.networkName}}"

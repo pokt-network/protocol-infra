@@ -10,20 +10,28 @@ metadata:
     github-label: e2e-devnet-test
 spec:
   generators:
-    - pullRequest:
-        github:
-          # The GitHub organization or user.
-          owner: pokt-network
-          # The Github repository
-          repo: pocket
-          # Reference to a Secret containing an access token. (optional)
-          tokenRef:
-            secretName: validator-private-key
-            key: gihub-pat-okdas
-          # Labels is used to filter the PRs that you want to target. (optional)
-          labels:
-            - e2e-devnet-test
-        requeueAfterSeconds: 60
+    - matrix:
+        generators:
+          - pullRequest:
+              github:
+                # The GitHub organization or user.
+                owner: pokt-network
+                # The Github repository
+                repo: pocket
+                # Reference to a Secret containing an access token. (optional)
+                tokenRef:
+                  secretName: validator-private-key
+                  key: gihub-pat-okdas
+                # Labels is used to filter the PRs that you want to target. (optional)
+                labels:
+                  - e2e-devnet-test
+              requeueAfterSeconds: 60
+          - plugin:
+              configMapRef:
+                name: networks-parameters-plugin-creds
+              input:
+                parameters:
+                  networkName: "{{.networkName}}"
   template:
     metadata:
       name: "devnet-issue-{{number}}"
@@ -61,6 +69,14 @@ spec:
             dev:
               pocket:
                 branch: "{{branch}}"
+            fishermen:
+              count: {{.fishermen.count}}
+            full_nodes:
+              count: {{.full_nodes.count}}
+            servicers:
+              count: {{.servicers.count}}
+            validators:
+              count: {{.validators.count}}
       syncPolicy:
         automated:
           prune: true
