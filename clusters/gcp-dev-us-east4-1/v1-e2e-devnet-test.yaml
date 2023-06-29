@@ -70,13 +70,13 @@ spec:
               pocket:
                 branch: "{{branch}}"
             fishermen:
-              count: {{.fishermen.count}}
+              count: {{fishermen.count}}
             full_nodes:
-              count: {{.full_nodes.count}}
+              count: {{full_nodes.count}}
             servicers:
-              count: {{.servicers.count}}
+              count: {{servicers.count}}
             validators:
-              count: {{.validators.count}}
+              count: {{validators.count}}
       syncPolicy:
         automated:
           prune: true
