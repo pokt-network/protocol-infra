@@ -9,17 +9,28 @@ metadata:
     purpose: "devnets"
     provisioned-by: "protocol"
 spec:
+  goTemplate: true
   generators:
-    - git:
-        repoURL: https://github.com/pokt-network/protocol-infra.git
-        revision: main
-        files:
-          - path: devnets-configs/**.yaml
+    - matrix:
+        generators:
+          - git:
+              repoURL: https://github.com/pokt-network/protocol-infra.git
+              revision: main
+              files:
+                - path: devnets-configs/**.yaml
 
-          # devnets-configs/issue-*.yaml are taken care of by `v1-devnets-github-label-e2e-devnet-test ApplicationSet instead`
-          # TODO: uncomment when https://github.com/argoproj/applicationset/issues/468 is fixed
-          # - path: devnets-configs/issue-*.yaml
-          #   exclude: true
+                # devnets-configs/issue-*.yaml are taken care of by `v1-devnets-github-label-e2e-devnet-test ApplicationSet instead`
+                # TODO: uncomment when https://github.com/argoproj/applicationset/issues/468 is fixed
+                # - path: devnets-configs/issue-*.yaml
+                #   exclude: true
+          - plugin:
+              configMapRef:
+                name: networks-parameters-plugin-creds
+              input:
+                parameters:
+                  networkName: "{{networkName}}"
+              # values:
+              #   branchLink: "https://git.example.com/org/repo/tree/{{.branch}}"
   template:
     metadata:
       name: "devnet-{{networkName}}"

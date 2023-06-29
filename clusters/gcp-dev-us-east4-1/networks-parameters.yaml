@@ -1,16 +1,71 @@
 # This is a part of the infrastructure that provides an ability to scale networks programmatically and/or through the UI
-# By default, when ArgoCD queries `https://v1-networks-parameters.dev-us-east4-1.poktnodes.network:8443/NETWORK_NAME` the static
-# file from `networks-parameters-defaults-static-files` config map is returned. Different networks will have their own
-# Ambassador Mappings, and they will take the priority over this default mapping.
 ---
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: networks-parameters-defaults-static-files
+  name: networks-parameters-router-code
   namespace: default
 data:
-  default-parameters.yaml: |
-    yayaya: test
+  server.py: |
+    import json
+    import requests
+    from http.server import BaseHTTPRequestHandler, HTTPServer
+
+    class Plugin(BaseHTTPRequestHandler):
+        def get_args(self):
+            content_length = int(self.headers.get('Content-Length'))
+            post_data = self.rfile.read(content_length)
+            return json.loads(post_data)
+
+        def reply(self, reply):
+            self.send_response(200)
+            self.end_headers()
+            self.wfile.write(json.dumps(reply).encode("UTF-8"))
+
+        def unsupported(self):
+            self.send_response(404)
+            self.end_headers()
+
+        def respond_defaults(self):
+            self.reply({
+                "output": {
+                    "parameters": [
+                        {
+                            "fishermen": {"count": 1},
+                            "full_nodes": {"count": 1},
+                            "servicers": {"count": 1},
+                            "validators": {"count": 4}
+                        }
+                    ]
+                }
+            })
+
+        def do_POST(self):
+            if self.path == '/api/v1/getparams.execute':
+                args = self.get_args()
+                network_name = args.get('input', {}).get('parameters', {}).get('networkName')
+                if network_name:
+                    try:
+                        response = requests.get(f'http://explorer-dev.{network_name}:3000/api/network-parameters/get')
+                        response.raise_for_status()
+                        self.reply(response.json())
+                    except requests.exceptions.RequestException:
+                        self.respond_defaults()
+                else:
+                    self.reply({"error": "networkName not provided"})
+            else:
+                self.unsupported()
+
+        def do_GET(self):
+            if self.path == '/':
+                self.reply({"status": "ok"})
+            else:
+                self.unsupported()
+
+    if __name__ == '__main__':
+        httpd = HTTPServer(('', 80), Plugin)
+        httpd.serve_forever()
+
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -28,45 +83,32 @@ spec:
         app: networks-parameters-defaults
     spec:
       volumes:
-      - name: static-files
+      - name: router-code
         configMap:
-          name: networks-parameters-defaults-static-files
-      - name: nginx-config-volume
-        configMap:
-          name: networks-parameters-defaults-nginx-config
+          name: networks-parameters-router-code
       containers:
-      - name: nginx
-        image: nginx:alpine
+      - name: python-router
+        image: python:3.11-bullseye
+        command: ["/bin/sh","-c"]
+        args: ["pip install requests && python3 -u /app/server.py"]
         resources:
           requests:
             cpu: 100m
-            memory: 128Mi
+            memory: 256Mi
           limits:
-            cpu: 300m
-            memory: 128Mi
+            cpu: 500m
+            memory: 256Mi
+        livenessProbe:
+          failureThreshold: 3
+          httpGet:
+            path: /
+            port: 80
+            scheme: HTTP
         ports:
         - containerPort: 80
         volumeMounts:
-        - name: static-files
-          mountPath: /usr/share/nginx/html
-        - name: nginx-config-volume
-          mountPath: /etc/nginx/conf.d
----
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: networks-parameters-defaults-nginx-config
-  namespace: default
-data:
-  default.conf: |
-    server {
-        listen 80;
-        location / {
-            root /usr/share/nginx/html;
-            try_files /default-parameters.yaml =404;
-            default_type 'text/plain';
-        }
-    }
+        - name: router-code
+          mountPath: /app
 ---
 apiVersion: v1
 kind: Service
@@ -104,4 +146,27 @@ spec:
   timeout_ms: 0
   idle_timeout_ms: 3600000
   connect_timeout_ms: 10000
-
+---
+# We're going to use this CM for ArgoCD plugin generator
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: networks-parameters-plugin-creds
+  namespace: argocd
+data:
+  token: "$networks-parameters-plugin-creds:dummyToken"
+  baseUrl: "http://networks-parameters-defaults.default.svc.cluster.local."
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: networks-parameters-plugin-creds
+  namespace: argocd
+  labels:
+    app.kubernetes.io/part-of: argocd
+type: Opaque
+stringData:
+  # This is a dummy token, as we don't have anything to hide here
+  # The secret value must be base64 encoded **once**
+  # this value corresponds to: `printf "strong-password" | base64`
+  dummyToken: "ZHVtbXlUb2tlbg=="
