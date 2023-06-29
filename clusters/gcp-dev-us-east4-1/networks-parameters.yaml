@@ -48,8 +48,11 @@ data:
                     try:
                         response = requests.get(f'http://explorer-dev.{network_name}:3000/api/network-parameters/get')
                         response.raise_for_status()
-                        self.reply(response.json())
-                    except requests.exceptions.RequestException:
+                        response_json = response.json()
+                        self.reply(response_json)
+                    except (requests.exceptions.RequestException, json.JSONDecodeError):
+                        self.respond_defaults()
+                    except Exception:
                         self.respond_defaults()
                 else:
                     self.reply({"error": "networkName not provided"})
