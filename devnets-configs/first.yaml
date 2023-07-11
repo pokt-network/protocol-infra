@@ -3,8 +3,7 @@ networkName: "first"
 image:
   tag: sha-5d1944c-dev
 
-validators:
-  count: 4
+# Scaling has been moved to the Dashboard UI: https://github.com/pokt-network/protocol-infra#scaling
 
 dev:
   pocket:
