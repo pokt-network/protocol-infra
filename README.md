@@ -4,7 +4,11 @@
 - [DevNets](#devnets)
   - [Overview](#overview)
   - [How to provision and remove networks](#how-to-provision-and-remove-networks)
-  - [Scaling/configuration parameters](#scalingconfiguration-parameters)
+    - [Ephemeral DevNets](#ephemeral-devnets)
+    - [Long-lived DevNets](#long-lived-devnets)
+  - [Developer Dashboard](#developer-dashboard)
+  - [Scaling](#scaling)
+  - [Configuration parameters](#configuration-parameters)
   - [How to run a pocket version from the developer's branch](#how-to-run-a-pocket-version-from-the-developers-branch)
   - [How to interact with DevNet on Kubernetes](#how-to-interact-with-devnet-on-kubernetes)
     - [Run debug client](#run-debug-client)
@@ -42,11 +46,33 @@ Replace `devnet-first` with the network name you want to interact with.
 
 ### How to provision and remove networks
 
-If you need to create a new network, duplicate [_TEMPLATE_YAML_](devnets-configs/_TEMPLATE_YAML_) in the `devnets-configs` directory and modify its values. Once the file is available in the `main` branch, it will take a few minutes for deployment to complete.
+#### Ephemeral DevNets
 
-When the network is no longer needed, just remove the file and resources are going to be cleaned up eventually.
+We provision DevNets automatically for Pull Requests in [pocket](https://github.com/pokt-network/pocket) repo. Simply attach `devnet-e2e-test` label to the PR and it will be deployed automatically.
 
-### Scaling/configuration parameters
+#### Long-lived DevNets
+
+If you need to create a new network that has to exist longer than just to test one PR, duplicate [_TEMPLATE_YAML_](devnets-configs/_TEMPLATE_YAML_) in the `devnets-configs` directory and modify its values. Once the file is available in the `main` branch, it will take a few minutes for deployment to complete.
+
+When the network is no longer needed, just remove the file and resources will be cleaned up eventually.
+
+### Developer Dashboard
+
+We deploy a dashboard to each DevNet, which shows what actors are staked on the network, latest height, etc. It also allows executing commands against the network, and scale different actors up and down.
+
+The dashboard can be found on:
+
+```
+https://devnet-$(DEVNET_NAME)-dashboard.dev-us-east4-1.poktnodes.network:8443/
+```
+
+### Scaling
+
+The [dashboard](#developer-dashboard) allows scaling up and down different actors.
+
+<img width="1422" alt="image" src="https://github.com/pokt-network/pocket/assets/4950477/62b6c89f-7bbd-4539-ad0e-8aa3000cbfd3">
+
+### Configuration parameters
 
 Configuration files for each DevNet can be found in the `devnet-configs` directory.
 
