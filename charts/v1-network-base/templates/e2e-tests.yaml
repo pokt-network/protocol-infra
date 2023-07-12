@@ -19,8 +19,8 @@ spec:
               parameters:
                 - name: gitsha
                   value: "{{ "{{" }}workflow.parameters.gitsha{{ "}}" }}"
-        # - - name: ensure-processes-running-step
-        #     template: ensure-processes-running
+        - - name: ensure-processes-running-step
+            template: ensure-processes-running
         - - name: test-e2e-step
             template: test-e2e
             arguments:
@@ -115,10 +115,17 @@ spec:
               NOT_RUNNING_PODS=""
 
               for POD in $PODS; do
-                  CONTAINER_STATUS=$(kubectl get pod $POD -o jsonpath='{.status.containerStatuses[?(@.name=="pocket")].state.running}')
+                  CONTAINER_STATUS=$(kubectl get pod $POD -o jsonpath='{.status.containerStatuses[?(@.name=="pocket")].state}')
 
                   if [[ -z "$CONTAINER_STATUS" ]]; then
                       NOT_RUNNING_PODS+="$POD "
+                      echo "Container 'pocket' not found in pod $POD."
+                  else
+                      RUNNING_STATUS=$(echo $CONTAINER_STATUS | grep "running")
+                      if [[ -z "$RUNNING_STATUS" ]]; then
+                          NOT_RUNNING_PODS+="$POD "
+                          echo "Container 'pocket' in pod $POD is not running. Status: $CONTAINER_STATUS"
+                      fi
                   fi
               done
 
@@ -126,8 +133,7 @@ spec:
                   echo "All pods are running."
                   break
               else
-                  echo "The following pods are not running: $NOT_RUNNING_PODS. Check logs for more information."
-                  echo "Retrying in 10 seconds..."
+                  echo "The following pods are not running: $NOT_RUNNING_PODS. Retrying in 10 seconds..."
                   sleep 10
               fi
           done
