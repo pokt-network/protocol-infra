@@ -39,10 +39,22 @@ spec:
         command: [bash]
         source: |
           #!/bin/bash
+          set -e
 
           EXPECTED_IMAGE_TAG="sha-{{ "{{" }}inputs.parameters.gitsha{{ "}}" }}"
 
+          START_TIME=$(date +%s)
+
           while true; do
+              CURRENT_TIME=$(date +%s)
+              TIME_DIFF=$((CURRENT_TIME - START_TIME))
+
+              # Check if 30 minutes have passed (30 minutes = 1800 seconds)
+              if [[ $TIME_DIFF -ge 1800 ]]; then
+                  echo "Timeout reached: script has been running for 30 minutes."
+                  break
+              fi
+
               # Get all pods with label 'pokt.network/purpose'
               PODS=$(kubectl get pods -l pokt.network/purpose -o jsonpath='{range .items[*]}{@.metadata.name}{"\n"}{end}')
 
@@ -58,10 +70,16 @@ spec:
                   # Remove the '-dev' suffix from the image tag
                   IMAGE_TAG=${IMAGE_TAG%-dev}
 
+                  echo "Checking Pod: $POD"
+                  echo "Expected Image: $EXPECTED_IMAGE_TAG"
+                  echo "Actual Image: $IMAGE_TAG"
 
                   # Compare the image with the expected image
                   if [[ "$IMAGE_TAG" != "$EXPECTED_IMAGE_TAG" ]]; then
+                      echo "Pod $POD does not meet expectations. Expected $EXPECTED_IMAGE_TAG, but got $IMAGE_TAG."
                       UNEXPECTED_PODS+="$POD "
+                  else
+                      echo "Pod $POD meets expectations."
                   fi
               done
 
@@ -71,6 +89,13 @@ spec:
                   break
               else
                   echo "The following pods do not meet the expectations: $UNEXPECTED_PODS"
+                  echo "Deleting the pods to let StatefulSet recreate them with correct version."
+
+                  for UNEXPECTED_POD in $UNEXPECTED_PODS; do
+                      kubectl delete pod $UNEXPECTED_POD
+                      echo "Pod $UNEXPECTED_POD deleted"
+                  done
+
                   echo "Retrying in 10 seconds..."
                   sleep 10
               fi
@@ -85,22 +110,18 @@ spec:
           #!/bin/bash
 
           while true; do
-              # Get all pods with label 'pokt.network/purpose'
-              PODS=$(kubectl get pods -l pokt.network/purpose -o jsonpath='{range .items[*]}{@.metadata.name}{"\n"}{end}')
+              PODS=$(kubectl get pods -l pokt.network/purpose -o jsonpath='{range .items[*]}{@.metadata.name}{"\n"}{end}') || { echo "Failed to get pods. Retrying in 10 seconds..."; sleep 10; continue; }
 
               NOT_RUNNING_PODS=""
 
-              # For each pod, get the status of the container named 'pocket'
               for POD in $PODS; do
                   CONTAINER_STATUS=$(kubectl get pod $POD -o jsonpath='{.status.containerStatuses[?(@.name=="pocket")].state.running}')
 
-                  # Compare the status with 'Running'
-                  if [[ "$CONTAINER_STATUS" != "{running:{}}" ]]; then
+                  if [[ -z "$CONTAINER_STATUS" ]]; then
                       NOT_RUNNING_PODS+="$POD "
                   fi
               done
 
-              # If all pods are running, break the loop
               if [[ -z "$NOT_RUNNING_PODS" ]]; then
                   echo "All pods are running."
                   break
@@ -110,7 +131,6 @@ spec:
                   sleep 10
               fi
           done
-
 
     - name: test-e2e
       inputs:
@@ -172,7 +192,7 @@ rules:
     verbs: ["get", "list"]
   - apiGroups: [""]
     resources: ["pods", "pods/log"]
-    verbs: ["get", "list"]
+    verbs: ["get", "list", "delete"]
   - apiGroups: [""]
     resources: ["pods/exec"]
     verbs: ["create"]
