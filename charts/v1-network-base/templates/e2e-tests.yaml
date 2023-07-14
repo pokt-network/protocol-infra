@@ -198,7 +198,7 @@ rules:
     verbs: ["get", "list"]
   - apiGroups: [""]
     resources: ["pods", "pods/log"]
-    verbs: ["get", "list", "delete"]
+    verbs: ["get", "list", "delete", "watch"]
   - apiGroups: [""]
     resources: ["pods/exec"]
     verbs: ["create"]
