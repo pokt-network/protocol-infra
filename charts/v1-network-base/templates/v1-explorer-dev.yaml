@@ -97,14 +97,6 @@ apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   name: explorer-dev
 rules:
-#   - apiGroups: [""]
-#     resources: ["secrets"]
-#     resourceNames: ["validators-private-keys"]
-#     verbs: ["get"]
-#   - apiGroups: [""]
-#     resources: ["services"]
-#     verbs: ["watch"]
-    # Allow to shell into `pocket-v1-cli-client` pod
   - apiGroups: ["apps"]
     resources: ["deployments"]
     verbs: ["get", "list"]
@@ -114,6 +106,10 @@ rules:
   - apiGroups: [""]
     resources: ["pods/exec"]
     verbs: ["create"]
+  - apiGroups: [""]
+    resources: ["configmaps"]
+    resourceNames: ["network-configuration"]
+    verbs: ["get", "update"]
 ---
 apiVersion: v1
 kind: Service
