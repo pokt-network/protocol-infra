@@ -70,7 +70,7 @@ spec:
           livenessProbe:
             failureThreshold: 3
             httpGet:
-              path: /
+              path: /healthcheck
               port: http
               scheme: HTTP
 ---
