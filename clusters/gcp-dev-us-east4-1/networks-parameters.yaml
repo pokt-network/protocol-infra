@@ -46,7 +46,7 @@ data:
                 network_name = args.get('input', {}).get('parameters', {}).get('networkName')
                 if network_name:
                     try:
-                        response = requests.get(f'http://explorer-dev.{network_name}:3000/api/network-parameters/get')
+                        response = requests.get(f'http://explorer-dev.{network_name}:3000/api/network-parameters/read')
                         response.raise_for_status()
                         response_json = response.json()
                         self.reply(response_json)
