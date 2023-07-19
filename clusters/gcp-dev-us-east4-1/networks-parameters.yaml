@@ -9,7 +9,11 @@ data:
   server.py: |
     import json
     import requests
+    import logging
+    import sys
     from http.server import BaseHTTPRequestHandler, HTTPServer
+
+    logging.basicConfig(stream=sys.stdout, level=logging.DEBUG, format='%(name)s - %(levelname)s - %(message)s')
 
     class Plugin(BaseHTTPRequestHandler):
         def get_args(self):
@@ -34,7 +38,8 @@ data:
                             "fishermen": {"count": 1},
                             "full_nodes": {"count": 1},
                             "servicers": {"count": 1},
-                            "validators": {"count": 4}
+                            "validators": {"count": 4},
+                            "default_response": "true"
                         }
                     ]
                 }
@@ -48,11 +53,17 @@ data:
                     try:
                         response = requests.get(f'http://explorer-dev.{network_name}:3000/api/network-parameters/read')
                         response.raise_for_status()
-                        response_json = {"output": {"parameters": [response.json()]}}
+                        response_data = response.json()
+                        response_data["default_response"] = "false"
+                        response_json = {"output": {"parameters": [response_data]}}
                         self.reply(response_json)
-                    except (requests.exceptions.RequestException, json.JSONDecodeError):
+                    except (requests.exceptions.RequestException, json.JSONDecodeError) as e:
+                        logging.error("Error occurred: %s", str(e))
+                        logging.debug("Args received: %s", args)
                         self.respond_defaults()
-                    except Exception:
+                    except Exception as e:
+                        logging.error("Unexpected error: %s", str(e))
+                        logging.debug("Args received: %s", args)
                         self.respond_defaults()
                 else:
                     self.reply({"error": "networkName not provided"})

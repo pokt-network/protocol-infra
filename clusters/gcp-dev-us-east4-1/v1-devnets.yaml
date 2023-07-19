@@ -28,7 +28,7 @@ spec:
                 name: networks-parameters-plugin-creds
               input:
                 parameters:
-                  networkName: "{{.networkName}}"
+                  networkName: "devnet-{{.}}"
   template:
     metadata:
       name: "devnet-{{.networkName}}"
@@ -66,6 +66,9 @@ spec:
               count: {{.servicers.count}}
             validators:
               count: {{.validators.count}}
+
+            # for troubleshooting
+            is_default_response_from_plugin: {{.default_response}}
 
       syncPolicy:
         automated:

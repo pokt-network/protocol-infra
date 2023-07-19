@@ -1,5 +1,8 @@
 networkName: "first"
 
+internal:
+  networkName: "first"
+
 image:
   tag: sha-5d1944c-dev
 
