@@ -1,10 +1,11 @@
 networkName: "first"
 
 internal:
+  # Though redundant, that fixes an issue with ArgoCD ApplicationSet Matrix + Plugin generators.
   networkName: "devnet-first"
 
 image:
-  tag: sha-5d1944c-dev
+  tag: sha-a59382e-dev
 
 # Scaling has been moved to the Dashboard UI: https://github.com/pokt-network/protocol-infra#scaling
 

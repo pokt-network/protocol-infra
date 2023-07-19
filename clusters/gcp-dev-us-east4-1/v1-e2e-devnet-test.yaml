@@ -31,7 +31,8 @@ spec:
                 name: networks-parameters-plugin-creds
               input:
                 parameters:
-                  networkName: "{{.networkName}}"
+                  networkName: "devnet-issue-{{number}}"
+              requeueAfterSeconds: 10
   template:
     metadata:
       name: "devnet-issue-{{number}}"

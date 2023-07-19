@@ -13,7 +13,7 @@ data:
     import sys
     from http.server import BaseHTTPRequestHandler, HTTPServer
 
-    logging.basicConfig(stream=sys.stdout, level=logging.DEBUG, format='%(name)s - %(levelname)s - %(message)s')
+    logging.basicConfig(stream=sys.stdout, level=logging.INFO, format='%(name)s - %(levelname)s - %(message)s')
 
     class Plugin(BaseHTTPRequestHandler):
         def get_args(self):

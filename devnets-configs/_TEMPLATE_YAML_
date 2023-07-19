@@ -5,6 +5,10 @@
 # The network is going to be deployed to `devnet-${networkName}` kubernetes namespace.
 networkName: "CHAIN_NAME"
 
+internal:
+  # Though redundant, that fixes an issue with ArgoCD ApplicationSet Matrix + Plugin generators.
+  networkName: "CHAIN_NAME"
+
 image:
   tag: sha-GIT_SHA-dev
 
