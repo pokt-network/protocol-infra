@@ -110,7 +110,7 @@ rules:
     verbs: ["create"]
   - apiGroups: [""]
     resources: ["configmaps"]
-    resourceNames: ["network-configuration"]
+    # resourceNames: ["network-configuration"]
     verbs: ["get", "update", "create"]
 ---
 apiVersion: v1
