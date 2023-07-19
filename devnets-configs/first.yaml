@@ -1,7 +1,7 @@
 networkName: "first"
 
 internal:
-  networkName: "first"
+  networkName: "devnet-first"
 
 image:
   tag: sha-5d1944c-dev
