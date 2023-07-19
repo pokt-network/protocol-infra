@@ -48,7 +48,7 @@ data:
                     try:
                         response = requests.get(f'http://explorer-dev.{network_name}:3000/api/network-parameters/read')
                         response.raise_for_status()
-                        response_json = response.json()
+                        response_json = {"output": {"parameters": [response.json()]}}
                         self.reply(response_json)
                     except (requests.exceptions.RequestException, json.JSONDecodeError):
                         self.respond_defaults()
