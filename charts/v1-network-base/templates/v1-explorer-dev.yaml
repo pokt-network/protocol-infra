@@ -111,7 +111,7 @@ rules:
   - apiGroups: [""]
     resources: ["configmaps"]
     # resourceNames: ["network-configuration"]
-    verbs: ["get", "update", "create"]
+    verbs: ["get", "update", "create", "patch"]
 ---
 apiVersion: v1
 kind: Service
