@@ -63,6 +63,8 @@ spec:
               value: http://pocket-validators:50832
             - name: CLI_CLIENT_POD_SELECTOR
               value: app=dev-cli-client
+            - name: NETWORK_PARAMETERS_CM_NAME
+              value: network-configuration
           ports:
           - containerPort: 3000
             name: http
