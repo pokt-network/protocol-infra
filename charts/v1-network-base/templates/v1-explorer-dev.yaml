@@ -150,16 +150,3 @@ spec:
   tlsSecret:
     name: "wildcard-dev-us-east4-1--poktnodes--network-tls"
     namespace: emissary-ingress
----
-kind: Mapping
-apiVersion: getambassador.io/v3alpha1
-metadata:
-  name: network-parameters-to-explorer-dev
-spec:
-  hostname: v1-networks-parameters.dev-us-east4-1.poktnodes.network
-  prefix: /{{ .Release.Namespace }}
-  rewrite: /api/network-parameters-yaml
-  service: explorer-dev.{{ .Release.Namespace }}:3000
-  timeout_ms: 0
-  idle_timeout_ms: 3600000
-  connect_timeout_ms: 10000
