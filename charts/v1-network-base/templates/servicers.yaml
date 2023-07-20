@@ -1,0 +1,104 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: {{ .Values.networkName }}-servicers
+  namespace: argocd # This is the namespace where the ApplicationSet controller is running
+{{ with .Values.global.labels }}
+  labels:
+{{ toYaml . | indent 4 -}}
+{{- end }}
+spec:
+  generators:
+  - list:
+      elements:
+{{- range $idx0 := until (.Values.servicers.count | int) -}}
+{{- $idx1 := $idx0 | add1 }}
+      - servicerName: {{ printf "%03d" $idx1 | quote }}
+{{ end }}
+  template:
+    metadata:
+      name: '{{ .Values.networkName }}-servicer-{{ "{{" }}servicerName{{ "}}" }}'
+      namespace: argocd
+{{ with .Values.global.labels }}
+      labels:
+{{ toYaml . | indent 8 }}
+{{ end }}
+    spec:
+      project: default
+      source:
+        repoURL: https://github.com/pokt-network/pocket.git
+        targetRevision: {{ .Values.dev.pocket.branch }}
+        path: charts/pocket
+        helm:
+          values: |
+            privateKeySecretKeyRef:
+              name: servicers-private-keys
+              key: '{{ "{{" }}servicerName{{ "}}" }}'
+            genesis:
+              preProvisionedGenesis:
+                enabled: true
+                type: devnet
+            postgresql:
+              primary:
+                persistence:
+                  enabled: false
+            persistence:
+              storageClass: standard-rwo
+              size: 8Gi
+            nodeType: servicer
+            service:
+              nameOverride: servicer-{{ "{{" }}servicerName{{ "}}" }}-pocket # Match the hostname from the genesis file
+            podAnnotations:
+              argocd.argoproj.io/sync-options: Replace=true # This is needed to force the redeployment of the servicer in volatile (development) environments
+            resources:
+              limits:
+                cpu: 2000m
+                memory: 4Gi
+              requests:
+                cpu: 500m
+                memory: 3Gi
+            serviceMonitor:
+              enabled: true
+            podAnnotations:
+              cluster-manager-delete-on-crash-container: "pocket"
+            image:
+              tag: {{ .Values.image.tag }}
+
+      destination:
+        name: dev-in-cluster
+        namespace: {{ $.Release.Namespace }}
+      ignoreDifferences:
+        # Do not regenerate the postgres password on every sync
+        - kind: Secret
+          group: ""
+          name: {{ .Values.networkName }}-servicer-{{ "{{" }}servicerName{{ "}}" }}-postgresql
+          jsonPointers:
+            - /data
+            - /stringData
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+        - RespectIgnoreDifferences=true
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: pocket-servicers
+spec:
+  selector:
+    pokt.network/purpose: servicer
+  ports:
+  - name: consensus
+    port: 42069
+    protocol: TCP
+    targetPort: 42069
+  - name: rpc
+    port: 50832
+    protocol: TCP
+    targetPort: 50832
+  - name: metrics
+    port: 9000
+    protocol: TCP
+    targetPort: 9000
