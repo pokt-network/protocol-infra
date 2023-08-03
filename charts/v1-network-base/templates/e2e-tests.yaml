@@ -9,6 +9,7 @@ spec:
   arguments:
     parameters:
       - name: gitsha
+      - name: tags
 
   templates:
     - name: main
@@ -27,6 +28,8 @@ spec:
               parameters:
                 - name: gitsha
                   value: "{{ "{{" }}workflow.parameters.gitsha{{ "}}" }}"
+                - name: tags
+                  value: "{{ "{{" }}workflow.parameters.tags{{ "}}" }}"
 
     # This script ensures that all pods are running the expected image
     - name: ensure-version
@@ -142,11 +145,14 @@ spec:
       inputs:
         parameters:
         - name: gitsha
+        - name: tags
       container:
         image: "ghcr.io/pokt-network/pocket-v1:sha-{{ "{{" }}inputs.parameters.gitsha{{ "}}" }}-dev"
         imagePullPolicy: IfNotPresent
         command: [make, test_e2e]
         env:
+          - name: POCKET_E2E_TEST_TAGS
+            value: "{{ "{{" }}inputs.parameters.tags{{ "}}" }}"
           - name: RPC_HOST
             value: pocket-validators
           - name: POCKET_REMOTE_CLI_URL
