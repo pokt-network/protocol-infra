@@ -16,17 +16,17 @@ spec:
       labels:
         app: anvil
         provisioned-by: "protocol"
-    spec:
-      resources:
-        limits:
-          cpu: "1" 
-          memory: "1Gi"
-        requests:
-          cpu: "0.2"
-          memory: "512Mi"      
+    spec:     
       containers:
         - name: anvil
           image: ghcr.io/foundry-rs/foundry:latest
+          resources:
+            limits:
+              cpu: "1" 
+              memory: "1Gi"
+            requests:
+              cpu: "0.2"
+              memory: "512Mi" 
           ports:
             - containerPort: 8545
           command: ["anvil"]
