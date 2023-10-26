@@ -1,0 +1,26 @@
+# protocol-us-central1
+# We need postgres operator to provision databases for Validators
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: protocol-infra-protocol-us-central1
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+  labels:
+    provisioned-by: "protocol"
+spec:
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: default
+  project: default
+  source:
+    path: clusters/protocol-us-central1
+    repoURL: https://github.com/pokt-network/protocol-infra.git
+    targetRevision: shannon # TODO_IN_THIS_PR: change this to main
+  syncPolicy:
+    automated:
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - Replace=true
