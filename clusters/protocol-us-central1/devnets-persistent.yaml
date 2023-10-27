@@ -13,7 +13,7 @@ spec:
   generators:
     - git:
         repoURL: https://github.com/pokt-network/protocol-infra.git
-        revision: main
+        revision: shannon # TODO_IN_THIS_PR: switch to main
         files:
           - path: devnets-configs/**.yaml
   template:
@@ -48,8 +48,7 @@ spec:
                 devnet: "{{.networkName}}"
                 provisioned-by: "protocol"
 
-            # for troubleshooting
-            is_default_response_from_plugin: {{.}}
+            # for troubleshooting: {{.}}
 
       syncPolicy:
         automated:
