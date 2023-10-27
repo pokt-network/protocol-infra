@@ -40,6 +40,7 @@ spec:
           values: |
             network:
               name: {{.networkName}}
+              type: devnet
             global:
               labels:
                 team: "protocol"

@@ -2,7 +2,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: {{ .Values.network.name }}-sequencer
+  name: {{ .Values.network.type }}-{{ .Values.network.name }}-sequencer
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
@@ -11,7 +11,7 @@ metadata:
 spec:
   destination:
     server: https://kubernetes.default.svc
-    namespace: network-{{ .Values.network.name }}
+    namespace: {{ .Values.network.type }}-{{ .Values.network.name }}
   project: default
   source:
     path: charts/poktroll-sequencer
