@@ -23,14 +23,6 @@ spec:
                 # TODO: uncomment when https://github.com/argoproj/applicationset/issues/468 is fixed
                 # - path: devnets-configs/issue-*.yaml
                 #   exclude: true
-          - plugin:
-              configMapRef:
-                name: networks-parameters-plugin-creds
-              input:
-                parameters:
-                # map[dev:map[pocket:map[branch:main]] image:map[tag:sha-5d1944c-dev] networkName:first path:map[basename:devnets-configs basenameNormalized:devnets-configs filename:first.yaml filenameNormalized:first.yaml path:devnets-configs segments:[devnets-configs]]]
-                  networkName: "{{.internal.networkName}}"
-              requeueAfterSeconds: 10
   template:
     metadata:
       name: "devnet-{{.networkName}}"
