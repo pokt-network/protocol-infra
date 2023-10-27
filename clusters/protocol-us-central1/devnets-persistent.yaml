@@ -11,18 +11,11 @@ metadata:
 spec:
   goTemplate: true
   generators:
-    # - matrix:
-    #     generators:
     - git:
         repoURL: https://github.com/pokt-network/protocol-infra.git
         revision: main
         files:
           - path: devnets-configs/**.yaml
-
-                # devnets-configs/issue-*.yaml are taken care of by `v1-devnets-github-label-e2e-devnet-test ApplicationSet instead`
-                # TODO: uncomment when https://github.com/argoproj/applicationset/issues/468 is fixed
-                # - path: devnets-configs/issue-*.yaml
-                #   exclude: true
   template:
     metadata:
       name: "devnet-{{.networkName}}"
@@ -40,7 +33,7 @@ spec:
       source:
         path: charts/rollkit-based-network
         repoURL: https://github.com/pokt-network/protocol-infra.git
-        targetRevision: main
+        targetRevision: shannon # TODO_IN_THIS_PR: switch to main
         helm:
           valueFiles: # Must be in the same repo https://argo-cd.readthedocs.io/en/stable/user-guide/helm/#values-files
             - ../../devnets-configs/{{.networkName}}.yaml
