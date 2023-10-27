@@ -1,0 +1,27 @@
+# Deployes an instance of 
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: {{ .Values.network.name }}-sequencer
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+  labels:
+    provisioned-by: "protocol"
+spec:
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: network-{{ .Values.network.name }}
+  project: default
+  source:
+    path: charts/poktroll-sequencer
+    repoURL: https://github.com/pokt-network/helm-charts.git
+    targetRevision: {{ .Values.charts.sequencer.branch }}
+    helm: {}
+  syncPolicy:
+    automated:
+      # prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - Replace=true
