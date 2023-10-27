@@ -11,13 +11,13 @@ metadata:
 spec:
   goTemplate: true
   generators:
-    - matrix:
-        generators:
-          - git:
-              repoURL: https://github.com/pokt-network/protocol-infra.git
-              revision: main
-              files:
-                - path: devnets-configs/**.yaml
+    # - matrix:
+    #     generators:
+    - git:
+        repoURL: https://github.com/pokt-network/protocol-infra.git
+        revision: main
+        files:
+          - path: devnets-configs/**.yaml
 
                 # devnets-configs/issue-*.yaml are taken care of by `v1-devnets-github-label-e2e-devnet-test ApplicationSet instead`
                 # TODO: uncomment when https://github.com/argoproj/applicationset/issues/468 is fixed
