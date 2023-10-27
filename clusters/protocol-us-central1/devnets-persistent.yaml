@@ -28,7 +28,7 @@ spec:
     spec:
       destination:
         server: https://kubernetes.default.svc
-        namespace: network-{{ .Values.network.name }}
+        namespace: devnet-{{.networkName}}
       project: default
       source:
         path: charts/rollkit-based-network
