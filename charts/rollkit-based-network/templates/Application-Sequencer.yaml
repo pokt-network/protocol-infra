@@ -17,7 +17,7 @@ spec:
     path: charts/poktroll-sequencer
     repoURL: https://github.com/pokt-network/helm-charts.git
     targetRevision: {{ .Values.charts.sequencer.branch }}
-    helm: {}
+    # helm: {}
   syncPolicy:
     automated:
       # prune: true
