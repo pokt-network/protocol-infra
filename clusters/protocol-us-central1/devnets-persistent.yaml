@@ -49,7 +49,7 @@ spec:
                 provisioned-by: "protocol"
 
             # for troubleshooting
-            is_default_response_from_plugin: {{.default_response}}
+            is_default_response_from_plugin: {{.}}
 
       syncPolicy:
         automated:
