@@ -1,1 +1,5 @@
 networkName: "first"
+
+charts:
+  sequencer:
+    branch: new-repo
