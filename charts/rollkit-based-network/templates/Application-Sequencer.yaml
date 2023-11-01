@@ -21,9 +21,7 @@ spec:
       values: |
         fullnameOverride: {{ .Values.network.type }}-{{ .Values.network.name }}-sequencer
         image:
-          repository: ghcr.io/pokt-network/pocketd
-          tag: sha-6ac7cf1
-          pullPolicy: IfNotPresent
+          tag: {{ .Values.image.tag }}
         dataAvailability:
           provider: celestia
           authToken:

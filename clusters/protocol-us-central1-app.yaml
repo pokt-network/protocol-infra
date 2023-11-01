@@ -17,7 +17,7 @@ spec:
   source:
     path: clusters/protocol-us-central1
     repoURL: https://github.com/pokt-network/protocol-infra.git
-    targetRevision: shannon # TODO_IN_THIS_PR: change this to main
+    targetRevision: main
   syncPolicy:
     automated:
       selfHeal: true

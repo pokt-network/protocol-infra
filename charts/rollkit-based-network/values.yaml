@@ -2,6 +2,9 @@ network:
   name: default-name
   type: devnet
 
+image:
+  tag: latest
+
 charts:
   sequencer:
     branch: main

@@ -1,5 +1,8 @@
 networkName: "first"
 
-charts:
-  sequencer:
-    branch: new-repo
+image:
+  tag: sha-6ac7cf1
+
+# charts:
+#   sequencer:
+#     branch: new-repo
