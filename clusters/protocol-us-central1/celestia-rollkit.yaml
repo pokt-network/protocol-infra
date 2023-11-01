@@ -102,3 +102,16 @@ roleRef:
   kind: Role
   name: secret-manager
   apiGroup: rbac.authorization.k8s.io
+---
+
+apiVersion: mirrors.kts.studio/v1alpha2
+kind: SecretMirror
+metadata:
+  name: celestia-secret
+  namespace: protocol-common
+spec:
+  source:
+    name: celestia-secret
+  destination:
+    namespaces:
+      - devnet-.+
