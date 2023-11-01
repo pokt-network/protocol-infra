@@ -76,6 +76,7 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: celestia-rollkit
+  namespace: protocol-common
 spec:
   accessModes:
     - ReadWriteOnce
