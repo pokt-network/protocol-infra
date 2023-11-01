@@ -19,6 +19,7 @@ spec:
     targetRevision: {{ .Values.charts.sequencer.branch }}
     helm: 
       values: |
+        fullnameOverride: {{ .Values.network.type }}-{{ .Values.network.name }}-sequencer
         image:
           repository: ghcr.io/pokt-network/pocketd
           tag: sha-6ac7cf1
