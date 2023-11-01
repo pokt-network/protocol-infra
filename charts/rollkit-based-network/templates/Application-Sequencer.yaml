@@ -38,3 +38,8 @@ spec:
     syncOptions:
       - CreateNamespace=true
       - Replace=true
+  ignoreDifferences:
+  - jsonPointers:
+    - /spec/volumeName
+    - /spec/storageClassName
+    kind: PersistentVolumeClaim
