@@ -103,7 +103,6 @@ roleRef:
   name: secret-manager
   apiGroup: rbac.authorization.k8s.io
 ---
-
 apiVersion: mirrors.kts.studio/v1alpha2
 kind: SecretMirror
 metadata:

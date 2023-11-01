@@ -23,6 +23,13 @@ spec:
           repository: ghcr.io/pokt-network/pocketd
           tag: sha-6ac7cf1
           pullPolicy: IfNotPresent
+        dataAvailability:
+          provider: celestia
+          authToken:
+            secretName: celestia-secret
+            secretKey: auth_token
+          celestia:
+            hostname: celestia-rollkit.protocol-common.svc.cluster.local
   syncPolicy:
     automated:
       # prune: true
