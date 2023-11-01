@@ -1,0 +1,65 @@
+# ApplicationSet that creates a devnet for each yaml file in the devnets-configs directory
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: devnets-persistent
+  namespace: argocd
+  labels:
+    team: "protocol"
+    purpose: "devnets"
+    provisioned-by: "protocol"
+spec:
+  goTemplate: true
+  generators:
+    - git:
+        repoURL: https://github.com/pokt-network/protocol-infra.git
+        revision: main
+        files:
+          - path: devnets-configs/**.yaml
+  template:
+    metadata:
+      name: "devnet-{{.networkName}}"
+      namespace: argocd
+      labels:
+        team: "protocol"
+        purpose: "devnets"
+        devnet: "{{.networkName}}"
+        provisioned-by: "protocol"
+    spec:
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: devnet-{{.networkName}}
+      project: default
+      source:
+        path: charts/rollkit-based-network
+        repoURL: https://github.com/pokt-network/protocol-infra.git
+        targetRevision: main
+        helm:
+          valueFiles: # Must be in the same repo https://argo-cd.readthedocs.io/en/stable/user-guide/helm/#values-files
+            - ../../devnets-configs/{{.networkName}}.yaml
+          values: |
+            network:
+              name: {{.networkName}}
+              type: devnet
+            global:
+              labels:
+                team: "protocol"
+                purpose: "devnet"
+                devnet: "{{.networkName}}"
+                provisioned-by: "protocol"
+
+            # for troubleshooting: {{.}}
+
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+          - Replace=true
+          - RespectIgnoreDifferences=true
+      ignoreDifferences:
+        - jsonPointers:
+            - /spec/volumeName
+            - /spec/storageClassName
+          kind: PersistentVolumeClaim
