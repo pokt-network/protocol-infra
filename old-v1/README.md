@@ -1,5 +1,7 @@
 # ⚠️ This document is outdated <!-- omit in toc -->
 
+## Refer to the [main README](../README.md) <!-- omit in toc -->
+
 - [Private PNI infrastructure](#private-pni-infrastructure)
 - [DevNets](#devnets)
   - [Overview](#overview)
