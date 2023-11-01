@@ -69,10 +69,19 @@ spec:
               mountPath: /bridge
       volumes:
         - name: bridge-volume
-          emptyDir: {}
-        - name: localnet-celestia-tokens
-          secret:
-            secretName: localnet-celestia-tokens
+          persistentVolumeClaim:
+            claimName: celestia-rollkit
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: celestia-rollkit
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
 ---
 apiVersion: v1
 kind: ServiceAccount
