@@ -72,7 +72,6 @@ spec:
             dev:
               poktroll:
                 branch: "{{branch}}"
-            # for troubleshooting: {{.}}
       syncPolicy:
         automated:
           prune: true
