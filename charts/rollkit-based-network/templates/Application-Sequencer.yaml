@@ -38,6 +38,6 @@ spec:
       - Replace=true
   ignoreDifferences:
   - jsonPointers:
-    - /spec/volumeName
-    - /spec/storageClassName
+    - /spec/ColumeName
+    - /spec/StorageClassName
     kind: PersistentVolumeClaim
