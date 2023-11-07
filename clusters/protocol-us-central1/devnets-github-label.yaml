@@ -1,0 +1,88 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: devnets-github-label
+  namespace: argocd
+  labels:
+    team: "protocol"
+    purpose: "devnets"
+    provisioned-by: "protocol"
+    github-label: devnet
+spec:
+  generators:
+    # - matrix:
+    #     generators:
+    - pullRequest:
+        github:
+          # The GitHub organization or user.
+          owner: pokt-network
+          # The Github repository
+          repo: poktroll
+          # Reference to a Secret containing an access token. (optional)
+          tokenRef:
+            secretName: github-pat-okdas
+            key: pat
+          # Labels is used to filter the PRs that you want to target. (optional)
+          labels:
+            - devnet
+        requeueAfterSeconds: 60
+    # - plugin:
+    #     configMapRef:
+    #       name: networks-parameters-plugin-creds
+    #     input:
+    #       parameters:
+    #         networkName: "devnet-issue-{{number}}"
+    #     requeueAfterSeconds: 10
+  template:
+    metadata:
+      name: "devnet-issue-{{number}}"
+      namespace: argocd
+      labels:
+        team: "protocol"
+        purpose: "devnets"
+        devnet: "issue-{{number}}"
+        github-issue-number: "{{number}}"
+        provisioned-by: "protocol"
+    spec:
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: devnet-issue-{{number}}
+      project: default
+      source:
+        path: charts/rollkit-based-network
+        repoURL: https://github.com/pokt-network/protocol-infra.git
+        targetRevision: main
+        helm:
+          ignoreMissingValueFiles: true
+          valueFiles: # Must be in the same repo https://argo-cd.readthedocs.io/en/stable/user-guide/helm/#values-files
+            - ../../devnets-github-issues/issue-{{number}}.yaml
+          values: |
+            global:
+              labels:
+                team: "protocol"
+                purpose: "devnet"
+                devnet: "issue-{{number}}"
+                github-issue-number: "{{number}}"
+                provisioned-by: "protocol"
+            network
+              name: "issue-{{number}}"
+              type: devnet
+            image:
+              tag: sha-{{head_sha}}
+            dev:
+              poktroll:
+                branch: "{{branch}}"
+            # for troubleshooting: {{.}}
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+          - Replace=true
+          - RespectIgnoreDifferences=true
+      ignoreDifferences:
+        - jsonPointers:
+            - /spec/volumeName
+            - /spec/storageClassName
+          kind: PersistentVolumeClaim
