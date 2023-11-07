@@ -53,9 +53,9 @@ spec:
         repoURL: https://github.com/pokt-network/protocol-infra.git
         targetRevision: main
         helm:
-          # ignoreMissingValueFiles: true
-          # valueFiles: # Must be in the same repo https://argo-cd.readthedocs.io/en/stable/user-guide/helm/#values-files
-          #   - ../../devnets-github-issues/issue-{{number}}.yaml
+          ignoreMissingValueFiles: true
+          valueFiles: # Must be in the same repo https://argo-cd.readthedocs.io/en/stable/user-guide/helm/#values-files
+            - ../../devnets-github-issues/issue-{{number}}.yaml
           values: |
             global:
               labels:
@@ -64,7 +64,7 @@ spec:
                 devnet: "issue-{{number}}"
                 github-issue-number: "{{number}}"
                 provisioned-by: "protocol"
-            network
+            network:
               name: "issue-{{number}}"
               type: devnet
             image:
@@ -72,6 +72,7 @@ spec:
             dev:
               poktroll:
                 branch: "{{branch}}"
+            # for troubleshooting: {{.}}
       syncPolicy:
         automated:
           prune: true
