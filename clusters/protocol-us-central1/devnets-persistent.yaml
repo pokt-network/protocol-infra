@@ -60,6 +60,6 @@ spec:
           - RespectIgnoreDifferences=true
       ignoreDifferences:
         - jsonPointers:
-            - /spec/volumeName
-            - /spec/storageClassName
+            - /spec/VolumeName
+            - /spec/StorageClassName
           kind: PersistentVolumeClaim

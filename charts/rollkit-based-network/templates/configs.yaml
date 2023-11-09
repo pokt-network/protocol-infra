@@ -1276,5 +1276,5 @@ data:
     }
 kind: ConfigMap
 metadata:
-  name: pocketd-configs
+  name: poktrolld-configs
   namespace: {{ .Values.network.type }}-{{ .Values.network.name }}
