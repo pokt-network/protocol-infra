@@ -1,13 +1,13 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: v1-devnets-github-label-e2e-devnet-test
+  name: v1-devnets-github-label-devnet-test-e2e
   namespace: argocd
   labels:
     team: "protocol"
     purpose: "devnet-github-label"
     provisioned-by: "protocol"
-    github-label: e2e-devnet-test
+    github-label: devnet-test-e2e
 spec:
   generators:
     - matrix:
@@ -24,7 +24,7 @@ spec:
                   key: gihub-pat-okdas
                 # Labels is used to filter the PRs that you want to target. (optional)
                 labels:
-                  - e2e-devnet-test
+                  - devnet-test-e2e
               requeueAfterSeconds: 60
           - plugin:
               configMapRef:
