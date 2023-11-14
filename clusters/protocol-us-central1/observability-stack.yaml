@@ -26,6 +26,24 @@ spec:
                 requests:
                   storage: 20Gi
               storageClassName: standard
+
+        vmagent:
+          spec:
+            selectAllByDefault: true # all namespaces
+            externalLabels:
+              cluster: protocol-us-central1
+              cloud_provider: gcp
+              region: us-central1
+              team: protocol
+
+        vmalert:
+          spec:
+            externalLabels:
+              cluster: protocol-us-central1
+              cloud_provider: gcp
+              region: us-central1
+              team: protocol
+
         grafana:
           adminPassword: initialPassword
   destination:
