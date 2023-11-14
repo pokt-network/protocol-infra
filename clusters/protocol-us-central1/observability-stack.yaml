@@ -32,6 +32,8 @@ spec:
     server: https://kubernetes.default.svc
     namespace: observability
   syncPolicy:
+    syncOptions:
+      - Replace=true
     automated: # Enables automated sync
       prune: false # Enables pruning of resources not tracked anymore
       selfHeal: false # Enables self-healing of out-of-sync resources
