@@ -46,6 +46,19 @@ spec:
 
         grafana:
           adminPassword: initialPassword
+          grafana.ini:
+            server:
+              root_url: https://grafana.protocol.pokt.network
+          ingress:
+            enabled: true
+            annotations:
+              kubernetes.io/ingress.class: nginx
+            hosts:
+              - grafana.protocol.pokt.network
+            tls:
+              - secretName: grafana-srvio-tls
+                hosts:
+                - grafana.protocol.pokt.network
   destination:
     server: https://kubernetes.default.svc
     namespace: observability
