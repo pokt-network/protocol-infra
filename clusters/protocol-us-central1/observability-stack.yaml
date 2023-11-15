@@ -50,6 +50,8 @@ spec:
           adminPassword: initialPassword
           persistence:
             enabled: true
+          deploymentStrategy:
+            type: Recreate # We only run one so we need this
           envFromSecrets:
             - name: "github-auth-secrets"
               optional: false
