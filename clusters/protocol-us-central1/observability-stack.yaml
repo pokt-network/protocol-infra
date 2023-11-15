@@ -48,7 +48,9 @@ spec:
         # TODO: add certificate
         grafana:
           adminPassword: initialPassword
-          envFromSecrets: [ "github-auth-secrets" ]
+          envFromSecrets:
+            - name: "github-auth-secrets"
+              optional: false
           grafana.ini:
             server:
               domain: grafana.protocol.pokt.network
