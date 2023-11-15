@@ -1,7 +1,7 @@
 networkName: "first"
 
 image:
-  tag: sha-6ac7cf1
+  tag: sha-ad816cbca600fd8403d438631a2890e953f767f6
 
 # charts:
 #   sequencer:
