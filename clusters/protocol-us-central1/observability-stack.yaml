@@ -44,6 +44,10 @@ spec:
               region: us-central1
               team: protocol
 
+        victoria-metrics-operator:
+          operator:
+            disable_prometheus_converter: false
+
         # TODO: set `GF_AUTH_GITHUB_CLIENT_ID`, `GF_AUTH_GITHUB_CLIENT_SECRET`, via extra env mounts
         # TODO: add certificate
         grafana:
