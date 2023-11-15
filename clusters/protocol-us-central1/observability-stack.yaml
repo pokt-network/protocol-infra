@@ -48,6 +48,8 @@ spec:
         # TODO: add certificate
         grafana:
           adminPassword: initialPassword
+          persistence:
+            enabled: true
           envFromSecrets:
             - name: "github-auth-secrets"
               optional: false
