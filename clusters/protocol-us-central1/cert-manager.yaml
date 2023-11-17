@@ -45,36 +45,64 @@ spec:
         ingress:
           ingressClassName: nginx
 ---
-# TODO(@okdas): Wildcard cert requires a DNS challenge. If we need wildcard, might be easier to register another domain and host NS zone somewhere else.
-# apiVersion: cert-manager.io/v1
-# kind: Certificate
-# metadata:
-#   name: protocol-wildcard
-# spec:
-#   # Secret names are always required.
-#   secretName: protocol-wildcard-tls
-#   duration: 2160h0m0s # 90d
-#   renewBefore: 360h0m0s # 15d
-#   subject:
-#     organizations:
-#       - pokt-network
-#   privateKey:
-#     algorithm: RSA
-#     encoding: PKCS1
-#     size: 2048
-#   usages:
-#     - server auth
-#     - client auth
-#   # At least one of a DNS Name, URI, or IP address is required.
-#   dnsNames:
-#     - protocol.pokt.network
-#     - "*.protocol.pokt.network"
-#   # Issuer references are always required.
-#   issuerRef:
-#     name: letsencrypt-production
-#     # We can reference ClusterIssuers by changing the kind here.
-#     # The default value is Issuer (i.e. a locally namespaced Issuer)
-#     kind: ClusterIssuer
-#     # This is optional since cert-manager will default to this value however
-#     # if you are using an external issuer, change this to that issuer group.
-#     group: cert-manager.io
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-production-dns
+spec:
+  acme:
+    server: https://acme-v02.api.letsencrypt.org/directory
+    email: dmitry@grove.city
+    privateKeySecretRef:
+      name: letsencrypt-production-dns
+    solvers:
+    - dns01:
+        cloudflare:
+          apiTokenSecretRef:
+            name: cloudflare-api-token-okdas
+            key: api-token
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: poktroll-wildcard
+spec:
+  # Secret names are always required.
+  secretName: poktroll-wildcard-tls
+  duration: 2160h0m0s # 90d
+  renewBefore: 360h0m0s # 15d
+  subject:
+    organizations:
+      - pokt-network
+  privateKey:
+    algorithm: RSA
+    encoding: PKCS1
+    size: 2048
+  usages:
+    - server auth
+    - client auth
+  # At least one of a DNS Name, URI, or IP address is required.
+  dnsNames:
+    - poktroll.com
+    - "*.poktroll.com"
+  # Issuer references are always required.
+  issuerRef:
+    name: letsencrypt-production-dns
+    # We can reference ClusterIssuers by changing the kind here.
+    # The default value is Issuer (i.e. a locally namespaced Issuer)
+    kind: ClusterIssuer
+    # This is optional since cert-manager will default to this value however
+    # if you are using an external issuer, change this to that issuer group.
+    group: cert-manager.io
+---
+apiVersion: mirrors.kts.studio/v1alpha2
+kind: SecretMirror
+metadata:
+  name: poktroll-wildcard-tls
+spec:
+  source:
+    name: poktroll-wildcard-tls
+  destination:
+    namespaces:
+      - devnet-.+
+      - observability
