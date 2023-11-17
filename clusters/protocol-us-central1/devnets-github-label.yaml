@@ -51,7 +51,7 @@ spec:
       source:
         path: charts/rollkit-based-network
         repoURL: https://github.com/pokt-network/protocol-infra.git
-        targetRevision: main
+        targetRevision: vm-stack
         helm:
           ignoreMissingValueFiles: true
           valueFiles: # Must be in the same repo https://argo-cd.readthedocs.io/en/stable/user-guide/helm/#values-files
