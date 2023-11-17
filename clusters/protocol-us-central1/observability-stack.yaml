@@ -61,8 +61,8 @@ spec:
               optional: false
           grafana.ini:
             server:
-              domain: grafana.protocol.pokt.network
-              root_url: https://grafana.protocol.pokt.network
+              domain: grafana.poktroll.com
+              root_url: https://grafana.poktroll.com
             auth.github:
               enabled: true
               allow_sign_up: true
@@ -75,13 +75,12 @@ spec:
             enabled: true
             annotations:
               kubernetes.io/ingress.class: nginx
-              cert-manager.io/cluster-issuer: letsencrypt-production
             hosts:
-              - grafana.protocol.pokt.network
+              - grafana.poktroll.com
             tls:
-              - secretName: grafana-letsencrypt
+              - secretName: poktroll-wildcard-tls
                 hosts:
-                - grafana.protocol.pokt.network
+                - grafana.poktroll.com
   destination:
     server: https://kubernetes.default.svc
     namespace: observability
