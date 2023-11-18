@@ -23,6 +23,9 @@ spec:
         keysConfigMapName: keys-{{ .Values.image.tag }}
         image:
           tag: {{ .Values.image.tag }}
+
+        pocket:
+          node: {{ .Values.network.type }}-{{ .Values.network.name }}-sequencer
   syncPolicy:
     automated:
       # prune: true
