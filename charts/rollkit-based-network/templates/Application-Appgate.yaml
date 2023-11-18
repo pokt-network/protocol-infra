@@ -19,6 +19,8 @@ spec:
     helm: 
       values: |
         fullnameOverride: {{ .Values.network.type }}-{{ .Values.network.name }}-appgate-server
+        configsConfigMapName: configs-{{ .Values.image.tag }}
+        keysConfigMapName: keys-{{ .Values.image.tag }}
         image:
           tag: {{ .Values.image.tag }}
   syncPolicy:

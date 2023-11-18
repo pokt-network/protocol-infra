@@ -21,6 +21,8 @@ spec:
         fullnameOverride: {{ .Values.network.type }}-{{ .Values.network.name }}-sequencer
         image:
           tag: {{ .Values.image.tag }}
+        configsConfigMapName: configs-{{ .Values.image.tag }}
+        keysConfigMapName: keys-{{ .Values.image.tag }}
         dataAvailability:
           provider: celestia
           authToken:
