@@ -18,22 +18,20 @@ spec:
           tag="{{ .Values.image.tag }}"
 
           function create_configmap() {
-          local base_name=$1
-          local directory=$2
-          local name="${base_name}-${tag}"
-          local config_map_data=""
+            local base_name=$1
+            local directory=$2
+            local name="${base_name}-${tag}"
 
-          for filepath in $(ls $directory); do
-              if [ -f "$directory/$filepath" ]; then
-              local content=$(cat "$directory/$filepath")
-              local filename=$(basename $filepath)
-              config_map_data+="$filename=$content\n"
+            local args=()
+            for filepath in $directory/*; do
+              if [ -f "$filepath" ]; then
+                local filename=$(basename "$filepath")
+                args+=("--from-file=$filename=$filepath")
               fi
-          done
+            done
 
-          echo "$config_map_data" | kubectl create configmap $name --from-file=/dev/stdin
+            kubectl create configmap $name "${args[@]}"
           }
-
 
           function cleanup_old_configmaps() {
             local base_name=$1
@@ -47,7 +45,7 @@ spec:
           }
 
           # Init chain, genesis and config maps
-          ignite chain init   
+          # ignite chain init   
 
           # Create and clean up ConfigMaps
           create_configmap "keys" "/root/.poktroll/keyring-test/"
