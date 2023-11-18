@@ -18,19 +18,22 @@ spec:
           tag="{{ .Values.image.tag }}"
 
           function create_configmap() {
-            local base_name=$1
-            local directory=$2
-            local name="${base_name}-${tag}"
-            local config_map_data=""
+          local base_name=$1
+          local directory=$2
+          local name="${base_name}-${tag}"
+          local config_map_data=""
 
-            for filepath in $(ls $directory); do
-              local content=$(cat $directory/$filepath)
+          for filepath in $(ls $directory); do
+              if [ -f "$directory/$filepath" ]; then
+              local content=$(cat "$directory/$filepath")
               local filename=$(basename $filepath)
               config_map_data+="$filename=$content\n"
-            done
+              fi
+          done
 
-            kubectl create configmap $name --from-literal=$config_map_data
+          echo "$config_map_data" | kubectl create configmap $name --from-file=/dev/stdin
           }
+
 
           function cleanup_old_configmaps() {
             local base_name=$1
