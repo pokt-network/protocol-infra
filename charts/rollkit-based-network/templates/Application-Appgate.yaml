@@ -21,6 +21,8 @@ spec:
         fullnameOverride: {{ .Values.network.type }}-{{ .Values.network.name }}-appgate-server
         configsConfigMapName: configs-{{ .Values.image.tag }}
         keysConfigMapName: keys-{{ .Values.image.tag }}
+        service:
+          port: 80
         pocket:
           node: {{ .Values.network.type }}-{{ .Values.network.name }}-sequencer
         image:
