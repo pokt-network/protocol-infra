@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: anvil
+  namespace: {{ .Values.network.type }}-{{ .Values.network.name }}
+spec:
+  type: ExternalName
+  externalName: anvil.protocol-common.svc.cluster.local
