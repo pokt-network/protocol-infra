@@ -6,6 +6,8 @@ metadata:
   namespace: {{ .Values.network.type }}-{{ .Values.network.name }}
 spec:
   template:
+    labels:
+      pokt.network/purpose: configmap-creator
     spec:
       serviceAccountName: configmap-creator
       containers:
