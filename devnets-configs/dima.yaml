@@ -1,0 +1,5 @@
+networkName: "dima"
+
+image:
+  tag: sha-6ac7cf1
+
