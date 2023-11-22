@@ -33,6 +33,8 @@ spec:
               fi
             done
 
+            echo "Using files: ${args[@]}"
+
             kubectl create configmap $name "${args[@]}"
           }
 
