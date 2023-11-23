@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: {{ .Values.network.type }}-{{ .Values.network.name }}-sequencer
+  name: {{ .Values.network.type }}-{{ .Values.network.name }}-appgate-server
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
@@ -13,23 +13,20 @@ spec:
     namespace: {{ .Values.network.type }}-{{ .Values.network.name }}
   project: default
   source:
-    path: charts/poktroll-sequencer
+    path: charts/appgate-server
     repoURL: https://github.com/pokt-network/helm-charts.git
     targetRevision: {{ .Values.charts.sequencer.branch }}
     helm: 
       values: |
-        fullnameOverride: {{ .Values.network.type }}-{{ .Values.network.name }}-sequencer
-        image:
-          tag: {{ .Values.image.tag }}
+        fullnameOverride: {{ .Values.network.type }}-{{ .Values.network.name }}-appgate-server
         configsConfigMapName: configs-{{ .Values.image.tag }}
         keysConfigMapName: keys-{{ .Values.image.tag }}
-        dataAvailability:
-          provider: celestia
-          authToken:
-            secretName: celestia-secret
-            secretKey: auth_token
-          celestia:
-            hostname: celestia-rollkit.protocol-common.svc.cluster.local
+        service:
+          port: 80
+        pocket:
+          node: {{ .Values.network.type }}-{{ .Values.network.name }}-sequencer
+        image:
+          tag: {{ .Values.image.tag }}
   syncPolicy:
     automated:
       # prune: true
@@ -37,8 +34,8 @@ spec:
     syncOptions:
       - CreateNamespace=true
       - Replace=true
-  ignoreDifferences:
-  - jsonPointers:
-    - /spec/VolumeName
-    - /spec/StorageClassName
-    kind: PersistentVolumeClaim
+  # ignoreDifferences:
+  # - jsonPointers:
+  #   - /spec/VolumeName
+  #   - /spec/StorageClassName
+  #   kind: PersistentVolumeClaim

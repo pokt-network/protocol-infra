@@ -1,0 +1,90 @@
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: keys-configs-{{ .Values.image.tag }}
+  namespace: {{ .Values.network.type }}-{{ .Values.network.name }}
+spec:
+  template:
+    metadata:
+      labels:
+        pokt.network/purpose: configmap-creator
+    spec:
+      serviceAccountName: configmap-creator
+      containers:
+      - name: creator
+        image: ghcr.io/pokt-network/poktrolld:{{ .Values.image.tag }}
+        command: ["/bin/bash"]
+        args:
+        - -c
+        - |
+          tag="{{ .Values.image.tag }}"
+
+          function create_configmap() {
+            local base_name=$1
+            local directory=$2
+            local name="${base_name}-${tag}"
+
+            local args=()
+            for filepath in $directory/*; do
+              if [ -f "$filepath" ]; then
+                local filename=$(basename "$filepath")
+                args+=("--from-file=$filename=$filepath")
+              fi
+            done
+
+            echo "Using files: ${args[@]}"
+
+            kubectl create configmap $name "${args[@]}"
+          }
+
+          function cleanup_old_configmaps() {
+            local base_name=$1
+            local configmaps=$(kubectl get configmap -o=jsonpath='{.items[*].metadata.name}' | tr ' ' '\n' | grep "^${base_name}-")
+
+            for cm in $configmaps; do
+              if [ "$cm" != "${base_name}-${tag}" ]; then
+                kubectl delete configmap $cm
+              fi
+            done
+          }
+
+          # Init chain, genesis and config maps
+          # ignite chain init   
+
+          # Create and clean up ConfigMaps
+          create_configmap "keys" "/root/.poktroll/keyring-test/"
+          cleanup_old_configmaps "keys"
+          create_configmap "configs" "/root/.poktroll/config/"
+          cleanup_old_configmaps "configs"
+
+      restartPolicy: Never
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: configmap-creator
+  namespace: {{ .Values.network.type }}-{{ .Values.network.name }}
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: configmap-creator-role
+  namespace: {{ .Values.network.type }}-{{ .Values.network.name }}
+rules:
+- apiGroups: [""]
+  resources: ["configmaps"]
+  verbs: ["create", "get", "list", "delete", "update"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: configmap-creator-role-binding
+  namespace: {{ .Values.network.type }}-{{ .Values.network.name }}
+subjects:
+- kind: ServiceAccount
+  name: configmap-creator
+roleRef:
+  kind: Role
+  name: configmap-creator-role
+  apiGroup: rbac.authorization.k8s.io
