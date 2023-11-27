@@ -23,9 +23,10 @@ spec:
         keysConfigMapName: keys-{{ .Values.image.tag }}
         image:
           tag: {{ .Values.image.tag }}
+        config:
+          query_node_url: tcp://{{ .Values.network.type }}-{{ .Values.network.name }}-sequencer:36657
+          network_node_url: tcp://{{ .Values.network.type }}-{{ .Values.network.name }}-sequencer:36657        
 
-        pocket:
-          node: {{ .Values.network.type }}-{{ .Values.network.name }}-sequencer
   syncPolicy:
     automated:
       # prune: true

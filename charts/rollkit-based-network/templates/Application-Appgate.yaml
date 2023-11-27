@@ -23,8 +23,9 @@ spec:
         keysConfigMapName: keys-{{ .Values.image.tag }}
         service:
           port: 80
-        pocket:
-          node: {{ .Values.network.type }}-{{ .Values.network.name }}-sequencer
+        config:
+          query_node_url: tcp://{{ .Values.network.type }}-{{ .Values.network.name }}-sequencer:36657
+          listening_endpoint: http://0.0.0.0:80
         image:
           tag: {{ .Values.image.tag }}
   syncPolicy:
