@@ -27,10 +27,10 @@ spec:
         resources:
           limits:
             cpu: 4
-            memory: 8Gi
+            memory: 6Gi
           requests:
             cpu: 1
-            memory: 6Gi
+            memory: 4Gi
         dataAvailability:
           provider: celestia
           authToken:
