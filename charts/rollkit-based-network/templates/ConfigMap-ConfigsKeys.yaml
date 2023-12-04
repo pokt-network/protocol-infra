@@ -50,7 +50,7 @@ spec:
           }
 
           # Init chain, genesis and config maps
-          # ignite chain init   
+          # ignite chain init
 
           # Create and clean up ConfigMaps
           create_configmap "keys" "/root/.poktroll/keyring-test/"
