@@ -15,7 +15,8 @@ spec:
   source:
     path: charts/poktroll-sequencer
     repoURL: https://github.com/pokt-network/helm-charts.git
-    targetRevision: {{ .Values.charts.sequencer.branch }}
+    targetRevision: add-resources
+    # targetRevision: {{ .Values.charts.sequencer.branch }}
     helm: 
       values: |
         fullnameOverride: {{ .Values.network.type }}-{{ .Values.network.name }}-sequencer
@@ -23,6 +24,13 @@ spec:
           tag: {{ .Values.image.tag }}
         configsConfigMapName: configs-{{ .Values.image.tag }}
         keysConfigMapName: keys-{{ .Values.image.tag }}
+        resources:
+          limits:
+            cpu: 4
+            memory: 8Gi
+          requests:
+            cpu: 1
+            memory: 6Gi
         dataAvailability:
           provider: celestia
           authToken:
