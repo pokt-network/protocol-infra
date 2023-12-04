@@ -43,11 +43,11 @@ spec:
         - name: celestia
           resources:
             limits:
-              cpu: "1"
-              memory: "1Gi"
+              cpu: "2"
+              memory: "2Gi"
             requests:
-              cpu: "0.2"
-              memory: "512Mi"
+              cpu: "0.5"
+              memory: "1Gi"
           image: ghcr.io/rollkit/local-celestia-devnet:v0.12.1
           ports:
             - containerPort: 26657
