@@ -21,6 +21,13 @@ spec:
         fullnameOverride: {{ .Values.network.type }}-{{ .Values.network.name }}-relayminer
         configsConfigMapName: configs-{{ .Values.image.tag }}
         keysConfigMapName: keys-{{ .Values.image.tag }}
+        resources:
+          limits:
+            cpu: 2
+            memory: 1Gi
+          requests:
+            cpu: 0.5
+            memory: 512Mi
         image:
           tag: {{ .Values.image.tag }}
         config:
