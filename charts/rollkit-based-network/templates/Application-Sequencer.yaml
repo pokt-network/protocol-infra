@@ -29,8 +29,8 @@ spec:
             cpu: 4
             memory: 6Gi
           requests:
-            cpu: 1
-            memory: 4Gi
+            cpu: 0.5
+            memory: 2Gi
         dataAvailability:
           provider: celestia
           authToken:
