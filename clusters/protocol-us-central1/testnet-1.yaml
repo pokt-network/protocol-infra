@@ -21,7 +21,8 @@ spec:
     targetRevision: main
     helm:
       values: |
-        image: sha-1164e33
+        image:
+          tag: sha-1164e33
         network:
           name: testnet-1
           type: testnet
