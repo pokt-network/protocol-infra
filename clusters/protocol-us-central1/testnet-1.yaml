@@ -42,6 +42,14 @@ spec:
           storage:
             className: standard
             size: 50Gi
+          dataAvailability:
+            provider: celestia
+            authToken:
+              secretName: celestia-secret
+              secretKey: auth_token
+            celestia:
+              consensus_rpc_url: http://rpc-mocha.pops.one:26657
+              da_rpc_url: http://rpc-mocha.pops.one:26658
 
 
         # for troubleshooting: {{.}}
