@@ -15,8 +15,8 @@ spec:
   source:
     path: charts/poktroll-sequencer
     repoURL: https://github.com/pokt-network/helm-charts.git
-    targetRevision: add-resources
-    # targetRevision: {{ .Values.charts.sequencer.branch }}
+    # targetRevision: add-resources
+    targetRevision: {{ .Values.charts.sequencer.branch }}
     helm: 
       values: |
         fullnameOverride: {{ .Values.network.type }}-{{ .Values.network.name }}-sequencer
