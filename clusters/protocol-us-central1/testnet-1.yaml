@@ -39,6 +39,8 @@ spec:
           sequencer:
             branch: sequencer-prod
         sequencer:
+          prod:
+            namespace: 0dfb53e3a8691803
           storage:
             className: standard
             size: 50Gi
