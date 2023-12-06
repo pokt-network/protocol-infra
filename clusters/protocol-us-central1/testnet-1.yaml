@@ -24,7 +24,7 @@ spec:
         image:
           tag: sha-1164e33
         network:
-          name: testnet-1
+          name: 1
           type: testnet
         global:
           labels:
