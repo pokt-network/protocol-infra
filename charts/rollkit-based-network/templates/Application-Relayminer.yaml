@@ -19,8 +19,8 @@ spec:
     helm: 
       values: |
         fullnameOverride: {{ .Values.network.type }}-{{ .Values.network.name }}-relayminer
-        configsConfigMapName: configs-{{ .Values.image.tag }}
-        keysConfigMapName: keys-{{ .Values.image.tag }}
+        configsConfigMapName: {{ default (printf "configs-%s" .Values.image.tag) .Values.customConfigMap.configsName }}
+        keysConfigMapName: {{ default (printf "keys-%s" .Values.image.tag) .Values.customConfigMap.keysName }}
         resources:
           limits:
             cpu: 2

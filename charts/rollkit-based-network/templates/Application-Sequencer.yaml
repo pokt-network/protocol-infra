@@ -22,22 +22,9 @@ spec:
         fullnameOverride: {{ .Values.network.type }}-{{ .Values.network.name }}-sequencer
         image:
           tag: {{ .Values.image.tag }}
-        configsConfigMapName: configs-{{ .Values.image.tag }}
-        keysConfigMapName: keys-{{ .Values.image.tag }}
-        resources:
-          limits:
-            cpu: 4
-            memory: 6Gi
-          requests:
-            cpu: 0.5
-            memory: 2Gi
-        dataAvailability:
-          provider: celestia
-          authToken:
-            secretName: celestia-secret
-            secretKey: auth_token
-          celestia:
-            hostname: celestia-rollkit.protocol-common.svc.cluster.local
+        configsConfigMapName: {{ default (printf "configs-%s" .Values.image.tag) .Values.customConfigMap.configsName }}
+        keysConfigMapName: {{ default (printf "keys-%s" .Values.image.tag) .Values.customConfigMap.keysName }}
+        {{ toYaml .Values.sequencer | nindent 8 }}
   syncPolicy:
     automated:
       # prune: true
