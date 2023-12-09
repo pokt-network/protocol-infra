@@ -51,8 +51,7 @@ spec:
               secretName: celestia-secret
               secretKey: auth_token
             celestia:
-              consensus_rpc_url: http://rpc-mocha.pops.one:26657
-              da_rpc_url: http://rpc-mocha.pops.one:26658
+              da_rpc_url: http://celestia-node-light.celestia-mocha.svc.cluster.local:26658
 
 
         # for troubleshooting: {{.}}
