@@ -108,4 +108,5 @@ spec:
   destination:
     namespaces:
       - devnet-.+
+      - testnet-.+
       - observability
