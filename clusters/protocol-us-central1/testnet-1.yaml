@@ -42,7 +42,12 @@ spec:
           prod:
             enabled: true
             namespace: 0dfb53e3a8691803ca08
-          storage:
+          storage: # TODO: kill storage once https://github.com/pokt-network/helm-charts/pull/18 is merged
+            enabled: true
+            className: standard
+            size: 50Gi
+          persistence:
+            enabled: true
             className: standard
             size: 50Gi
           dataAvailability:
