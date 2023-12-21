@@ -25,6 +25,8 @@ spec:
         configsConfigMapName: {{ default (printf "configs-%s" .Values.image.tag) .Values.customConfigMap.configsName }}
         keysConfigMapName: {{ default (printf "keys-%s" .Values.image.tag) .Values.customConfigMap.keysName }}
         {{ toYaml .Values.sequencer | nindent 8 }}
+
+        # for troubleshooting: {{.}}
   syncPolicy:
     automated:
       # prune: true
