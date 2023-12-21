@@ -27,4 +27,5 @@ sequencer:
       secretName: celestia-secret
       secretKey: auth_token
     celestia:
-      da_rpc_url: http://celestia-rollkit.protocol-common.svc.cluster.local:26657
+      da_rpc_url: http://celestia-rollkit.protocol-common.svc.cluster.local:26658
+      consensus_rpc_url: http://celestia-rollkit.protocol-common.svc.cluster.local:26657
