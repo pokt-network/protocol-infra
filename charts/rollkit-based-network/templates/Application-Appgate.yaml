@@ -30,6 +30,10 @@ spec:
             memory: 512Mi
         service:
           port: 80
+        metrics:
+          enabled: true
+          serviceMonitor:
+            enabled: true
         config:
           query_node_url: tcp://{{ .Values.network.type }}-{{ .Values.network.name }}-sequencer:36657
           listening_endpoint: http://0.0.0.0:80
