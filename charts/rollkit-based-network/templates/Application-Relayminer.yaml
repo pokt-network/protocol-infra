@@ -53,7 +53,7 @@ spec:
               proxy_names:
                 - http-proxy
               hosts:
-                - relayminers
+                - tcp://relayminers:8545
 
   syncPolicy:
     automated:
