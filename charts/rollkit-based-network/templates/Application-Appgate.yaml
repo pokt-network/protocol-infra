@@ -15,7 +15,7 @@ spec:
   source:
     path: charts/appgate-server
     repoURL: https://github.com/pokt-network/helm-charts.git
-    targetRevision: {{ .Values.charts.sequencer.branch }}
+    targetRevision: {{ .Values.charts.appgate.branch }}
     helm: 
       values: |
         fullnameOverride: {{ .Values.network.type }}-{{ .Values.network.name }}-appgate-server

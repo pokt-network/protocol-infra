@@ -8,6 +8,10 @@ image:
 charts:
   sequencer:
     branch: main
+  appgate:
+    branch: main
+  relayminer:
+    branch: main
 
 customConfigMap:
   configsName: ""

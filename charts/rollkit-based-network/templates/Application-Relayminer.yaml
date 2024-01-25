@@ -15,7 +15,7 @@ spec:
   source:
     path: charts/relayminer
     repoURL: https://github.com/pokt-network/helm-charts.git
-    targetRevision: {{ .Values.charts.sequencer.branch }}
+    targetRevision: {{ .Values.charts.relayminer.branch }}
     helm: 
       values: |
         fullnameOverride: {{ .Values.network.type }}-{{ .Values.network.name }}-relayminer

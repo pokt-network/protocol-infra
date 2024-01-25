@@ -69,10 +69,13 @@ spec:
               type: devnet
             image:
               tag: sha-{{head_sha}}
-            dev:
-              poktroll:
-                branch: "{{branch}}"
-            # for troubleshooting: {{.}}
+            charts:
+              sequencer:
+                branch: main
+              appgate:
+                branch: issues/poktroll/24-servicemonitor
+              relayminer:
+                branch: issues/poktroll/24-servicemonitor
       syncPolicy:
         automated:
           prune: true
