@@ -73,9 +73,9 @@ spec:
               sequencer:
                 branch: main
               appgate:
-                branch: issues/poktroll/24-servicemonitor
+                branch: main
               relayminer:
-                branch: issues/poktroll/24-servicemonitor
+                branch: main
       syncPolicy:
         automated:
           prune: true
