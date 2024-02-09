@@ -60,7 +60,7 @@ spec:
         rollkit:
           aggregator: true
           block_time: 60s
-          da_address: "public-testnet-poktrolld-0:26650"
+          da_address: "public-testnet-celestia-da:26650"
           da_block_time: 15s
           # da_gas_price: -1
           da_start_height: 1129201 # Latest block on when the rollup starts.
