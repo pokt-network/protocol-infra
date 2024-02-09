@@ -148,7 +148,7 @@ spec:
             storage:
               type: 'filesystem'
           singleBinary:
-            replicas: 1
+            replicas: 2
   destination:
     server: https://kubernetes.default.svc
     namespace: observability
