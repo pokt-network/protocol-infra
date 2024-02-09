@@ -142,13 +142,11 @@ spec:
     helm:
       values: |
         loki:
-          loki:
-            commonConfig:
-              replication_factor: 1
-            storage:
-              type: 'filesystem'
-          singleBinary:
-            replicas: 2
+          persistence:
+            enabled: true
+            accessModes:
+              - ReadWriteOnce
+            size: 30Gi
   destination:
     server: https://kubernetes.default.svc
     namespace: observability
