@@ -71,6 +71,9 @@ spec:
               token_url: https://github.com/login/oauth/access_token
               api_url: https://api.github.com/user
               allowed_organizations: pokt-foundation pokt-network
+            plugins:
+              enabled: true
+              allow_loading_unsigned_plugins: "victoriametrics-datasource"
           ingress:
             enabled: true
             annotations:
