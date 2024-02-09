@@ -13,7 +13,7 @@ spec:
   source:
     repoURL: https://victoriametrics.github.io/helm-charts/
     chart: victoria-metrics-k8s-stack
-    targetRevision: 0.18.12
+    targetRevision: 0.19.0
     helm:
       values: |
         fullnameOverride: vm
@@ -85,13 +85,18 @@ spec:
               - secretName: poktroll-wildcard-tls
                 hosts:
                 - grafana.poktroll.com
-          datasources:
-            datasources.yaml:
-              apiVersion: 1
-              datasources:
-              - name: Loki
-                type: loki
-                url: http://observability-loki:3100/
+          additionalDataSources:
+            - name: Loki
+              type: loki
+              url: http://observability-loki:3100/
+              access: proxy
+          # datasources:
+          #   datasources.yaml:
+          #     apiVersion: 1
+          #     datasources:
+          #     - name: Loki
+          #       type: loki
+          #       url: http://observability-loki:3100/
           # sidecar:
           #   datasources:
           #     initDatasources: true
