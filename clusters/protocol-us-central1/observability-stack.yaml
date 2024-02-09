@@ -85,11 +85,13 @@ spec:
               - secretName: poktroll-wildcard-tls
                 hosts:
                 - grafana.poktroll.com
-          additionalDataSources:
-            - name: Loki
-              type: loki
-              url: http://observability-loki:3100/
-              access: proxy
+          datasources:
+            datasources.yaml:
+              apiVersion: 1
+              datasources:
+              - name: Loki
+                type: loki
+                url: http://observability-loki:3100/
           sidecar:
             datasources:
               initDatasources: true
