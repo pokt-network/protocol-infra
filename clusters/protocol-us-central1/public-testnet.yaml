@@ -35,7 +35,7 @@ spec:
                 storageClass: premium-rwo
 
           dataAvailability:
-            namespace: 34c412725a669420
+            namespace: 34c412725aa69420
 
         # Can be created with `kubectl create secret generic public-testnet-validator-keys --from-file=config/node_key.json --from-file=config/priv_validator_key.json --namespace=public-testnet`
         nodeKeysSecretName: public-testnet-validator-keys
