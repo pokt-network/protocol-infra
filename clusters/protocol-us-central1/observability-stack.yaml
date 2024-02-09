@@ -142,7 +142,13 @@ spec:
     helm:
       values: |
         loki:
-
+          loki:
+            commonConfig:
+              replication_factor: 1
+            storage:
+              type: 'filesystem'
+          singleBinary:
+            replicas: 1
   destination:
     server: https://kubernetes.default.svc
     namespace: observability
