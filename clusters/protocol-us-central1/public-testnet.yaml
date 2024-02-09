@@ -37,10 +37,10 @@ spec:
           dataAvailability:
             namespace: 34c412725a669420
 
-        # Can be created with `kubectl create secret generic public-testnet-validator-keys --from-file=config/node_key.json --from-file=config/priv_validator_key.json --namespace=testnet`
+        # Can be created with `kubectl create secret generic public-testnet-validator-keys --from-file=config/node_key.json --from-file=config/priv_validator_key.json --namespace=public-testnet`
         nodeKeysSecretName: public-testnet-validator-keys
 
-        # Can be created with `kubectl create cm testnet-test-genesis --from-file=config/genesis.json --namespace=testnet`
+        # Can be created with `kubectl create cm testnet-test-genesis --from-file=config/genesis.json --namespace=public-testnet`
         # Provisioned below
         genesis:
           configMapName: public-testnet-genesis
@@ -60,7 +60,7 @@ spec:
         rollkit:
           aggregator: true
           block_time: 60s
-          # da_address: ":26650"
+          da_address: "public-testnet-poktrolld-celestia-da:26650"
           da_block_time: 15s
           # da_gas_price: -1
           da_start_height: 1129201 # Latest block on when the rollup starts.
