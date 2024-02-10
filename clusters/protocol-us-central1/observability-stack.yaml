@@ -64,7 +64,7 @@ spec:
               domain: grafana.poktroll.com
               root_url: https://grafana.poktroll.com
             auth.github:
-              org_role: Editor
+              role_attribute_path = contains(groups[*], '@pokt-network/engineering-executives') && 'Admin' || contains(groups[*], '@pokt-network/engineering-member') && 'Editor' || 'Viewer'
               enabled: true
               allow_sign_up: true
               scopes: user:email,read:org
