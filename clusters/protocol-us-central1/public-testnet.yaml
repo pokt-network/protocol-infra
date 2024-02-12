@@ -57,6 +57,15 @@ spec:
           className: "premium-rwo"
           size: 10Gi
 
+        ingress:
+          enabled: true
+          annotations:
+            kubernetes.io/ingress.class: nginx
+          hosts:
+            - name: public-testnet-seqeuncer-rpc.poktroll.com
+          tls:
+            secretName: "poktroll-wildcard-tls"
+
         rollkit:
           aggregator: true
           block_time: 60s
