@@ -57,6 +57,9 @@ spec:
           className: "premium-rwo"
           size: 10Gi
 
+        serviceP2P:
+          type: LoadBalancer
+
         ingress:
           enabled: true
           annotations:
