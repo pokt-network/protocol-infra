@@ -35,7 +35,6 @@ spec:
                 memory: 6Gi
                 cpu: 0.5
 
-
           dataAvailability:
             namespace: 34c412725aa69420
 

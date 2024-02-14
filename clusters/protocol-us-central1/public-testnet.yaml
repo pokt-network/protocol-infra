@@ -80,6 +80,7 @@ spec:
         config:
           p2p:
             externalAddress: 34.71.209.90:26656
+            seeds: 'c34e548758c20189ab32f36fae133c2408c2372a@34.66.135.151:26656'
 
         ingress:
           enabled: true
