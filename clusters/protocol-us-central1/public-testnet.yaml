@@ -60,6 +60,10 @@ spec:
         serviceP2P:
           type: LoadBalancer
 
+        config:
+          p2p:
+            externalAddress: 34.71.209.90:26656
+
         ingress:
           enabled: true
           annotations:
