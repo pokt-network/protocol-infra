@@ -34,6 +34,15 @@ spec:
                 storage: 100Gi
                 storageClass: premium-rwo
 
+            resources:
+              limits:
+                memory: 8Gi
+                cpu: 2
+              requests:
+                memory: 6Gi
+                cpu: 0.5
+
+
           dataAvailability:
             namespace: 34c412725aa69420
 
@@ -56,6 +65,14 @@ spec:
           enabled: true
           className: "premium-rwo"
           size: 10Gi
+
+        resources:
+          limits:
+            memory: 8Gi
+            cpu: 4
+          requests:
+            memory: 8Gi
+            cpu: 1.5
 
         serviceP2P:
           type: LoadBalancer

@@ -27,6 +27,14 @@ spec:
               volume:
                 storage: 100Gi
                 storageClass: premium-rwo
+            resources:
+              limits:
+                memory: 8Gi
+                cpu: 2
+              requests:
+                memory: 6Gi
+                cpu: 0.5
+
 
           dataAvailability:
             namespace: 34c412725aa69420
@@ -54,9 +62,17 @@ spec:
         serviceP2P:
           type: LoadBalancer
 
+        resources:
+          limits:
+            memory: 8Gi
+            cpu: 4
+          requests:
+            memory: 8Gi
+            cpu: 1.5
+
         config:
           p2p:
-            externalAddress: '' # TODO: update with new IP like 34.71.209.90:26656
+            externalAddress: '34.66.135.151:26656'
 
         ingress:
           enabled: false
@@ -64,7 +80,7 @@ spec:
         rollkit:
           aggregator: true
           block_time: 60s
-          da_address: '' #"public-testnet-celestia-da:26650"
+          da_address: 'public-testnet-seed1-celestia-da:26650' #"public-testnet-celestia-da:26650"
           da_block_time: 15s
           # da_gas_price: -1
           da_start_height: 1129201 # Latest block on when the rollup starts.
