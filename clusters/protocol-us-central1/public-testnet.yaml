@@ -83,7 +83,7 @@ spec:
             # persistentPeers: "c34e548758c20189ab32f36fae133c2408c2372a@34.66.135.151:26656"
             # unconditionalPeerIds: "c34e548758c20189ab32f36fae133c2408c2372a"
             # seeds: '/ip4/34.66.135.151/tcp/26656/p2p/12D3KooWAajcCS1L8dtnkKH7ZztSuYKqksxcfVxnTt4VKGeKrRsU'
-            seeds: 'tcp://c34e548758c20189ab32f36fae133c2408c2372a@34.66.135.151:26656'
+            # seeds: 'c34e548758c20189ab32f36fae133c2408c2372a@34.66.135.151:26656'
 
         ingress:
           enabled: true
