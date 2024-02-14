@@ -80,7 +80,7 @@ spec:
         config:
           p2p:
             externalAddress: 34.71.209.90:26656
-            persistentPeers: "c34e548758c20189ab32f36fae133c2408c2372a@34.66.135.151:26656"
+            persistentPeers: "c34e548758c20189ab32f36fae133c2408c2372a"
             unconditionalPeerIds: "c34e548758c20189ab32f36fae133c2408c2372a"
             # seeds: '/ip4/34.66.135.151/tcp/26656/p2p/12D3KooWAajcCS1L8dtnkKH7ZztSuYKqksxcfVxnTt4VKGeKrRsU'
             seeds: 'c34e548758c20189ab32f36fae133c2408c2372a@34.66.135.151:26656'
