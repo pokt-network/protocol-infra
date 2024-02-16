@@ -89,6 +89,7 @@ spec:
           aggregator: false
           block_time: 60s
           da_address: 'public-testnet-seed1-celestia-da:26650' #"public-testnet-celestia-da:26650"
+          da_namespace: '00000000000000000000000000000000000000000034cbeef696969420'
           da_block_time: 15s
           # da_gas_price: -1
           da_start_height: 1186883 # Latest block on when the rollup starts.

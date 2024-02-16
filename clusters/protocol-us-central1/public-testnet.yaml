@@ -98,6 +98,7 @@ spec:
           aggregator: true
           block_time: 60s
           da_address: "public-testnet-celestia-da:26650"
+          da_namespace: '00000000000000000000000000000000000000000034cbeef696969420'
           da_block_time: 15s
           da_gas_price: 0.01
           da_gas_multiplier: 1.2
