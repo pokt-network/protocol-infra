@@ -44,7 +44,7 @@ spec:
 
 
           dataAvailability:
-            namespace: 34c4127256969420
+            namespace: 34cbeef696969420
 
         # Can be created with `kubectl create secret generic public-testnet-validator-keys --from-file=config/node_key.json --from-file=config/priv_validator_key.json --namespace=public-testnet`
         nodeKeysSecretName: public-testnet-validator-keys
@@ -99,8 +99,8 @@ spec:
           block_time: 60s
           da_address: "public-testnet-celestia-da:26650"
           da_block_time: 15s
-          da_gas_price: !!float64 0.01
-          da_gas_multiplier: !!float64 1.2
+          da_gas_price: 0.01
+          da_gas_multiplier: 1.2
           da_start_height: 1186258 # Latest block on when the rollup starts.
           # lazy_aggregator: false
           # light: false

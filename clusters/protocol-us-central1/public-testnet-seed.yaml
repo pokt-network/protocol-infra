@@ -36,7 +36,7 @@ spec:
                 cpu: 0.5
 
           dataAvailability:
-            namespace: 34c4127256969420
+            namespace: 34cbeef696969420
 
         # Can be created with `kubectl create secret generic public-testnet-seed1-validator-keys --from-file=config/node_key.json --from-file=config/priv_validator_key.json --namespace=public-testnet-seed1`
         nodeKeysSecretName: public-testnet-seed1-validator-keys
