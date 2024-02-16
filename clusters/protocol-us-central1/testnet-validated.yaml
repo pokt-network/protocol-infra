@@ -1,0 +1,108 @@
+# Secrets such as `testnet-validated-validator-keys` and `celestia-testnet-credentials` are pushed to the cluster manually.
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: testnet-validated
+  namespace: argocd
+  labels:
+    team: "protocol"
+    purpose: "testnets"
+    testnet: "testnet-validated"
+    provisioned-by: "protocol"
+spec:
+  project: default
+  source:
+    path: charts/poktrolld
+    repoURL: https://github.com/pokt-network/helm-charts.git
+    targetRevision: dk-poktrolld-full-node-validated # TODO: change to versioned releases when the work on the helm chart is merged/done
+    helm:
+      values: |
+        celestia-da:
+          enabled: false
+
+        # Can be created with `kubectl create secret generic testnet-validated-validator-keys --from-file=config/node_key.json --from-file=config/priv_validator_key.json --namespace=testnet-validated`
+        nodeKeysSecretName: testnet-validated-validator-keys
+
+        # Can be created with `kubectl create cm testnet-test-genesis --from-file=config/genesis.json --namespace=testnet-validated`
+        # Provisioned below
+        genesis:
+          configMapName: testnet-validated-genesis
+
+        replicaCount: 1
+
+        image:
+          repository: okdas/poktrolld-new-sdk
+          tag: v0.50.1-fix-sequencer-check-6
+          pullPolicy: IfNotPresent
+
+        persistence:
+          enabled: true
+          className: "premium-rwo"
+          size: 10Gi
+
+        resources:
+          limits:
+            memory: 8Gi
+            cpu: 4
+          requests:
+            memory: 8Gi
+            cpu: 1.5
+
+        serviceP2P:
+          type: LoadBalancer
+
+        config:
+          p2p:
+            externalAddress: ""
+            # persistentPeers: "c34e548758c20189ab32f36fae133c2408c2372a@34.66.135.151:26656"
+            # unconditionalPeerIds: "c34e548758c20189ab32f36fae133c2408c2372a"
+            # seeds: '/ip4/34.66.135.151/tcp/26656/p2p/12D3KooWAajcCS1L8dtnkKH7ZztSuYKqksxcfVxnTt4VKGeKrRsU'
+            # seeds: '12D3KooWAajcCS1L8dtnkKH7ZztSuYKqksxcfVxnTt4VKGeKrRsU@34.66.135.151:26656'
+
+        ingress:
+          enabled: true
+          annotations:
+            kubernetes.io/ingress.class: nginx
+          hosts:
+            - name: testnet-validated-seqeuncer-rpc.poktroll.com
+          tls:
+            secretName: "poktroll-wildcard-tls"
+
+        # rollkit:
+        #   aggregator: true
+        #   block_time: 60s
+        #   da_address: "testnet-validated-celestia-da:26650"
+        #   da_block_time: 15s
+        #   # da_gas_price: -1
+        #   da_start_height: 1129201 # Latest block on when the rollup starts.
+        #   # lazy_aggregator: false
+        #   # light: false
+        #   # trusted_hash: "" # Assuming an empty string as default, replace with actual hash if needed
+
+  destination:
+    namespace: testnet-validated
+    server: https://kubernetes.default.svc
+  # syncPolicy:
+  #   syncOptions:
+  #   - Validate=false
+  # ignoreDifferences:
+  # - group: apiextensions.k8s.io
+  #   kind: CustomResourceDefinition
+  #   jsonPointers:
+  #   - /status
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: testnet-validated
+---
+apiVersion: v1
+data:
+  genesis.json: |
+    {
+    }
+kind: ConfigMap
+metadata:
+  name: testnet-validated-genesis
+  namespace: testnet-validated
