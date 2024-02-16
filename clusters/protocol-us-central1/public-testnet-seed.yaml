@@ -91,7 +91,7 @@ spec:
           da_address: 'public-testnet-seed1-celestia-da:26650' #"public-testnet-celestia-da:26650"
           da_block_time: 15s
           # da_gas_price: -1
-          da_start_height: 1186258 # Latest block on when the rollup starts.
+          da_start_height: 1186883 # Latest block on when the rollup starts.
           # lazy_aggregator: false
           # light: false
           # trusted_hash: "" # Assuming an empty string as default, replace with actual hash if needed
