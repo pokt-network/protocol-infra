@@ -36,6 +36,10 @@ spec:
                   args+=("--from-file=$filename=$filepath")
                 fi
               done
+              if [ ${#args[@]} -gt 0 ]; then
+                echo "Creating $kind $name with files: ${args[*]}"
+                kubectl create secret generic $name "${args[@]}"
+              fi
             elif [ "$kind" = "configmap" ]; then
               for filepath in $directory/*; do
                 if [ -f "$filepath" ]; then
@@ -45,10 +49,11 @@ spec:
                   fi
                 fi
               done
+              if [ ${#args[@]} -gt 0 ]; then
+                echo "Creating $kind $name with files: ${args[*]}"
+                kubectl create configmap $name "${args[@]}"
+              fi
             fi
-
-            echo "Creating $kind $name with files: ${args[*]}"
-            kubectl create $kind $name "${args[@]}"
           }
 
           function cleanup_old_resources() {
