@@ -31,6 +31,8 @@ spec:
           enabled: true
           className: "premium-rwo"
           size: 10Gi
+          useCustomName: true
+          customName: {{ printf "validator-%s" .Values.image.tag }}
 
         resources:
           limits:
