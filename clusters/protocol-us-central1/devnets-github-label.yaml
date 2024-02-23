@@ -79,7 +79,7 @@ spec:
       syncPolicy:
         automated:
           prune: true
-          selfHeal: true
+          selfHeal: false # TODO(@okdas): flip back
         syncOptions:
           - CreateNamespace=true
           - Replace=true
