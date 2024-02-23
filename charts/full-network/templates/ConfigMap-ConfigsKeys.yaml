@@ -30,12 +30,23 @@ spec:
 
             local args=()
             if [ "$kind" = "secret" ]; then
-              for filename in "${filenames[@]}"; do
-                local filepath="${directory}/${filename}"
-                if [ -f "$filepath" ]; then
-                  args+=("--from-file=$filename=$filepath")
-                fi
-              done
+              if [ ${#filenames[@]} -eq 0 ]; then
+                # No specific filenames provided, include all files from the directory
+                for filepath in $directory/*; do
+                  if [ -f "$filepath" ]; then
+                    local filename=$(basename "$filepath")
+                    args+=("--from-file=$filename=$filepath")
+                  fi
+                done
+              else
+                # Specific filenames provided, include only those files
+                for filename in "${filenames[@]}"; do
+                  local filepath="${directory}/${filename}"
+                  if [ -f "$filepath" ]; then
+                    args+=("--from-file=$filename=$filepath")
+                  fi
+                done
+              fi
               if [ ${#args[@]} -gt 0 ]; then
                 echo "Creating $kind $name with files: ${args[*]}"
                 kubectl create secret generic $name "${args[@]}"
