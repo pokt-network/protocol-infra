@@ -49,7 +49,7 @@ spec:
         namespace: devnet-issue-{{number}}
       project: default
       source:
-        path: charts/rollkit-based-network
+        path: charts/full-network
         repoURL: https://github.com/pokt-network/protocol-infra.git
         targetRevision: main
         helm:
