@@ -15,12 +15,12 @@ spec:
   source:
     path: charts/appgate-server
     repoURL: https://github.com/pokt-network/helm-charts.git
-    targetRevision: {{ .Values.charts.appgate.branch }}
+    targetRevision: dk-poktrolld-full-node # TODO: change to versioned releases when the work on the helm chart is merged/done # {{ .Values.charts.appgate.branch }}
     helm: 
       values: |
         fullnameOverride: {{ .Values.network.type }}-{{ .Values.network.name }}-appgate-server
         configsConfigMapName: {{ default (printf "configs-%s" .Values.image.tag) .Values.customConfigMap.configsName }}
-        keysConfigMapName: {{ default (printf "keys-%s" .Values.image.tag) .Values.customConfigMap.keysName }}
+        keysSecretName: {{ default (printf "keys-%s" .Values.image.tag) .Values.customConfigMap.keysName }}
         resources:
           limits:
             cpu: 2
