@@ -35,15 +35,10 @@ spec:
         image:
           tag: {{ .Values.image.tag }}
         config:
-          # \/ Keep for backwards compatibility
-          query_node_url: tcp://{{ .Values.network.type }}-{{ .Values.network.name }}-sequencer:36657
-          network_node_url: tcp://{{ .Values.network.type }}-{{ .Values.network.name }}-sequencer:36657
-          # ^ Keep for backwards compatibility
-
           pocket_node:
-            query_node_rpc_url: tcp://{{ .Values.network.type }}-{{ .Values.network.name }}-sequencer:36657
-            query_node_grpc_url: tcp://{{ .Values.network.type }}-{{ .Values.network.name }}-sequencer:36658
-            tx_node_rpc_url: tcp://{{ .Values.network.type }}-{{ .Values.network.name }}-sequencer:36657
+            query_node_rpc_url: tcp://{{ .Values.network.type }}-{{ .Values.network.name }}-validator-poktrolld:36657
+            query_node_grpc_url: tcp://{{ .Values.network.type }}-{{ .Values.network.name }}-validator-poktrolld:36658
+            tx_node_rpc_url: tcp://{{ .Values.network.type }}-{{ .Values.network.name }}-validator-poktrolld:36657
 
           proxies:
             - proxy_name: http-proxy

@@ -35,10 +35,10 @@ spec:
           serviceMonitor:
             enabled: true
         config:
-          query_node_url: tcp://{{ .Values.network.type }}-{{ .Values.network.name }}-sequencer:36657
+          query_node_url: tcp://{{ .Values.network.type }}-{{ .Values.network.name }}-validator-poktrolld:36657
           listening_endpoint: http://0.0.0.0:80
-          query_node_rpc_url: tcp://{{ .Values.network.type }}-{{ .Values.network.name }}-sequencer:36657
-          query_node_grpc_url: tcp://{{ .Values.network.type }}-{{ .Values.network.name }}-sequencer:36658
+          query_node_rpc_url: tcp://{{ .Values.network.type }}-{{ .Values.network.name }}-validator-poktrolld:36657
+          query_node_grpc_url: tcp://{{ .Values.network.type }}-{{ .Values.network.name }}-validator-poktrolld:36658
         image:
           tag: {{ .Values.image.tag }}
   syncPolicy:
