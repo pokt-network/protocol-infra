@@ -17,6 +17,7 @@ spec:
     targetRevision: dk-poktrolld-full-node # TODO: change to versioned releases when the work on the helm chart is merged/done
     helm:
       values: |
+        purpose: validator
         nodeKeysSecretName: {{ default (printf "config-keys-%s" .Values.image.tag) .Values.customConfigMap.configsName }}
         genesis:
           configMapName: {{ default (printf "configs-%s" .Values.image.tag) .Values.customConfigMap.configsName }}
