@@ -8,9 +8,9 @@ spec:
   template:
     metadata:
       labels:
-        pokt.network/purpose: configmap-creator
+        pokt.network/purpose: configmap-and-secret-creator
     spec:
-      serviceAccountName: configmap-creator
+      serviceAccountName: configmap-and-secret-creator
       containers:
       - name: creator
         image: ghcr.io/pokt-network/poktrolld:{{ .Values.image.tag }}
@@ -20,71 +20,89 @@ spec:
         - |
           tag="{{ .Values.image.tag }}"
 
-          function create_configmap() {
-            local base_name=$1
-            local directory=$2
+          function create_resource() {
+            local kind=$1  # "configmap" or "secret"
+            local base_name=$2
+            local directory=$3
+            shift 3
+            local filenames=("$@")  # Filenames to include or exclude, based on kind
             local name="${base_name}-${tag}"
 
             local args=()
-            for filepath in $directory/*; do
-              if [ -f "$filepath" ]; then
-                local filename=$(basename "$filepath")
-                args+=("--from-file=$filename=$filepath")
-              fi
-            done
+            if [ "$kind" = "secret" ]; then
+              for filename in "${filenames[@]}"; do
+                local filepath="${directory}/${filename}"
+                if [ -f "$filepath" ]; then
+                  args+=("--from-file=$filename=$filepath")
+                fi
+              done
+            elif [ "$kind" = "configmap" ]; then
+              for filepath in $directory/*; do
+                if [ -f "$filepath" ]; then
+                  local filename=$(basename "$filepath")
+                  if [[ ! " ${filenames[@]} " =~ " ${filename} " ]]; then
+                    args+=("--from-file=$filename=$filepath")
+                  fi
+                fi
+              done
+            fi
 
-            echo "Using files: ${args[@]}"
-
-            kubectl create configmap $name "${args[@]}"
+            echo "Creating $kind $name with files: ${args[*]}"
+            kubectl create $kind $name "${args[@]}"
           }
 
-          function cleanup_old_configmaps() {
-            local base_name=$1
-            local configmaps=$(kubectl get configmap -o=jsonpath='{.items[*].metadata.name}' | tr ' ' '\n' | grep "^${base_name}-")
+          function cleanup_old_resources() {
+            local kind=$1  # "configmap" or "secret"
+            local base_name=$2
+            local resources=$(kubectl get $kind -o=jsonpath='{.items[*].metadata.name}' | tr ' ' '\n' | grep "^${base_name}-")
 
-            for cm in $configmaps; do
-              if [ "$cm" != "${base_name}-${tag}" ]; then
-                kubectl delete configmap $cm
+            for resource in $resources; do
+              if [ "$resource" != "${base_name}-${tag}" ]; then
+                kubectl delete $kind $resource
               fi
             done
           }
 
-          # Init chain, genesis and config maps
-          # ignite chain init
+          # Create and clean up Secrets for keyring-test directory
+          create_resource "secret" "keys" "/root/.poktroll/keyring-test/"
 
-          # Create and clean up ConfigMaps
-          create_configmap "keys" "/root/.poktroll/keyring-test/"
-          cleanup_old_configmaps "keys"
-          create_configmap "configs" "/root/.poktroll/config/"
-          cleanup_old_configmaps "configs"
+          # Create and clean up ConfigMap for configs, excluding specific files
+          create_resource "configmap" "configs" "/root/.poktroll/config/" "node_key.json" "priv_validator_key.json"
+
+          # Create and clean up Secret for node_key.json and priv_validator_key.json only
+          create_resource "secret" "config-keys" "/root/.poktroll/config/" "node_key.json" "priv_validator_key.json"
+
+          cleanup_old_resources "secret" "keys"
+          cleanup_old_resources "configmap" "configs"
+          cleanup_old_resources "secret" "config-keys"
 
       restartPolicy: Never
 ---
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-  name: configmap-creator
+  name: configmap-and-secret-creator
   namespace: {{ .Values.network.type }}-{{ .Values.network.name }}
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
-  name: configmap-creator-role
+  name: configmap-and-secret-creator-role
   namespace: {{ .Values.network.type }}-{{ .Values.network.name }}
 rules:
 - apiGroups: [""]
-  resources: ["configmaps"]
+  resources: ["configmaps", "secrets"]
   verbs: ["create", "get", "list", "delete", "update"]
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
-  name: configmap-creator-role-binding
+  name: configmap-and-secret-creator-role-binding
   namespace: {{ .Values.network.type }}-{{ .Values.network.name }}
 subjects:
 - kind: ServiceAccount
-  name: configmap-creator
+  name: configmap-and-secret-creator
 roleRef:
   kind: Role
-  name: configmap-creator-role
+  name: configmap-and-secret-creator-role
   apiGroup: rbac.authorization.k8s.io
