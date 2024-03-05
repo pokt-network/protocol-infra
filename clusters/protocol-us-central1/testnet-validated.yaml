@@ -65,7 +65,7 @@ spec:
           annotations:
             kubernetes.io/ingress.class: nginx
           hosts:
-            - name: testnet-validated-seqeuncer-rpc.poktroll.com
+            - name: testnet-validated-validator-rpc.poktroll.com
           tls:
             secretName: "poktroll-wildcard-tls"
 
