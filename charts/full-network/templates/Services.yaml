@@ -24,6 +24,20 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
+  name: relayminer1
+  namespace: {{ .Values.network.type }}-{{ .Values.network.name }}
+spec:
+  selector:
+    pokt.network/purpose: relayminer
+  ports:
+  - name: http
+    port: 8545
+    protocol: TCP
+    targetPort: 8545
+---
+apiVersion: v1
+kind: Service
+metadata:
   name: sequencer-poktroll-sequencer
   namespace: {{ .Values.network.type }}-{{ .Values.network.name }}
 spec:
