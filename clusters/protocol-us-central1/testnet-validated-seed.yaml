@@ -29,8 +29,8 @@ spec:
         replicaCount: 1
 
         image:
-          repository: okdas/poktrolld-new-sdk
-          tag: v0.50.3-1
+          repository: ghcr.io/pokt-network/poktrolld
+          tag: sha-6f62727
           pullPolicy: IfNotPresent
 
         persistence:
