@@ -298,7 +298,7 @@ data:
     reactor is disabled.\nseed_mode = false\n\n# Comma separated list of peer IDs
     to keep private (will not be gossiped to other peers)\nprivate_peer_ids = \"\"\n\n#
     Toggle to disable guard against peers connecting from the same ip.\nallow_duplicate_ip
-    = false\n\n# Peer connection configuration.\nhandshake_timeout = \"20s\"\ndial_timeout
+    = true\n\n# Peer connection configuration.\nhandshake_timeout = \"20s\"\ndial_timeout
     = \"3s\"\n\n#######################################################\n###          Mempool
     Configuration Option          ###\n#######################################################\n[mempool]\n\n#
     The type of mempool for this node to use.\n#\n#  Possible types:\n#  - \"flood\"
