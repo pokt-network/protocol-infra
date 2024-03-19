@@ -51,6 +51,8 @@ spec:
 
         serviceP2P:
           type: LoadBalancer
+          annotations:
+            cloud.google.com/neg: '{"ingress":true}'
 
         config:
           p2p:
