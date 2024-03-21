@@ -27,6 +27,9 @@ spec:
         image:
           tag: {{ .Values.image.tag }}
 
+        serviceMonitor:
+          enabled: true
+
         persistence:
           enabled: true
           className: "premium-rwo"
