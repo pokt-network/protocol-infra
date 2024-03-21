@@ -40,6 +40,7 @@ spec:
 
         serviceP2P:
           type: LoadBalancer
+          externalTrafficPolicy: Local
           annotations:
             cloud.google.com/neg: '{"ingress":true}'
 
