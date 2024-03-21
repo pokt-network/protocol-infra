@@ -52,6 +52,8 @@ spec:
             memory: 8Gi
             cpu: 1.5
 
+        serviceMonitor:
+          enabled: true
 
         config:
           p2p:

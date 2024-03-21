@@ -63,6 +63,9 @@ spec:
             # seeds: '/ip4/34.66.135.151/tcp/26656/p2p/12D3KooWAajcCS1L8dtnkKH7ZztSuYKqksxcfVxnTt4VKGeKrRsU'
             # seeds: '12D3KooWAajcCS1L8dtnkKH7ZztSuYKqksxcfVxnTt4VKGeKrRsU@34.66.135.151:26656'
 
+        serviceMonitor:
+          enabled: true
+
         ingress:
           rpc:
             enabled: true
