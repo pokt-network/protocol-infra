@@ -187,7 +187,7 @@ data:
     to the home directory (e.g. \"data\"). The home directory is\n# \"$HOME/.cometbft\"
     by default, but could be changed via $CMTHOME env variable\n# or --home cmd flag.\n\n#
     The version of the CometBFT binary that created or\n# last modified the config
-    file. Do not modify this.\nversion = \"0.38.2\"\n\n#######################################################################\n###
+    file. Do not modify this.\nversion = \"0.38.5\"\n\n#######################################################################\n###
     \                  Main Base Config Options                      ###\n#######################################################################\n\n#
     TCP or UNIX socket address of the ABCI application,\n# or the name of an ABCI
     application compiled in with the CometBFT binary\nproxy_app = \"tcp://127.0.0.1:26658\"\n\n#
