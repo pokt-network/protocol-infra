@@ -171,7 +171,7 @@ data:
       enable-hostname = false
       enable-hostname-label = false
       enable-service-label = false
-      enabled = false
+      enabled = true
       global-labels = []
       prometheus-retention-time = 0
       service-name = ""
@@ -302,7 +302,7 @@ data:
     reactor is disabled.\nseed_mode = false\n\n# Comma separated list of peer IDs
     to keep private (will not be gossiped to other peers)\nprivate_peer_ids = \"\"\n\n#
     Toggle to disable guard against peers connecting from the same ip.\nallow_duplicate_ip
-    = true\n\n# Peer connection configuration.\nhandshake_timeout = \"20s\"\ndial_timeout
+    = false\n\n# Peer connection configuration.\nhandshake_timeout = \"20s\"\ndial_timeout
     = \"3s\"\n\n#######################################################\n###          Mempool
     Configuration Option          ###\n#######################################################\n[mempool]\n\n#
     The type of mempool for this node to use.\n#\n#  Possible types:\n#  - \"flood\"
@@ -405,7 +405,7 @@ data:
     = \"\"\n\n#######################################################\n###       Instrumentation
     Configuration Options     ###\n#######################################################\n[instrumentation]\n\n#
     When true, Prometheus metrics are served under /metrics on\n# PrometheusListenAddr.\n#
-    Check out the documentation for the list of available metrics.\nprometheus = false\n\n#
+    Check out the documentation for the list of available metrics.\nprometheus = true\n\n#
     Address to listen for Prometheus collector(s) connections\nprometheus_listen_addr
     = \":26660\"\n\n# Maximum number of simultaneous connections.\n# If you want to
     accept a larger number than the default, make sure\n# you increase your OS limits.\n#
