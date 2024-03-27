@@ -33,7 +33,7 @@ spec:
 
         image:
           repository: ghcr.io/pokt-network/poktrolld
-          tag: sha-e0f7978
+          tag: sha-d3e8040
           pullPolicy: IfNotPresent
 
         persistence:
