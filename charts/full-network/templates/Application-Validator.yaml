@@ -14,7 +14,7 @@ spec:
   source:
     path: charts/poktrolld
     repoURL: https://github.com/pokt-network/helm-charts.git
-    targetRevision: dk-poktrolld-full-node # TODO: change to versioned releases when the work on the helm chart is merged/done
+    targetRevision: dk-poktrolld-full-node-devnets # TODO: change to versioned releases when the work on the helm chart is merged/done
     helm:
       values: |
         purpose: validator
