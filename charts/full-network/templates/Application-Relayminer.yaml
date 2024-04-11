@@ -23,7 +23,7 @@ spec:
         keysSecretName: {{ default (printf "keys-%s" .Values.image.tag) .Values.customConfigMap.keysName }}
         resources:
           limits:
-            cpu: 2
+            cpu: 0.5
             memory: 1Gi
           requests:
             cpu: 0.25
