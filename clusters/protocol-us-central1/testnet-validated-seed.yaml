@@ -1,5 +1,4 @@
 # Secrets such as `testnet-validated-seed1-validator-keys` are pushed to the cluster manually.
----
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
@@ -15,7 +14,7 @@ spec:
   source:
     path: charts/poktrolld
     repoURL: https://github.com/pokt-network/helm-charts.git
-    targetRevision: dk-poktrolld-full-node-devnets # TODO: change to versioned releases when the work on the helm chart is merged/done
+    targetRevision: main # TODO: change to versioned releases when the work on the helm chart is merged/done
     helm:
       values: |
         # Can be created with `kubectl create secret generic testnet-validated-seed1-validator-keys --from-file=config/node_key.json --from-file=config/priv_validator_key.json --namespace=testnet-validated-seed1`

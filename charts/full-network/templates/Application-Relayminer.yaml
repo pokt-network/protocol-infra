@@ -15,7 +15,7 @@ spec:
   source:
     path: charts/relayminer
     repoURL: https://github.com/pokt-network/helm-charts.git
-    targetRevision: dk-poktrolld-full-node-devnets # TODO: change to versioned releases when the work on the helm chart is merged/done # {{ .Values.charts.relayminer.branch }}
+    targetRevision: main # TODO: change to versioned releases when the work on the helm chart is merged/done # {{ .Values.charts.relayminer.branch }}
     helm: 
       values: |
         fullnameOverride: {{ .Values.network.type }}-{{ .Values.network.name }}-relayminer

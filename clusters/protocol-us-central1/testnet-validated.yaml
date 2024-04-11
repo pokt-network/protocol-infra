@@ -1,5 +1,4 @@
 # Secrets such as `testnet-validated-validator-keys` and `celestia-testnet-credentials` are pushed to the cluster manually.
----
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
@@ -15,7 +14,7 @@ spec:
   source:
     path: charts/poktrolld
     repoURL: https://github.com/pokt-network/helm-charts.git
-    targetRevision: dk-poktrolld-full-node-devnets # TODO: change to versioned releases when the work on the helm chart is merged/done
+    targetRevision: main # TODO: change to versioned releases when the work on the helm chart is merged/done
     helm:
       values: |
         celestia-da:
@@ -100,14 +99,14 @@ spec:
   destination:
     namespace: testnet-validated
     server: https://kubernetes.default.svc
-  # syncPolicy:
-  #   syncOptions:
-  #   - Validate=false
-  # ignoreDifferences:
-  # - group: apiextensions.k8s.io
-  #   kind: CustomResourceDefinition
-  #   jsonPointers:
-  #   - /status
+    # syncPolicy:
+    #   syncOptions:
+    #   - Validate=false
+    # ignoreDifferences:
+    # - group: apiextensions.k8s.io
+    #   kind: CustomResourceDefinition
+    #   jsonPointers:
+    #   - /status
 ---
 apiVersion: v1
 kind: Namespace
@@ -181,236 +180,7 @@ data:
     keyring-backend = "test"
     node = "tcp://localhost:26657"
     output = "text"
-  config.toml:
-    "# This is a TOML config file.\n# For more information, see https://github.com/toml-lang/toml\n\n#
-    NOTE: Any path below can be absolute (e.g. \"/var/myawesomeapp/data\") or\n# relative
-    to the home directory (e.g. \"data\"). The home directory is\n# \"$HOME/.cometbft\"
-    by default, but could be changed via $CMTHOME env variable\n# or --home cmd flag.\n\n#
-    The version of the CometBFT binary that created or\n# last modified the config
-    file. Do not modify this.\nversion = \"0.38.5\"\n\n#######################################################################\n###
-    \                  Main Base Config Options                      ###\n#######################################################################\n\n#
-    TCP or UNIX socket address of the ABCI application,\n# or the name of an ABCI
-    application compiled in with the CometBFT binary\nproxy_app = \"tcp://127.0.0.1:26658\"\n\n#
-    A custom human readable name for this node\nmoniker = \"sequencer1\"\n\n# Database
-    backend: goleveldb | cleveldb | boltdb | rocksdb | badgerdb\n# * goleveldb (github.com/syndtr/goleveldb
-    - most popular implementation)\n#   - pure go\n#   - stable\n# * cleveldb (uses
-    levigo wrapper)\n#   - fast\n#   - requires gcc\n#   - use cleveldb build tag
-    (go build -tags cleveldb)\n# * boltdb (uses etcd's fork of bolt - github.com/etcd-io/bbolt)\n#
-    \  - EXPERIMENTAL\n#   - may be faster is some use-cases (random reads - indexer)\n#
-    \  - use boltdb build tag (go build -tags boltdb)\n# * rocksdb (uses github.com/tecbot/gorocksdb)\n#
-    \  - EXPERIMENTAL\n#   - requires gcc\n#   - use rocksdb build tag (go build -tags
-    rocksdb)\n# * badgerdb (uses github.com/dgraph-io/badger)\n#   - EXPERIMENTAL\n#
-    \  - use badgerdb build tag (go build -tags badgerdb)\ndb_backend = \"goleveldb\"\n\n#
-    Database directory\ndb_dir = \"data\"\n\n# Output level for logging, including
-    package level options\nlog_level = \"info\"\n\n# Output format: 'plain' (colored
-    text) or 'json'\nlog_format = \"plain\"\n\n##### additional base config options
-    #####\n\n# Path to the JSON file containing the initial validator set and other
-    meta data\ngenesis_file = \"config/genesis.json\"\n\n# Path to the JSON file containing
-    the private key to use as a validator in the consensus protocol\npriv_validator_key_file
-    = \"config/priv_validator_key.json\"\n\n# Path to the JSON file containing the
-    last sign state of a validator\npriv_validator_state_file = \"data/priv_validator_state.json\"\n\n#
-    TCP or UNIX socket address for CometBFT to listen on for\n# connections from an
-    external PrivValidator process\npriv_validator_laddr = \"\"\n\n# Path to the JSON
-    file containing the private key to use for node authentication in the p2p protocol\nnode_key_file
-    = \"config/node_key.json\"\n\n# Mechanism to connect to the ABCI application:
-    socket | grpc\nabci = \"socket\"\n\n# If true, query the ABCI app on connecting
-    to a new peer\n# so the app can decide if we should keep the connection or not\nfilter_peers
-    = false\n\n\n#######################################################################\n###
-    \                Advanced Configuration Options                  ###\n#######################################################################\n\n#######################################################\n###
-    \      RPC Server Configuration Options          ###\n#######################################################\n[rpc]\n\n#
-    TCP or UNIX socket address for the RPC server to listen on\nladdr = \"tcp://0.0.0.0:26657\"\n\n#
-    A list of origins a cross-domain request can be executed from\n# Default value
-    '[]' disables cors support\n# Use '[\"*\"]' to allow any origin\ncors_allowed_origins
-    = [\"*\", ]\n\n# A list of methods the client is allowed to use with cross-domain
-    requests\ncors_allowed_methods = [\"HEAD\", \"GET\", \"POST\", ]\n\n# A list of
-    non simple headers the client is allowed to use with cross-domain requests\ncors_allowed_headers
-    = [\"Origin\", \"Accept\", \"Content-Type\", \"X-Requested-With\", \"X-Server-Time\",
-    ]\n\n# TCP or UNIX socket address for the gRPC server to listen on\n# NOTE: This
-    server only supports /broadcast_tx_commit\ngrpc_laddr = \"\"\n\n# Maximum number
-    of simultaneous connections.\n# Does not include RPC (HTTP&WebSocket) connections.
-    See max_open_connections\n# If you want to accept a larger number than the default,
-    make sure\n# you increase your OS limits.\n# 0 - unlimited.\n# Should be < {ulimit
-    -Sn} - {MaxNumInboundPeers} - {MaxNumOutboundPeers} - {N of wal, db and other
-    open files}\n# 1024 - 40 - 10 - 50 = 924 = ~900\ngrpc_max_open_connections = 900\n\n#
-    Activate unsafe RPC commands like /dial_seeds and /unsafe_flush_mempool\nunsafe
-    = false\n\n# Maximum number of simultaneous connections (including WebSocket).\n#
-    Does not include gRPC connections. See grpc_max_open_connections\n# If you want
-    to accept a larger number than the default, make sure\n# you increase your OS
-    limits.\n# 0 - unlimited.\n# Should be < {ulimit -Sn} - {MaxNumInboundPeers} -
-    {MaxNumOutboundPeers} - {N of wal, db and other open files}\n# 1024 - 40 - 10
-    - 50 = 924 = ~900\nmax_open_connections = 900\n\n# Maximum number of unique clientIDs
-    that can /subscribe\n# If you're using /broadcast_tx_commit, set to the estimated
-    maximum number\n# of broadcast_tx_commit calls per block.\nmax_subscription_clients
-    = 100\n\n# Maximum number of unique queries a given client can /subscribe to\n#
-    If you're using GRPC (or Local RPC client) and /broadcast_tx_commit, set to\n#
-    the estimated # maximum number of broadcast_tx_commit calls per block.\nmax_subscriptions_per_client
-    = 5\n\n# Experimental parameter to specify the maximum number of events a node
-    will\n# buffer, per subscription, before returning an error and closing the\n#
-    subscription. Must be set to at least 100, but higher values will accommodate\n#
-    higher event throughput rates (and will use more memory).\nexperimental_subscription_buffer_size
-    = 200\n\n# Experimental parameter to specify the maximum number of RPC responses
-    that\n# can be buffered per WebSocket client. If clients cannot read from the\n#
-    WebSocket endpoint fast enough, they will be disconnected, so increasing this\n#
-    parameter may reduce the chances of them being disconnected (but will cause\n#
-    the node to use more memory).\n#\n# Must be at least the same as \"experimental_subscription_buffer_size\",\n#
-    otherwise connections could be dropped unnecessarily. This value should\n# ideally
-    be somewhat higher than \"experimental_subscription_buffer_size\" to\n# accommodate
-    non-subscription-related RPC responses.\nexperimental_websocket_write_buffer_size
-    = 200\n\n# If a WebSocket client cannot read fast enough, at present we may\n#
-    silently drop events instead of generating an error or disconnecting the\n# client.\n#\n#
-    Enabling this experimental parameter will cause the WebSocket connection to\n#
-    be closed instead if it cannot read fast enough, allowing for greater\n# predictability
-    in subscription behavior.\nexperimental_close_on_slow_client = false\n\n# How
-    long to wait for a tx to be committed during /broadcast_tx_commit.\n# WARNING:
-    Using a value larger than 10s will result in increasing the\n# global HTTP write
-    timeout, which applies to all connections and endpoints.\n# See https://github.com/tendermint/tendermint/issues/3435\ntimeout_broadcast_tx_commit
-    = \"10s\"\n\n# Maximum size of request body, in bytes\nmax_body_bytes = 1000000\n\n#
-    Maximum size of request header, in bytes\nmax_header_bytes = 1048576\n\n# The
-    path to a file containing certificate that is used to create the HTTPS server.\n#
-    Might be either absolute path or path related to CometBFT's config directory.\n#
-    If the certificate is signed by a certificate authority,\n# the certFile should
-    be the concatenation of the server's certificate, any intermediates,\n# and the
-    CA's certificate.\n# NOTE: both tls_cert_file and tls_key_file must be present
-    for CometBFT to create HTTPS server.\n# Otherwise, HTTP server is run.\ntls_cert_file
-    = \"\"\n\n# The path to a file containing matching private key that is used to
-    create the HTTPS server.\n# Might be either absolute path or path related to CometBFT's
-    config directory.\n# NOTE: both tls-cert-file and tls-key-file must be present
-    for CometBFT to create HTTPS server.\n# Otherwise, HTTP server is run.\ntls_key_file
-    = \"\"\n\n# pprof listen address (https://golang.org/pkg/net/http/pprof)\npprof_laddr
-    = \"localhost:6060\"\n\n#######################################################\n###
-    \          P2P Configuration Options             ###\n#######################################################\n[p2p]\n\n#
-    Address to listen for incoming connections\nladdr = \"tcp://0.0.0.0:26656\"\n\n#
-    Address to advertise to peers for them to dial. If empty, will use the same\n#
-    port as the laddr, and will introspect on the listener to figure out the\n# address.
-    IP and port are required. Example: 159.89.10.97:26656\nexternal_address = \"\"\n\n#
-    Comma separated list of seed nodes to connect to\nseeds = \"\"\n\n# Comma separated
-    list of nodes to keep persistent connections to\npersistent_peers = \"\"\n\n#
-    Path to address book\naddr_book_file = \"config/addrbook.json\"\n\n# Set true
-    for strict address routability rules\n# Set false for private or local networks\naddr_book_strict
-    = true\n\n# Maximum number of inbound peers\nmax_num_inbound_peers = 40\n\n# Maximum
-    number of outbound peers to connect to, excluding persistent peers\nmax_num_outbound_peers
-    = 10\n\n# List of node IDs, to which a connection will be (re)established ignoring
-    any existing limits\nunconditional_peer_ids = \"\"\n\n# Maximum pause when redialing
-    a persistent peer (if zero, exponential backoff is used)\npersistent_peers_max_dial_period
-    = \"0s\"\n\n# Time to wait before flushing messages out on the connection\nflush_throttle_timeout
-    = \"100ms\"\n\n# Maximum size of a message packet payload, in bytes\nmax_packet_msg_payload_size
-    = 1024\n\n# Rate at which packets can be sent, in bytes/second\nsend_rate = 5120000\n\n#
-    Rate at which packets can be received, in bytes/second\nrecv_rate = 5120000\n\n#
-    Set true to enable the peer-exchange reactor\npex = true\n\n# Seed mode, in which
-    node constantly crawls the network and looks for\n# peers. If another node asks
-    it for addresses, it responds and disconnects.\n#\n# Does not work if the peer-exchange
-    reactor is disabled.\nseed_mode = false\n\n# Comma separated list of peer IDs
-    to keep private (will not be gossiped to other peers)\nprivate_peer_ids = \"\"\n\n#
-    Toggle to disable guard against peers connecting from the same ip.\nallow_duplicate_ip
-    = false\n\n# Peer connection configuration.\nhandshake_timeout = \"20s\"\ndial_timeout
-    = \"3s\"\n\n#######################################################\n###          Mempool
-    Configuration Option          ###\n#######################################################\n[mempool]\n\n#
-    The type of mempool for this node to use.\n#\n#  Possible types:\n#  - \"flood\"
-    : concurrent linked list mempool with flooding gossip protocol\n#  (default)\n#
-    \ - \"nop\"   : nop-mempool (short for no operation; the ABCI app is responsible\n#
-    \ for storing, disseminating and proposing txs). \"create_empty_blocks=false\"
-    is\n#  not supported.\ntype = \"flood\"\n\n# Recheck (default: true) defines whether
-    CometBFT should recheck the\n# validity for all remaining transaction in the mempool
-    after a block.\n# Since a block affects the application state, some transactions
-    in the\n# mempool may become invalid. If this does not apply to your application,\n#
-    you can disable rechecking.\nrecheck = true\n\n# Broadcast (default: true) defines
-    whether the mempool should relay\n# transactions to other peers. Setting this
-    to false will stop the mempool\n# from relaying transactions to other peers until
-    they are included in a\n# block. In other words, if Broadcast is disabled, only
-    the peer you send\n# the tx to will see it until it is included in a block.\nbroadcast
-    = true\n\n# WalPath (default: \"\") configures the location of the Write Ahead
-    Log\n# (WAL) for the mempool. The WAL is disabled by default. To enable, set\n#
-    WalPath to where you want the WAL to be written (e.g.\n# \"data/mempool.wal\").\nwal_dir
-    = \"\"\n\n# Maximum number of transactions in the mempool\nsize = 5000\n\n# Limit
-    the total size of all txs in the mempool.\n# This only accounts for raw transactions
-    (e.g. given 1MB transactions and\n# max_txs_bytes=5MB, mempool will only accept
-    5 transactions).\nmax_txs_bytes = 1073741824\n\n# Size of the cache (used to filter
-    transactions we saw earlier) in transactions\ncache_size = 10000\n\n# Do not remove
-    invalid transactions from the cache (default: false)\n# Set to true if it's not
-    possible for any invalid transaction to become valid\n# again in the future.\nkeep-invalid-txs-in-cache
-    = false\n\n# Maximum size of a single transaction.\n# NOTE: the max size of a
-    tx transmitted over the network is {max_tx_bytes}.\nmax_tx_bytes = 1048576\n\n#
-    Maximum size of a batch of transactions to send to a peer\n# Including space needed
-    by encoding (one varint per transaction).\n# XXX: Unused due to https://github.com/tendermint/tendermint/issues/5796\nmax_batch_bytes
-    = 0\n\n# Experimental parameters to limit gossiping txs to up to the specified
-    number of peers.\n# We use two independent upper values for persistent and non-persistent
-    peers.\n# Unconditional peers are not affected by this feature.\n# If we are connected
-    to more than the specified number of persistent peers, only send txs to\n# ExperimentalMaxGossipConnectionsToPersistentPeers
-    of them. If one of those\n# persistent peers disconnects, activate another persistent
-    peer.\n# Similarly for non-persistent peers, with an upper limit of\n# ExperimentalMaxGossipConnectionsToNonPersistentPeers.\n#
-    If set to 0, the feature is disabled for the corresponding group of peers, that
-    is, the\n# number of active connections to that group of peers is not bounded.\n#
-    For non-persistent peers, if enabled, a value of 10 is recommended based on experimental\n#
-    performance results using the default P2P configuration.\nexperimental_max_gossip_connections_to_persistent_peers
-    = 0\nexperimental_max_gossip_connections_to_non_persistent_peers = 0\n\n#######################################################\n###
-    \        State Sync Configuration Options        ###\n#######################################################\n[statesync]\n#
-    State sync rapidly bootstraps a new node by discovering, fetching, and restoring
-    a state machine\n# snapshot from peers instead of fetching and replaying historical
-    blocks. Requires some peers in\n# the network to take and serve state machine
-    snapshots. State sync is not attempted if the node\n# has any local state (LastBlockHeight
-    > 0). The node will have a truncated block history,\n# starting from the height
-    of the snapshot.\nenable = false\n\n# RPC servers (comma-separated) for light
-    client verification of the synced state machine and\n# retrieval of state data
-    for node bootstrapping. Also needs a trusted height and corresponding\n# header
-    hash obtained from a trusted source, and a period during which validators can
-    be trusted.\n#\n# For Cosmos SDK-based chains, trust_period should usually be
-    about 2/3 of the unbonding time (~2\n# weeks) during which they can be financially
-    punished (slashed) for misbehavior.\nrpc_servers = \"\"\ntrust_height = 0\ntrust_hash
-    = \"\"\ntrust_period = \"168h0m0s\"\n\n# Time to spend discovering snapshots before
-    initiating a restore.\ndiscovery_time = \"15s\"\n\n# Temporary directory for state
-    sync snapshot chunks, defaults to the OS tempdir (typically /tmp).\n# Will create
-    a new, randomly named directory within, and remove it when done.\ntemp_dir = \"\"\n\n#
-    The timeout duration before re-requesting a chunk, possibly from a different\n#
-    peer (default: 1 minute).\nchunk_request_timeout = \"10s\"\n\n# The number of
-    concurrent chunk fetchers to run (default: 1).\nchunk_fetchers = \"4\"\n\n#######################################################\n###
-    \      Block Sync Configuration Options          ###\n#######################################################\n[blocksync]\n\n#
-    Block Sync version to use:\n#\n# In v0.37, v1 and v2 of the block sync protocols
-    were deprecated.\n# Please use v0 instead.\n#\n#   1) \"v0\" - the default block
-    sync implementation\nversion = \"v0\"\n\n#######################################################\n###
-    \        Consensus Configuration Options         ###\n#######################################################\n[consensus]\n\nwal_file
-    = \"data/cs.wal/wal\"\n\n# How long we wait for a proposal block before prevoting
-    nil\ntimeout_propose = \"60s\"\n# How much timeout_propose increases with each
-    round\ntimeout_propose_delta = \"5s\"\n# How long we wait after receiving +2/3
-    prevotes for “anything” (ie. not a single block or nil)\ntimeout_prevote = \"10s\"\n#
-    How much the timeout_prevote increases with each round\ntimeout_prevote_delta
-    = \"5s\"\n# How long we wait after receiving +2/3 precommits for “anything” (ie.
-    not a single block or nil)\ntimeout_precommit = \"10s\"\n# How much the timeout_precommit
-    increases with each round\ntimeout_precommit_delta = \"5s\"\n# How long we wait
-    after committing a block, before starting on the new height\n# (this gives us
-    a chance to receive some more precommits, even though we already have +2/3).\ntimeout_commit
-    = \"60s\"\n\n# How many blocks to look back to check existence of the node's consensus
-    votes before joining consensus\n# When non-zero, the node will panic upon restart\n#
-    if the same consensus key was used to sign {double_sign_check_height} last blocks.\n#
-    So, validators should stop the state machine, wait for some blocks, and then restart
-    the state machine to avoid panic.\ndouble_sign_check_height = 0\n\n# Make progress
-    as soon as we have all the precommits (as if TimeoutCommit = 0)\nskip_timeout_commit
-    = false\n\n# EmptyBlocks mode and possible interval between empty blocks\ncreate_empty_blocks
-    = true\ncreate_empty_blocks_interval = \"0s\"\n\n# Reactor sleep duration parameters\npeer_gossip_sleep_duration
-    = \"100ms\"\npeer_query_maj23_sleep_duration = \"2s\"\n\n#######################################################\n###
-    \        Storage Configuration Options           ###\n#######################################################\n[storage]\n\n#
-    Set to true to discard ABCI responses from the state store, which can save a\n#
-    considerable amount of disk space. Set to false to ensure ABCI responses are\n#
-    persisted. ABCI responses are required for /block_results RPC queries, and to\n#
-    reindex events in the command-line tool.\ndiscard_abci_responses = false\n\n#######################################################\n###
-    \  Transaction Indexer Configuration Options     ###\n#######################################################\n[tx_index]\n\n#
-    What indexer to use for transactions\n#\n# The application will set which txs
-    to index. In some cases a node operator will be able\n# to decide which txs to
-    index based on configuration set in the application.\n#\n# Options:\n#   1) \"null\"\n#
-    \  2) \"kv\" (default) - the simplest possible indexer, backed by key-value storage
-    (defaults to levelDB; see DBBackend).\n# \t\t- When \"kv\" is chosen \"tx.height\"
-    and \"tx.hash\" will always be indexed.\n#   3) \"psql\" - the indexer services
-    backed by PostgreSQL.\n# When \"kv\" or \"psql\" is chosen \"tx.height\" and \"tx.hash\"
-    will always be indexed.\nindexer = \"kv\"\n\n# The PostgreSQL connection configuration,
-    the connection format:\n#   postgresql://<user>:<password>@<host>:<port>/<db>?<opts>\npsql-conn
-    = \"\"\n\n#######################################################\n###       Instrumentation
-    Configuration Options     ###\n#######################################################\n[instrumentation]\n\n#
-    When true, Prometheus metrics are served under /metrics on\n# PrometheusListenAddr.\n#
-    Check out the documentation for the list of available metrics.\nprometheus = true\n\n#
-    Address to listen for Prometheus collector(s) connections\nprometheus_listen_addr
-    = \":26660\"\n\n# Maximum number of simultaneous connections.\n# If you want to
-    accept a larger number than the default, make sure\n# you increase your OS limits.\n#
-    0 - unlimited.\nmax_open_connections = 3\n\n# Instrumentation namespace\nnamespace
-    = \"cometbft\"\n"
+  config.toml: "# This is a TOML config file.\n# For more information, see https://github.com/toml-lang/toml\n\n# NOTE: Any path below can be absolute (e.g. \"/var/myawesomeapp/data\") or\n# relative to the home directory (e.g. \"data\"). The home directory is\n# \"$HOME/.cometbft\" by default, but could be changed via $CMTHOME env variable\n# or --home cmd flag.\n\n# The version of the CometBFT binary that created or\n# last modified the config file. Do not modify this.\nversion = \"0.38.5\"\n\n#######################################################################\n###                   Main Base Config Options                      ###\n#######################################################################\n\n# TCP or UNIX socket address of the ABCI application,\n# or the name of an ABCI application compiled in with the CometBFT binary\nproxy_app = \"tcp://127.0.0.1:26658\"\n\n# A custom human readable name for this node\nmoniker = \"sequencer1\"\n\n# Database backend: goleveldb | cleveldb | boltdb | rocksdb | badgerdb\n# * goleveldb (github.com/syndtr/goleveldb - most popular implementation)\n#   - pure go\n#   - stable\n# * cleveldb (uses levigo wrapper)\n#   - fast\n#   - requires gcc\n#   - use cleveldb build tag (go build -tags cleveldb)\n# * boltdb (uses etcd's fork of bolt - github.com/etcd-io/bbolt)\n#   - EXPERIMENTAL\n#   - may be faster is some use-cases (random reads - indexer)\n#   - use boltdb build tag (go build -tags boltdb)\n# * rocksdb (uses github.com/tecbot/gorocksdb)\n#   - EXPERIMENTAL\n#   - requires gcc\n#   - use rocksdb build tag (go build -tags rocksdb)\n# * badgerdb (uses github.com/dgraph-io/badger)\n#   - EXPERIMENTAL\n#   - use badgerdb build tag (go build -tags badgerdb)\ndb_backend = \"goleveldb\"\n\n# Database directory\ndb_dir = \"data\"\n\n# Output level for logging, including package level options\nlog_level = \"info\"\n\n# Output format: 'plain' (colored text) or 'json'\nlog_format = \"plain\"\n\n##### additional base config options #####\n\n# Path to the JSON file containing the initial validator set and other meta data\ngenesis_file = \"config/genesis.json\"\n\n# Path to the JSON file containing the private key to use as a validator in the consensus protocol\npriv_validator_key_file = \"config/priv_validator_key.json\"\n\n# Path to the JSON file containing the last sign state of a validator\npriv_validator_state_file = \"data/priv_validator_state.json\"\n\n# TCP or UNIX socket address for CometBFT to listen on for\n# connections from an external PrivValidator process\npriv_validator_laddr = \"\"\n\n# Path to the JSON file containing the private key to use for node authentication in the p2p protocol\nnode_key_file = \"config/node_key.json\"\n\n# Mechanism to connect to the ABCI application: socket | grpc\nabci = \"socket\"\n\n# If true, query the ABCI app on connecting to a new peer\n# so the app can decide if we should keep the connection or not\nfilter_peers = false\n\n\n#######################################################################\n###                 Advanced Configuration Options                  ###\n#######################################################################\n\n#######################################################\n###       RPC Server Configuration Options          ###\n#######################################################\n[rpc]\n\n# TCP or UNIX socket address for the RPC server to listen on\nladdr = \"tcp://0.0.0.0:26657\"\n\n# A list of origins a cross-domain request can be executed from\n# Default value '[]' disables cors support\n# Use '[\"*\"]' to allow any origin\ncors_allowed_origins = [\"*\", ]\n\n# A list of methods the client is allowed to use with cross-domain requests\ncors_allowed_methods = [\"HEAD\", \"GET\", \"POST\", ]\n\n# A list of non simple headers the client is allowed to use with cross-domain requests\ncors_allowed_headers = [\"Origin\", \"Accept\", \"Content-Type\", \"X-Requested-With\", \"X-Server-Time\", ]\n\n# TCP or UNIX socket address for the gRPC server to listen on\n# NOTE: This server only supports /broadcast_tx_commit\ngrpc_laddr = \"\"\n\n# Maximum number of simultaneous connections.\n# Does not include RPC (HTTP&WebSocket) connections. See max_open_connections\n# If you want to accept a larger number than the default, make sure\n# you increase your OS limits.\n# 0 - unlimited.\n# Should be < {ulimit -Sn} - {MaxNumInboundPeers} - {MaxNumOutboundPeers} - {N of wal, db and other open files}\n# 1024 - 40 - 10 - 50 = 924 = ~900\ngrpc_max_open_connections = 900\n\n# Activate unsafe RPC commands like /dial_seeds and /unsafe_flush_mempool\nunsafe = false\n\n# Maximum number of simultaneous connections (including WebSocket).\n# Does not include gRPC connections. See grpc_max_open_connections\n# If you want to accept a larger number than the default, make sure\n# you increase your OS limits.\n# 0 - unlimited.\n# Should be < {ulimit -Sn} - {MaxNumInboundPeers} - {MaxNumOutboundPeers} - {N of wal, db and other open files}\n# 1024 - 40 - 10 - 50 = 924 = ~900\nmax_open_connections = 900\n\n# Maximum number of unique clientIDs that can /subscribe\n# If you're using /broadcast_tx_commit, set to the estimated maximum number\n# of broadcast_tx_commit calls per block.\nmax_subscription_clients = 100\n\n# Maximum number of unique queries a given client can /subscribe to\n# If you're using GRPC (or Local RPC client) and /broadcast_tx_commit, set to\n# the estimated # maximum number of broadcast_tx_commit calls per block.\nmax_subscriptions_per_client = 5\n\n# Experimental parameter to specify the maximum number of events a node will\n# buffer, per subscription, before returning an error and closing the\n# subscription. Must be set to at least 100, but higher values will accommodate\n# higher event throughput rates (and will use more memory).\nexperimental_subscription_buffer_size = 200\n\n# Experimental parameter to specify the maximum number of RPC responses that\n# can be buffered per WebSocket client. If clients cannot read from the\n# WebSocket endpoint fast enough, they will be disconnected, so increasing this\n# parameter may reduce the chances of them being disconnected (but will cause\n# the node to use more memory).\n#\n# Must be at least the same as \"experimental_subscription_buffer_size\",\n# otherwise connections could be dropped unnecessarily. This value should\n# ideally be somewhat higher than \"experimental_subscription_buffer_size\" to\n# accommodate non-subscription-related RPC responses.\nexperimental_websocket_write_buffer_size = 200\n\n# If a WebSocket client cannot read fast enough, at present we may\n# silently drop events instead of generating an error or disconnecting the\n# client.\n#\n# Enabling this experimental parameter will cause the WebSocket connection to\n# be closed instead if it cannot read fast enough, allowing for greater\n# predictability in subscription behavior.\nexperimental_close_on_slow_client = false\n\n# How long to wait for a tx to be committed during /broadcast_tx_commit.\n# WARNING: Using a value larger than 10s will result in increasing the\n# global HTTP write timeout, which applies to all connections and endpoints.\n# See https://github.com/tendermint/tendermint/issues/3435\ntimeout_broadcast_tx_commit = \"10s\"\n\n# Maximum size of request body, in bytes\nmax_body_bytes = 1000000\n\n# Maximum size of request header, in bytes\nmax_header_bytes = 1048576\n\n# The path to a file containing certificate that is used to create the HTTPS server.\n# Might be either absolute path or path related to CometBFT's config directory.\n# If the certificate is signed by a certificate authority,\n# the certFile should be the concatenation of the server's certificate, any intermediates,\n# and the CA's certificate.\n# NOTE: both tls_cert_file and tls_key_file must be present for CometBFT to create HTTPS server.\n# Otherwise, HTTP server is run.\ntls_cert_file = \"\"\n\n# The path to a file containing matching private key that is used to create the HTTPS server.\n# Might be either absolute path or path related to CometBFT's config directory.\n# NOTE: both tls-cert-file and tls-key-file must be present for CometBFT to create HTTPS server.\n# Otherwise, HTTP server is run.\ntls_key_file = \"\"\n\n# pprof listen address (https://golang.org/pkg/net/http/pprof)\npprof_laddr = \"localhost:6060\"\n\n#######################################################\n###           P2P Configuration Options             ###\n#######################################################\n[p2p]\n\n# Address to listen for incoming connections\nladdr = \"tcp://0.0.0.0:26656\"\n\n# Address to advertise to peers for them to dial. If empty, will use the same\n# port as the laddr, and will introspect on the listener to figure out the\n# address. IP and port are required. Example: 159.89.10.97:26656\nexternal_address = \"\"\n\n# Comma separated list of seed nodes to connect to\nseeds = \"\"\n\n# Comma separated list of nodes to keep persistent connections to\npersistent_peers = \"\"\n\n# Path to address book\naddr_book_file = \"config/addrbook.json\"\n\n# Set true for strict address routability rules\n# Set false for private or local networks\naddr_book_strict = true\n\n# Maximum number of inbound peers\nmax_num_inbound_peers = 40\n\n# Maximum number of outbound peers to connect to, excluding persistent peers\nmax_num_outbound_peers = 10\n\n# List of node IDs, to which a connection will be (re)established ignoring any existing limits\nunconditional_peer_ids = \"\"\n\n# Maximum pause when redialing a persistent peer (if zero, exponential backoff is used)\npersistent_peers_max_dial_period = \"0s\"\n\n# Time to wait before flushing messages out on the connection\nflush_throttle_timeout = \"100ms\"\n\n# Maximum size of a message packet payload, in bytes\nmax_packet_msg_payload_size = 1024\n\n# Rate at which packets can be sent, in bytes/second\nsend_rate = 5120000\n\n# Rate at which packets can be received, in bytes/second\nrecv_rate = 5120000\n\n# Set true to enable the peer-exchange reactor\npex = true\n\n# Seed mode, in which node constantly crawls the network and looks for\n# peers. If another node asks it for addresses, it responds and disconnects.\n#\n# Does not work if the peer-exchange reactor is disabled.\nseed_mode = false\n\n# Comma separated list of peer IDs to keep private (will not be gossiped to other peers)\nprivate_peer_ids = \"\"\n\n# Toggle to disable guard against peers connecting from the same ip.\nallow_duplicate_ip = false\n\n# Peer connection configuration.\nhandshake_timeout = \"20s\"\ndial_timeout = \"3s\"\n\n#######################################################\n###          Mempool Configuration Option          ###\n#######################################################\n[mempool]\n\n# The type of mempool for this node to use.\n#\n#  Possible types:\n#  - \"flood\" : concurrent linked list mempool with flooding gossip protocol\n#  (default)\n#  - \"nop\"   : nop-mempool (short for no operation; the ABCI app is responsible\n#  for storing, disseminating and proposing txs). \"create_empty_blocks=false\" is\n#  not supported.\ntype = \"flood\"\n\n# Recheck (default: true) defines whether CometBFT should recheck the\n# validity for all remaining transaction in the mempool after a block.\n# Since a block affects the application state, some transactions in the\n# mempool may become invalid. If this does not apply to your application,\n# you can disable rechecking.\nrecheck = true\n\n# Broadcast (default: true) defines whether the mempool should relay\n# transactions to other peers. Setting this to false will stop the mempool\n# from relaying transactions to other peers until they are included in a\n# block. In other words, if Broadcast is disabled, only the peer you send\n# the tx to will see it until it is included in a block.\nbroadcast = true\n\n# WalPath (default: \"\") configures the location of the Write Ahead Log\n# (WAL) for the mempool. The WAL is disabled by default. To enable, set\n# WalPath to where you want the WAL to be written (e.g.\n# \"data/mempool.wal\").\nwal_dir = \"\"\n\n# Maximum number of transactions in the mempool\nsize = 5000\n\n# Limit the total size of all txs in the mempool.\n# This only accounts for raw transactions (e.g. given 1MB transactions and\n# max_txs_bytes=5MB, mempool will only accept 5 transactions).\nmax_txs_bytes = 1073741824\n\n# Size of the cache (used to filter transactions we saw earlier) in transactions\ncache_size = 10000\n\n# Do not remove invalid transactions from the cache (default: false)\n# Set to true if it's not possible for any invalid transaction to become valid\n# again in the future.\nkeep-invalid-txs-in-cache = false\n\n# Maximum size of a single transaction.\n# NOTE: the max size of a tx transmitted over the network is {max_tx_bytes}.\nmax_tx_bytes = 1048576\n\n# Maximum size of a batch of transactions to send to a peer\n# Including space needed by encoding (one varint per transaction).\n# XXX: Unused due to https://github.com/tendermint/tendermint/issues/5796\nmax_batch_bytes = 0\n\n# Experimental parameters to limit gossiping txs to up to the specified number of peers.\n# We use two independent upper values for persistent and non-persistent peers.\n# Unconditional peers are not affected by this feature.\n# If we are connected to more than the specified number of persistent peers, only send txs to\n# ExperimentalMaxGossipConnectionsToPersistentPeers of them. If one of those\n# persistent peers disconnects, activate another persistent peer.\n# Similarly for non-persistent peers, with an upper limit of\n# ExperimentalMaxGossipConnectionsToNonPersistentPeers.\n# If set to 0, the feature is disabled for the corresponding group of peers, that is, the\n# number of active connections to that group of peers is not bounded.\n# For non-persistent peers, if enabled, a value of 10 is recommended based on experimental\n# performance results using the default P2P configuration.\nexperimental_max_gossip_connections_to_persistent_peers = 0\nexperimental_max_gossip_connections_to_non_persistent_peers = 0\n\n#######################################################\n###         State Sync Configuration Options        ###\n#######################################################\n[statesync]\n# State sync rapidly bootstraps a new node by discovering, fetching, and restoring a state machine\n# snapshot from peers instead of fetching and replaying historical blocks. Requires some peers in\n# the network to take and serve state machine snapshots. State sync is not attempted if the node\n# has any local state (LastBlockHeight > 0). The node will have a truncated block history,\n# starting from the height of the snapshot.\nenable = false\n\n# RPC servers (comma-separated) for light client verification of the synced state machine and\n# retrieval of state data for node bootstrapping. Also needs a trusted height and corresponding\n# header hash obtained from a trusted source, and a period during which validators can be trusted.\n#\n# For Cosmos SDK-based chains, trust_period should usually be about 2/3 of the unbonding time (~2\n# weeks) during which they can be financially punished (slashed) for misbehavior.\nrpc_servers = \"\"\ntrust_height = 0\ntrust_hash = \"\"\ntrust_period = \"168h0m0s\"\n\n# Time to spend discovering snapshots before initiating a restore.\ndiscovery_time = \"15s\"\n\n# Temporary directory for state sync snapshot chunks, defaults to the OS tempdir (typically /tmp).\n# Will create a new, randomly named directory within, and remove it when done.\ntemp_dir = \"\"\n\n# The timeout duration before re-requesting a chunk, possibly from a different\n# peer (default: 1 minute).\nchunk_request_timeout = \"10s\"\n\n# The number of concurrent chunk fetchers to run (default: 1).\nchunk_fetchers = \"4\"\n\n#######################################################\n###       Block Sync Configuration Options          ###\n#######################################################\n[blocksync]\n\n# Block Sync version to use:\n#\n# In v0.37, v1 and v2 of the block sync protocols were deprecated.\n# Please use v0 instead.\n#\n#   1) \"v0\" - the default block sync implementation\nversion = \"v0\"\n\n#######################################################\n###         Consensus Configuration Options         ###\n#######################################################\n[consensus]\n\nwal_file = \"data/cs.wal/wal\"\n\n# How long we wait for a proposal block before prevoting nil\ntimeout_propose = \"60s\"\n# How much timeout_propose increases with each round\ntimeout_propose_delta = \"5s\"\n# How long we wait after receiving +2/3 prevotes for “anything” (ie. not a single block or nil)\ntimeout_prevote = \"10s\"\n# How much the timeout_prevote increases with each round\ntimeout_prevote_delta = \"5s\"\n# How long we wait after receiving +2/3 precommits for “anything” (ie. not a single block or nil)\ntimeout_precommit = \"10s\"\n# How much the timeout_precommit increases with each round\ntimeout_precommit_delta = \"5s\"\n# How long we wait after committing a block, before starting on the new height\n# (this gives us a chance to receive some more precommits, even though we already have +2/3).\ntimeout_commit = \"60s\"\n\n# How many blocks to look back to check existence of the node's consensus votes before joining consensus\n# When non-zero, the node will panic upon restart\n# if the same consensus key was used to sign {double_sign_check_height} last blocks.\n# So, validators should stop the state machine, wait for some blocks, and then restart the state machine to avoid panic.\ndouble_sign_check_height = 0\n\n# Make progress as soon as we have all the precommits (as if TimeoutCommit = 0)\nskip_timeout_commit = false\n\n# EmptyBlocks mode and possible interval between empty blocks\ncreate_empty_blocks = true\ncreate_empty_blocks_interval = \"0s\"\n\n# Reactor sleep duration parameters\npeer_gossip_sleep_duration = \"100ms\"\npeer_query_maj23_sleep_duration = \"2s\"\n\n#######################################################\n###         Storage Configuration Options           ###\n#######################################################\n[storage]\n\n# Set to true to discard ABCI responses from the state store, which can save a\n# considerable amount of disk space. Set to false to ensure ABCI responses are\n# persisted. ABCI responses are required for /block_results RPC queries, and to\n# reindex events in the command-line tool.\ndiscard_abci_responses = false\n\n#######################################################\n###   Transaction Indexer Configuration Options     ###\n#######################################################\n[tx_index]\n\n# What indexer to use for transactions\n#\n# The application will set which txs to index. In some cases a node operator will be able\n# to decide which txs to index based on configuration set in the application.\n#\n# Options:\n#   1) \"null\"\n#   2) \"kv\" (default) - the simplest possible indexer, backed by key-value storage (defaults to levelDB; see DBBackend).\n# \t\t- When \"kv\" is chosen \"tx.height\" and \"tx.hash\" will always be indexed.\n#   3) \"psql\" - the indexer services backed by PostgreSQL.\n# When \"kv\" or \"psql\" is chosen \"tx.height\" and \"tx.hash\" will always be indexed.\nindexer = \"kv\"\n\n# The PostgreSQL connection configuration, the connection format:\n#   postgresql://<user>:<password>@<host>:<port>/<db>?<opts>\npsql-conn = \"\"\n\n#######################################################\n###       Instrumentation Configuration Options     ###\n#######################################################\n[instrumentation]\n\n# When true, Prometheus metrics are served under /metrics on\n# PrometheusListenAddr.\n# Check out the documentation for the list of available metrics.\nprometheus = true\n\n# Address to listen for Prometheus collector(s) connections\nprometheus_listen_addr = \":26660\"\n\n# Maximum number of simultaneous connections.\n# If you want to accept a larger number than the default, make sure\n# you increase your OS limits.\n# 0 - unlimited.\nmax_open_connections = 3\n\n# Instrumentation namespace\nnamespace = \"cometbft\"\n"
 kind: ConfigMap
 metadata:
   name: custom-configs
