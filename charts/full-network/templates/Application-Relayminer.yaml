@@ -39,20 +39,13 @@ spec:
             query_node_rpc_url: tcp://{{ .Values.network.type }}-{{ .Values.network.name }}-validator-poktrolld:36657
             query_node_grpc_url: tcp://{{ .Values.network.type }}-{{ .Values.network.name }}-validator-poktrolld:36658
             tx_node_rpc_url: tcp://{{ .Values.network.type }}-{{ .Values.network.name }}-validator-poktrolld:36657
-
-          proxies:
-            - proxy_name: http-proxy
-              type: http
-              host: 0.0.0.0:8545
           suppliers:
             - service_id: anvil
-              type: http
               service_config:
-                url: http://anvil:8547/
-              proxy_names:
-                - http-proxy
-              hosts:
-                - tcp://relayminer1:8545
+                backend_url: http://anvil:8547/
+                publicly_exposed_endpoints:
+                - relayminer1
+                listen_url: http://0.0.0.0:8545
 
   syncPolicy:
     automated:
