@@ -1,0 +1,56 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: {{ .Values.network.type }}-{{ .Values.network.name }}-gateway
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+  labels:
+    provisioned-by: "protocol"
+spec:
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: {{ .Values.network.type }}-{{ .Values.network.name }}
+  project: default
+  source:
+    path: charts/appgate-server
+    repoURL: https://github.com/pokt-network/helm-charts.git
+    targetRevision: main # TODO: change to versioned releases when the work on the helm chart is merged/done # {{ .Values.charts.appgate.branch }}
+    helm: 
+      values: |
+        fullnameOverride: {{ .Values.network.type }}-{{ .Values.network.name }}-gateway
+        configsConfigMapName: {{ default (printf "configs-%s" .Values.image.tag) .Values.customConfigMap.configsName }}
+        keysSecretName: {{ default (printf "keys-%s" .Values.image.tag) .Values.customConfigMap.keysName }}
+        resources:
+          limits:
+            cpu: 0.5
+            memory: 1Gi
+          requests:
+            cpu: 0.25
+            memory: 512Mi
+        service:
+          port: 80
+        metrics:
+          enabled: true
+          serviceMonitor:
+            enabled: true
+        config:
+          signing_key: gateway1
+          query_node_url: tcp://{{ .Values.network.type }}-{{ .Values.network.name }}-validator-poktrolld:36657
+          listening_endpoint: http://0.0.0.0:80
+          query_node_rpc_url: tcp://{{ .Values.network.type }}-{{ .Values.network.name }}-validator-poktrolld:36657
+          query_node_grpc_url: tcp://{{ .Values.network.type }}-{{ .Values.network.name }}-validator-poktrolld:36658
+        image:
+          tag: {{ .Values.image.tag }}
+  syncPolicy:
+    automated:
+      # prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - Replace=true
+  # ignoreDifferences:
+  # - jsonPointers:
+  #   - /spec/VolumeName
+  #   - /spec/StorageClassName
+  #   kind: PersistentVolumeClaim
