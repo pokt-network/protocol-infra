@@ -58,8 +58,8 @@ spec:
           p2p:
             externalAddress: '35.224.252.130:26656'
             seedMode: true
-            persistentPeers: "637d4bb11e9aabbc1b596c6df9fff51eab5d3d9d@35.184.178.214:26656"
-            unconditionalPeerIds: "637d4bb11e9aabbc1b596c6df9fff51eab5d3d9d"
+            persistentPeers: "f79895db789797645de368054cfa71fd7a33aeac@35.184.178.214:26656"
+            unconditionalPeerIds: "f79895db789797645de368054cfa71fd7a33aeac"
 
         ingress:
           enabled: false
