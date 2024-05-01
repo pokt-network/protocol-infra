@@ -56,7 +56,7 @@ spec:
 
         config:
           p2p:
-            externalAddress: '35.224.252.130:26656'
+            externalAddress: '35.184.192.176:26656'
             seedMode: true
             persistentPeers: "f79895db789797645de368054cfa71fd7a33aeac@35.184.178.214:26656"
             unconditionalPeerIds: "f79895db789797645de368054cfa71fd7a33aeac"
