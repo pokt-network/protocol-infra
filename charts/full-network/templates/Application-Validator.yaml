@@ -28,7 +28,7 @@ spec:
           tag: {{ .Values.image.tag }}
 
         serviceP2P:
-          externalTrafficPolicy: Local
+          externalTrafficPolicy: ""
 
         serviceMonitor:
           enabled: true
