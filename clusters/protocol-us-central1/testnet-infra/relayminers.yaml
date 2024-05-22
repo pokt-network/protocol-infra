@@ -40,7 +40,7 @@ spec:
             memory: 1Gi
           requests:
             cpu: 0.25
-            memory: 512Mi
+            memory: 1Gi
         metrics:
           enabled: true
           serviceMonitor:
@@ -74,7 +74,7 @@ spec:
             - service_id: protocol-anvil
               listen_url: http://0.0.0.0:8545
               service_config:
-                backend_url: http://anvil:8547/
+                backend_url: http://anvil.protocol-common:8547/
                 publicly_exposed_endpoints:
                   - testnet-relayminer-1.poktroll.com
 ---
@@ -117,7 +117,7 @@ spec:
             memory: 1Gi
           requests:
             cpu: 0.25
-            memory: 512Mi
+            memory: 1Gi
         metrics:
           enabled: true
           serviceMonitor:
@@ -151,7 +151,7 @@ spec:
             - service_id: protocol-anvil
               listen_url: http://0.0.0.0:8545
               service_config:
-                backend_url: http://anvil:8547/
+                backend_url: http://anvil.protocol-common:8547/
                 publicly_exposed_endpoints:
                   - testnet-relayminer-2.poktroll.com
 ---
@@ -194,7 +194,7 @@ spec:
             memory: 1Gi
           requests:
             cpu: 0.25
-            memory: 512Mi
+            memory: 1Gi
         metrics:
           enabled: true
           serviceMonitor:
@@ -228,7 +228,7 @@ spec:
             - service_id: protocol-anvil
               listen_url: http://0.0.0.0:8545
               service_config:
-                backend_url: http://anvil:8547/
+                backend_url: http://anvil.protocol-common:8547/
                 publicly_exposed_endpoints:
                   - testnet-relayminer-3.poktroll.com
 ---
@@ -271,7 +271,7 @@ spec:
             memory: 1Gi
           requests:
             cpu: 0.25
-            memory: 512Mi
+            memory: 1Gi
         metrics:
           enabled: true
           serviceMonitor:
@@ -305,7 +305,7 @@ spec:
             - service_id: protocol-anvil
               listen_url: http://0.0.0.0:8545
               service_config:
-                backend_url: http://anvil:8547/
+                backend_url: http://anvil.protocol-common:8547/
                 publicly_exposed_endpoints:
                   - testnet-relayminer-4.poktroll.com
 ---
@@ -348,7 +348,7 @@ spec:
             memory: 1Gi
           requests:
             cpu: 0.25
-            memory: 512Mi
+            memory: 1Gi
         metrics:
           enabled: true
           serviceMonitor:
@@ -382,6 +382,6 @@ spec:
             - service_id: protocol-anvil
               listen_url: http://0.0.0.0:8545
               service_config:
-                backend_url: http://anvil:8547/
+                backend_url: http://anvil.protocol-common:8547/
                 publicly_exposed_endpoints:
                   - testnet-relayminer-5.poktroll.com
