@@ -18,10 +18,15 @@ spec:
     targetRevision: 4.10.0
     helm:
       values: |
-        service:
-          externalTrafficPolicy: Local
         controller:
           replicaCount: 2
+          service:
+            externalTrafficPolicy: Local
+          metrics:
+            enabled: true
+            serviceMonitor:
+              enabled: true
+
   destination:
     server: https://kubernetes.default.svc
     namespace: ingress-nginx
