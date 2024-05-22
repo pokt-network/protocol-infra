@@ -1,0 +1,387 @@
+# Secret created with: kubectl create secret generic --context=gke_protocol-us-central1-d505_us-central1_protocol-us-central1 --namespace=testnet-offchain-actors --from-file=$HOME/testnet-actors/keyring-test/relayminer-1.info --from-file=$HOME/testnet-actors/keyring-test/relayminer-2.info --from-file=$HOME/testnet-actors/keyring-test/relayminer-3.info --from-file=$HOME/testnet-actors/keyring-test/relayminer-4.info --from-file=$HOME/testnet-actors/keyring-test/relayminer-5.info relayminers
+
+---
+# Staked manually by shelling into the container with the following command:
+# cat <<EOF >>/root/stake_config.yaml
+# stake_amount: 1000upokt
+# services:
+# - service_id: protocol-anvil
+#   endpoints:
+#   - publicly_exposed_url: https://testnet-relayminer-1.poktroll.com:443
+#     rpc_type: json_rpc
+# EOF
+# poktrolld tx supplier stake-supplier --config=/root/stake_config.yaml --from=relayminer-1 --chain-id=poktroll --yes --node=https://testnet-validated-validator-rpc.poktroll.com:443/
+
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: testnet-relayminer-1
+  namespace: argocd
+  labels:
+    team: "protocol"
+    purpose: "testnets"
+    testnet: "testnet-validated"
+    provisioned-by: "protocol"
+spec:
+  project: default
+  destination:
+    namespace: testnet-offchain-actors
+    server: https://kubernetes.default.svc
+  source:
+    path: charts/relayminer
+    repoURL: https://github.com/pokt-network/helm-charts.git
+    targetRevision: adopt-prod-image # TODO: change to versioned releases when the work on the helm chart is merged/done
+    helm:
+      values: |
+        keysSecretName: relayminers
+        resources:
+          limits:
+            cpu: 0.5
+            memory: 1Gi
+          requests:
+            cpu: 0.25
+            memory: 512Mi
+        metrics:
+          enabled: true
+          serviceMonitor:
+            enabled: true
+        image:
+          tag: sha-6bd5fd3 #0.0.2
+        # homeDirectory: /home/pocket/.poktroll
+        # podSecurityContext:
+        #   runAsUser: 1025
+        #   runAsGroup: 1025
+        ingress:
+          enabled: true
+          annotations:
+            kubernetes.io/ingress.class: nginx
+          hosts:
+            - host: testnet-relayminer-1.poktroll.com
+              paths:
+                - path: /
+                  pathType: ImplementationSpecific
+          tls:
+            - secretName: poktroll-wildcard-tls
+              hosts:
+                - testnet-relayminer-1.poktroll.com
+        config:
+          signing_key_name: relayminer-1
+          pocket_node:
+            query_node_rpc_url: https://testnet-validated-validator-rpc.poktroll.com:443
+            query_node_grpc_url: https://testnet-validated-validator-grpc.poktroll.com:443
+            tx_node_rpc_url: https://testnet-validated-validator-rpc.poktroll.com:443
+          suppliers:
+            - service_id: protocol-anvil
+              listen_url: http://0.0.0.0:8545
+              service_config:
+                backend_url: http://anvil:8547/
+                publicly_exposed_endpoints:
+                  - testnet-relayminer-1.poktroll.com
+---
+# Staked manually by shelling into the container with the following command:
+# cat <<EOF >>/root/stake_config.yaml
+# stake_amount: 1000upokt
+# services:
+# - service_id: protocol-anvil
+#   endpoints:
+#   - publicly_exposed_url: https://testnet-relayminer-2.poktroll.com:443
+#     rpc_type: json_rpc
+# EOF
+# poktrolld tx supplier stake-supplier --config=/root/stake_config.yaml --from=relayminer-2 --chain-id=poktroll --yes --node=https://testnet-validated-validator-rpc.poktroll.com:443/
+
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: testnet-relayminer-2
+  namespace: argocd
+  labels:
+    team: "protocol"
+    purpose: "testnets"
+    testnet: "testnet-validated"
+    provisioned-by: "protocol"
+spec:
+  project: default
+  destination:
+    namespace: testnet-offchain-actors
+    server: https://kubernetes.default.svc
+  source:
+    path: charts/relayminer
+    repoURL: https://github.com/pokt-network/helm-charts.git
+    targetRevision: adopt-prod-image # TODO: change to versioned releases when the work on the helm chart is merged/done
+    helm:
+      values: |
+        keysSecretName: relayminers
+        resources:
+          limits:
+            cpu: 0.5
+            memory: 1Gi
+          requests:
+            cpu: 0.25
+            memory: 512Mi
+        metrics:
+          enabled: true
+          serviceMonitor:
+            enabled: true
+        image:
+          tag: sha-6bd5fd3 #0.0.2
+        # homeDirectory: /home/pocket/.poktroll
+        # podSecurityContext:
+        #   runAsUser: 1025
+        #   runAsGroup: 1025
+        ingress:
+          enabled: true
+          annotations:
+            kubernetes.io/ingress.class: nginx
+          hosts:
+            - host: testnet-relayminer-2.poktroll.com
+              paths:
+                - path: /
+                  pathType: ImplementationSpecific
+          tls:
+            - secretName: poktroll-wildcard-tls
+              hosts:
+                - testnet-relayminer-2.poktroll.com
+        config:
+          signing_key_name: relayminer-2
+          pocket_node:
+            query_node_rpc_url: https://testnet-validated-validator-rpc.poktroll.com:443
+            query_node_grpc_url: https://testnet-validated-validator-grpc.poktroll.com:443
+            tx_node_rpc_url: https://testnet-validated-validator-rpc.poktroll.com:443
+          suppliers:
+            - service_id: protocol-anvil
+              listen_url: http://0.0.0.0:8545
+              service_config:
+                backend_url: http://anvil:8547/
+                publicly_exposed_endpoints:
+                  - testnet-relayminer-2.poktroll.com
+---
+# Staked manually by shelling into the container with the following command:
+# cat <<EOF >>/root/stake_config.yaml
+# stake_amount: 1000upokt
+# services:
+# - service_id: protocol-anvil
+#   endpoints:
+#   - publicly_exposed_url: https://testnet-relayminer-3.poktroll.com:443
+#     rpc_type: json_rpc
+# EOF
+# poktrolld tx supplier stake-supplier --config=/root/stake_config.yaml --from=relayminer-3 --chain-id=poktroll --yes --node=https://testnet-validated-validator-rpc.poktroll.com:443/
+
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: testnet-relayminer-3
+  namespace: argocd
+  labels:
+    team: "protocol"
+    purpose: "testnets"
+    testnet: "testnet-validated"
+    provisioned-by: "protocol"
+spec:
+  project: default
+  destination:
+    namespace: testnet-offchain-actors
+    server: https://kubernetes.default.svc
+  source:
+    path: charts/relayminer
+    repoURL: https://github.com/pokt-network/helm-charts.git
+    targetRevision: adopt-prod-image # TODO: change to versioned releases when the work on the helm chart is merged/done
+    helm:
+      values: |
+        keysSecretName: relayminers
+        resources:
+          limits:
+            cpu: 0.5
+            memory: 1Gi
+          requests:
+            cpu: 0.25
+            memory: 512Mi
+        metrics:
+          enabled: true
+          serviceMonitor:
+            enabled: true
+        image:
+          tag: sha-6bd5fd3 #0.0.2
+        # homeDirectory: /home/pocket/.poktroll
+        # podSecurityContext:
+        #   runAsUser: 1025
+        #   runAsGroup: 1025
+        ingress:
+          enabled: true
+          annotations:
+            kubernetes.io/ingress.class: nginx
+          hosts:
+            - host: testnet-relayminer-3.poktroll.com
+              paths:
+                - path: /
+                  pathType: ImplementationSpecific
+          tls:
+            - secretName: poktroll-wildcard-tls
+              hosts:
+                - testnet-relayminer-3.poktroll.com
+        config:
+          signing_key_name: relayminer-3
+          pocket_node:
+            query_node_rpc_url: https://testnet-validated-validator-rpc.poktroll.com:443
+            query_node_grpc_url: https://testnet-validated-validator-grpc.poktroll.com:443
+            tx_node_rpc_url: https://testnet-validated-validator-rpc.poktroll.com:443
+          suppliers:
+            - service_id: protocol-anvil
+              listen_url: http://0.0.0.0:8545
+              service_config:
+                backend_url: http://anvil:8547/
+                publicly_exposed_endpoints:
+                  - testnet-relayminer-3.poktroll.com
+---
+# Staked manually by shelling into the container with the following command:
+# cat <<EOF >>/root/stake_config.yaml
+# stake_amount: 1000upokt
+# services:
+# - service_id: protocol-anvil
+#   endpoints:
+#   - publicly_exposed_url: https://testnet-relayminer-4.poktroll.com:443
+#     rpc_type: json_rpc
+# EOF
+# poktrolld tx supplier stake-supplier --config=/root/stake_config.yaml --from=relayminer-4 --chain-id=poktroll --yes --node=https://testnet-validated-validator-rpc.poktroll.com:443/
+
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: testnet-relayminer-4
+  namespace: argocd
+  labels:
+    team: "protocol"
+    purpose: "testnets"
+    testnet: "testnet-validated"
+    provisioned-by: "protocol"
+spec:
+  project: default
+  destination:
+    namespace: testnet-offchain-actors
+    server: https://kubernetes.default.svc
+  source:
+    path: charts/relayminer
+    repoURL: https://github.com/pokt-network/helm-charts.git
+    targetRevision: adopt-prod-image # TODO: change to versioned releases when the work on the helm chart is merged/done
+    helm:
+      values: |
+        keysSecretName: relayminers
+        resources:
+          limits:
+            cpu: 0.5
+            memory: 1Gi
+          requests:
+            cpu: 0.25
+            memory: 512Mi
+        metrics:
+          enabled: true
+          serviceMonitor:
+            enabled: true
+        image:
+          tag: sha-6bd5fd3 #0.0.2
+        # homeDirectory: /home/pocket/.poktroll
+        # podSecurityContext:
+        #   runAsUser: 1025
+        #   runAsGroup: 1025
+        ingress:
+          enabled: true
+          annotations:
+            kubernetes.io/ingress.class: nginx
+          hosts:
+            - host: testnet-relayminer-4.poktroll.com
+              paths:
+                - path: /
+                  pathType: ImplementationSpecific
+          tls:
+            - secretName: poktroll-wildcard-tls
+              hosts:
+                - testnet-relayminer-4.poktroll.com
+        config:
+          signing_key_name: relayminer-4
+          pocket_node:
+            query_node_rpc_url: https://testnet-validated-validator-rpc.poktroll.com:443
+            query_node_grpc_url: https://testnet-validated-validator-grpc.poktroll.com:443
+            tx_node_rpc_url: https://testnet-validated-validator-rpc.poktroll.com:443
+          suppliers:
+            - service_id: protocol-anvil
+              listen_url: http://0.0.0.0:8545
+              service_config:
+                backend_url: http://anvil:8547/
+                publicly_exposed_endpoints:
+                  - testnet-relayminer-4.poktroll.com
+---
+# Staked manually by shelling into the container with the following command:
+# cat <<EOF >>/root/stake_config.yaml
+# stake_amount: 1000upokt
+# services:
+# - service_id: protocol-anvil
+#   endpoints:
+#   - publicly_exposed_url: https://testnet-relayminer-5.poktroll.com:443
+#     rpc_type: json_rpc
+# EOF
+# poktrolld tx supplier stake-supplier --config=/root/stake_config.yaml --from=relayminer-5 --chain-id=poktroll --yes --node=https://testnet-validated-validator-rpc.poktroll.com:443/
+
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: testnet-relayminer-5
+  namespace: argocd
+  labels:
+    team: "protocol"
+    purpose: "testnets"
+    testnet: "testnet-validated"
+    provisioned-by: "protocol"
+spec:
+  project: default
+  destination:
+    namespace: testnet-offchain-actors
+    server: https://kubernetes.default.svc
+  source:
+    path: charts/relayminer
+    repoURL: https://github.com/pokt-network/helm-charts.git
+    targetRevision: adopt-prod-image # TODO: change to versioned releases when the work on the helm chart is merged/done
+    helm:
+      values: |
+        keysSecretName: relayminers
+        resources:
+          limits:
+            cpu: 0.5
+            memory: 1Gi
+          requests:
+            cpu: 0.25
+            memory: 512Mi
+        metrics:
+          enabled: true
+          serviceMonitor:
+            enabled: true
+        image:
+          tag: sha-6bd5fd3 #0.0.2
+        # homeDirectory: /home/pocket/.poktroll
+        # podSecurityContext:
+        #   runAsUser: 1025
+        #   runAsGroup: 1025
+        ingress:
+          enabled: true
+          annotations:
+            kubernetes.io/ingress.class: nginx
+          hosts:
+            - host: testnet-relayminer-5.poktroll.com
+              paths:
+                - path: /
+                  pathType: ImplementationSpecific
+          tls:
+            - secretName: poktroll-wildcard-tls
+              hosts:
+                - testnet-relayminer-5.poktroll.com
+        config:
+          signing_key_name: relayminer-5
+          pocket_node:
+            query_node_rpc_url: https://testnet-validated-validator-rpc.poktroll.com:443
+            query_node_grpc_url: https://testnet-validated-validator-grpc.poktroll.com:443
+            tx_node_rpc_url: https://testnet-validated-validator-rpc.poktroll.com:443
+          suppliers:
+            - service_id: protocol-anvil
+              listen_url: http://0.0.0.0:8545
+              service_config:
+                backend_url: http://anvil:8547/
+                publicly_exposed_endpoints:
+                  - testnet-relayminer-5.poktroll.com

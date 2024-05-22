@@ -15,9 +15,13 @@ spec:
   source:
     repoURL: https://kubernetes.github.io/ingress-nginx
     chart: ingress-nginx
-    targetRevision: 4.8.3
-    # helm:
-    #   values: |
+    targetRevision: 4.10.0
+    helm:
+      values: |
+        service:
+          externalTrafficPolicy: Local
+        controller:
+          replicaCount: 2
   destination:
     server: https://kubernetes.default.svc
     namespace: ingress-nginx

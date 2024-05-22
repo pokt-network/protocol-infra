@@ -1,0 +1,327 @@
+# Secret created with: kubectl create secret generic --context=gke_protocol-us-central1-d505_us-central1_protocol-us-central1 --namespace=testnet-offchain-actors --from-file=$HOME/testnet-actors/keyring-test/gateway-1.info --from-file=$HOME/testnet-actors/keyring-test/gateway-2.info --from-file=$HOME/testnet-actors/keyring-test/gateway-3.info --from-file=$HOME/testnet-actors/keyring-test/gateway-4.info --from-file=$HOME/testnet-actors/keyring-test/gateway-5.info gateways
+
+---
+# Staked manually by shelling into the container with the following command:
+
+# cat <<EOF >>/root/stake_config.yaml
+# stake_amount: 1000upokt
+# EOF
+# poktrolld tx gateway stake-gateway --config=/root/stake_config.yaml --from=gateway-1 --chain-id=poktroll --yes --node=https://testnet-validated-validator-rpc.poktroll.com:443/
+
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: testnet-gateway-1
+  namespace: argocd
+  labels:
+    team: "protocol"
+    purpose: "testnets"
+    testnet: "testnet-validated"
+    provisioned-by: "protocol"
+spec:
+  project: default
+  destination:
+    namespace: testnet-offchain-actors
+    server: https://kubernetes.default.svc
+  source:
+    path: charts/appgate-server
+    repoURL: https://github.com/pokt-network/helm-charts.git
+    targetRevision: adopt-prod-image # TODO: change to versioned releases when the work on the helm chart is merged/done
+    helm:
+      values: |
+        keysSecretName: gateways
+        resources:
+          limits:
+            cpu: 0.5
+            memory: 1Gi
+          requests:
+            cpu: 0.25
+            memory: 512Mi
+        service:
+          port: 80
+        metrics:
+          enabled: true
+          serviceMonitor:
+            enabled: true
+        image:
+          tag: sha-6bd5fd3 #0.0.2
+        ingress:
+          enabled: true
+          annotations:
+            kubernetes.io/ingress.class: nginx
+          hosts:
+            - host: testnet-gateway-1.poktroll.com
+              paths:
+                - path: /
+                  pathType: ImplementationSpecific
+          tls:
+            - secretName: poktroll-wildcard-tls
+              hosts:
+                - testnet-gateway-1.poktroll.com
+        config:
+          signing_key: gateway-1
+          self_signing: false
+          query_node_url: https://testnet-validated-validator-rpc.poktroll.com:443
+          listening_endpoint: http://0.0.0.0:80
+          query_node_rpc_url: https://testnet-validated-validator-rpc.poktroll.com:443
+          query_node_grpc_url: https://testnet-validated-validator-grpc.poktroll.com:443
+---
+# Staked manually by shelling into the container with the following command:
+
+# cat <<EOF >>/root/stake_config.yaml
+# stake_amount: 1000upokt
+# EOF
+# poktrolld tx gateway stake-gateway --config=/root/stake_config.yaml --from=gateway-2 --chain-id=poktroll --yes --node=https://testnet-validated-validator-rpc.poktroll.com:443/
+
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: testnet-gateway-2
+  namespace: argocd
+  labels:
+    team: "protocol"
+    purpose: "testnets"
+    testnet: "testnet-validated"
+    provisioned-by: "protocol"
+spec:
+  project: default
+  destination:
+    namespace: testnet-offchain-actors
+    server: https://kubernetes.default.svc
+  source:
+    path: charts/appgate-server
+    repoURL: https://github.com/pokt-network/helm-charts.git
+    targetRevision: adopt-prod-image # TODO: change to versioned releases when the work on the helm chart is merged/done
+    helm:
+      values: |
+        keysSecretName: gateways
+        resources:
+          limits:
+            cpu: 0.5
+            memory: 1Gi
+          requests:
+            cpu: 0.25
+            memory: 512Mi
+        service:
+          port: 80
+        metrics:
+          enabled: true
+          serviceMonitor:
+            enabled: true
+        image:
+          tag: sha-6bd5fd3 #0.0.2
+        ingress:
+          enabled: true
+          annotations:
+            kubernetes.io/ingress.class: nginx
+          hosts:
+            - host: testnet-gateway-2.poktroll.com
+              paths:
+                - path: /
+                  pathType: ImplementationSpecific
+          tls:
+            - secretName: poktroll-wildcard-tls
+              hosts:
+                - testnet-gateway-2.poktroll.com
+        config:
+          signing_key: gateway-2
+          self_signing: false
+          query_node_url: https://testnet-validated-validator-rpc.poktroll.com:443
+          listening_endpoint: http://0.0.0.0:80
+          query_node_rpc_url: https://testnet-validated-validator-rpc.poktroll.com:443
+          query_node_grpc_url: https://testnet-validated-validator-grpc.poktroll.com:443
+---
+# Staked manually by shelling into the container with the following command:
+
+# cat <<EOF >>/root/stake_config.yaml
+# stake_amount: 1000upokt
+# EOF
+# poktrolld tx gateway stake-gateway --config=/root/stake_config.yaml --from=gateway-3 --chain-id=poktroll --yes --node=https://testnet-validated-validator-rpc.poktroll.com:443/
+
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: testnet-gateway-3
+  namespace: argocd
+  labels:
+    team: "protocol"
+    purpose: "testnets"
+    testnet: "testnet-validated"
+    provisioned-by: "protocol"
+spec:
+  project: default
+  destination:
+    namespace: testnet-offchain-actors
+    server: https://kubernetes.default.svc
+  source:
+    path: charts/appgate-server
+    repoURL: https://github.com/pokt-network/helm-charts.git
+    targetRevision: adopt-prod-image # TODO: change to versioned releases when the work on the helm chart is merged/done
+    helm:
+      values: |
+        keysSecretName: gateways
+        resources:
+          limits:
+            cpu: 0.5
+            memory: 1Gi
+          requests:
+            cpu: 0.25
+            memory: 512Mi
+        service:
+          port: 80
+        metrics:
+          enabled: true
+          serviceMonitor:
+            enabled: true
+        image:
+          tag: sha-6bd5fd3 #0.0.2
+        ingress:
+          enabled: true
+          annotations:
+            kubernetes.io/ingress.class: nginx
+          hosts:
+            - host: testnet-gateway-3.poktroll.com
+              paths:
+                - path: /
+                  pathType: ImplementationSpecific
+          tls:
+            - secretName: poktroll-wildcard-tls
+              hosts:
+                - testnet-gateway-3.poktroll.com
+        config:
+          signing_key: gateway-3
+          self_signing: false
+          query_node_url: https://testnet-validated-validator-rpc.poktroll.com:443
+          listening_endpoint: http://0.0.0.0:80
+          query_node_rpc_url: https://testnet-validated-validator-rpc.poktroll.com:443
+          query_node_grpc_url: https://testnet-validated-validator-grpc.poktroll.com:443
+---
+# Staked manually by shelling into the container with the following command:
+
+# cat <<EOF >>/root/stake_config.yaml
+# stake_amount: 1000upokt
+# EOF
+# poktrolld tx gateway stake-gateway --config=/root/stake_config.yaml --from=gateway-4 --chain-id=poktroll --yes --node=https://testnet-validated-validator-rpc.poktroll.com:443/
+
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: testnet-gateway-4
+  namespace: argocd
+  labels:
+    team: "protocol"
+    purpose: "testnets"
+    testnet: "testnet-validated"
+    provisioned-by: "protocol"
+spec:
+  project: default
+  destination:
+    namespace: testnet-offchain-actors
+    server: https://kubernetes.default.svc
+  source:
+    path: charts/appgate-server
+    repoURL: https://github.com/pokt-network/helm-charts.git
+    targetRevision: adopt-prod-image # TODO: change to versioned releases when the work on the helm chart is merged/done
+    helm:
+      values: |
+        keysSecretName: gateways
+        resources:
+          limits:
+            cpu: 0.5
+            memory: 1Gi
+          requests:
+            cpu: 0.25
+            memory: 512Mi
+        service:
+          port: 80
+        metrics:
+          enabled: true
+          serviceMonitor:
+            enabled: true
+        image:
+          tag: sha-6bd5fd3 #0.0.2
+        ingress:
+          enabled: true
+          annotations:
+            kubernetes.io/ingress.class: nginx
+          hosts:
+            - host: testnet-gateway-4.poktroll.com
+              paths:
+                - path: /
+                  pathType: ImplementationSpecific
+          tls:
+            - secretName: poktroll-wildcard-tls
+              hosts:
+                - testnet-gateway-4.poktroll.com
+        config:
+          signing_key: gateway-4
+          self_signing: false
+          query_node_url: https://testnet-validated-validator-rpc.poktroll.com:443
+          listening_endpoint: http://0.0.0.0:80
+          query_node_rpc_url: https://testnet-validated-validator-rpc.poktroll.com:443
+          query_node_grpc_url: https://testnet-validated-validator-grpc.poktroll.com:443
+---
+# Staked manually by shelling into the container with the following command:
+
+# cat <<EOF >>/root/stake_config.yaml
+# stake_amount: 1000upokt
+# EOF
+# poktrolld tx gateway stake-gateway --config=/root/stake_config.yaml --from=gateway-5 --chain-id=poktroll --yes --node=https://testnet-validated-validator-rpc.poktroll.com:443/
+
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: testnet-gateway-5
+  namespace: argocd
+  labels:
+    team: "protocol"
+    purpose: "testnets"
+    testnet: "testnet-validated"
+    provisioned-by: "protocol"
+spec:
+  project: default
+  destination:
+    namespace: testnet-offchain-actors
+    server: https://kubernetes.default.svc
+  source:
+    path: charts/appgate-server
+    repoURL: https://github.com/pokt-network/helm-charts.git
+    targetRevision: adopt-prod-image # TODO: change to versioned releases when the work on the helm chart is merged/done
+    helm:
+      values: |
+        keysSecretName: gateways
+        resources:
+          limits:
+            cpu: 0.5
+            memory: 1Gi
+          requests:
+            cpu: 0.25
+            memory: 512Mi
+        service:
+          port: 80
+        metrics:
+          enabled: true
+          serviceMonitor:
+            enabled: true
+        image:
+          tag: sha-6bd5fd3 #0.0.2
+        ingress:
+          enabled: true
+          annotations:
+            kubernetes.io/ingress.class: nginx
+          hosts:
+            - host: testnet-gateway-5.poktroll.com
+              paths:
+                - path: /
+                  pathType: ImplementationSpecific
+          tls:
+            - secretName: poktroll-wildcard-tls
+              hosts:
+                - testnet-gateway-5.poktroll.com
+        config:
+          signing_key: gateway-5
+          self_signing: false
+          query_node_url: https://testnet-validated-validator-rpc.poktroll.com:443
+          listening_endpoint: http://0.0.0.0:80
+          query_node_rpc_url: https://testnet-validated-validator-rpc.poktroll.com:443
+          query_node_grpc_url: https://testnet-validated-validator-grpc.poktroll.com:443

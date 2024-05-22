@@ -35,6 +35,7 @@ spec:
           serviceMonitor:
             enabled: true
         config:
+          self_signing: false
           signing_key: gateway1
           query_node_url: tcp://{{ .Values.network.type }}-{{ .Values.network.name }}-validator-poktrolld:36657
           listening_endpoint: http://0.0.0.0:80
