@@ -1,7 +1,7 @@
 ---
 apiVersion: v1
 data:
-  check-services.rb: |
+  check_services.rb: |
         require 'net/http'
         require 'uri'
 
