@@ -1,0 +1,57 @@
+---
+apiVersion: v1
+data:
+  check-services.rb: |
+        require 'net/http'
+        require 'uri'
+
+        def check_http_status(endpoint)
+        max_retries = 30
+        retries = 0
+
+        while retries < max_retries
+            puts "Checking HTTP status for the endpoint #{endpoint} (Attempt #{retries + 1}/#{max_retries})..."
+            uri = URI.parse("http://#{endpoint}")
+            response = Net::HTTP.get_response(uri)
+            http_status = response.code.to_i
+            puts "HTTP_STATUS: #{http_status}"
+            if http_status == 200
+            puts "HTTP request to #{endpoint} returned 200 OK."
+            return true
+            else
+            puts "HTTP request to #{endpoint} did not return 200 OK. Status code: #{http_status}. Retrying in 10 seconds..."
+            end
+        rescue Errno::ECONNREFUSED
+            puts "#{endpoint} is not yet available, retrying in 10 seconds.."
+        ensure
+            retries += 1
+            sleep 10
+        end
+
+        puts "Max retries reached for #{endpoint}. Exiting."
+        exit 1
+        end
+
+        def main
+        namespace = ARGV[0]
+        validator_endpoint = "#{namespace}-validator-poktrolld:36657"
+        appgate_server_endpoint = "#{namespace}-appgate-server:80"
+        gateway_endpoint = "#{namespace}-gateway:80"
+        relayminer_endpoint = "#{namespace}-relayminer:8545"
+
+        puts "Validator Endpoint: #{validator_endpoint}"
+        puts "Appgate Server Endpoint: #{appgate_server_endpoint}"
+        puts "Gateway Endpoint: #{gateway_endpoint}"
+        puts "Relayminer Endpoint: #{relayminer_endpoint}"
+
+        check_http_status(validator_endpoint)
+        check_http_status(appgate_server_endpoint)
+        check_http_status(gateway_endpoint)
+        check_http_status(relayminer_endpoint)
+        end
+
+        main if __FILE__ == $0
+kind: ConfigMap
+metadata:
+  name: e2e-tests-check-services-script
+  namespace: {{ .Values.network.type }}-{{ .Values.network.name }}
