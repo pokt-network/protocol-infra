@@ -34,17 +34,3 @@ spec:
     port: 8545
     protocol: TCP
     targetPort: 8545
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: sequencer-poktroll-sequencer
-  namespace: {{ .Values.network.type }}-{{ .Values.network.name }}
-spec:
-  selector:
-    pokt.network/purpose: sequencer
-  ports:
-  - name: http
-    port: 36657
-    protocol: TCP
-    targetPort: 36657

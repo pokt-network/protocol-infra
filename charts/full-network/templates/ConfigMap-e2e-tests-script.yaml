@@ -36,7 +36,7 @@ data:
 
     def main
       namespace = ARGV[0]
-      validator_endpoint = "#{namespace}-validator-poktrolld:36657"
+      validator_endpoint = "#{namespace}-validator-poktrolld:26657"
       appgate_server_endpoint = "#{namespace}-appgate-server:80"
       gateway_endpoint = "#{namespace}-gateway:80"
       relayminer_endpoint = "#{namespace}-relayminer:8545"
