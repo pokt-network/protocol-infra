@@ -8,7 +8,7 @@ image:
 appgateservers:
   count: 1
 gateways:
-  count: 2
+  count: 1
 relayminers:
   count: 1
 
@@ -23,22 +23,3 @@ charts:
 customConfigMap:
   configsName: ""
   keysName: ""
-
-sequencer:
-  persistence:
-    cleanupBeforeEachStart: true
-  resources:
-    limits:
-      cpu: 4
-      memory: 6Gi
-    requests:
-      cpu: 0.5
-      memory: 2Gi
-  dataAvailability:
-    provider: celestia
-    authToken:
-      secretName: celestia-secret
-      secretKey: auth_token
-    celestia:
-      da_rpc_url: http://celestia-rollkit.protocol-common.svc.cluster.local:26658
-      consensus_rpc_url: http://celestia-rollkit.protocol-common.svc.cluster.local:26657
