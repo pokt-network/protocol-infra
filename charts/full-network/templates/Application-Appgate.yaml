@@ -1,7 +1,15 @@
+{{- $networkType := .Values.network.type }}
+{{- $networkName := .Values.network.name }}
+{{- $imageTag := .Values.image.tag }}
+{{- $appgateServerCount := default 1 .Values.appgateservers.count | int }}
+
+{{- range $i := until $appgateServerCount }}
+{{- $appgateNumber := add $i 1 }}
+---
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: {{ .Values.network.type }}-{{ .Values.network.name }}-appgate-server
+  name: {{ $networkType }}-{{ $networkName }}-appgate-server-{{ $appgateNumber }}
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
@@ -10,17 +18,17 @@ metadata:
 spec:
   destination:
     server: https://kubernetes.default.svc
-    namespace: {{ .Values.network.type }}-{{ .Values.network.name }}
+    namespace: {{ $networkType }}-{{ $networkName }}
   project: default
   source:
     path: charts/appgate-server
     repoURL: https://github.com/pokt-network/helm-charts.git
-    targetRevision: main # TODO: change to versioned releases when the work on the helm chart is merged/done # {{ .Values.charts.appgate.branch }}
+    targetRevision: main # TODO: change to versioned releases when the work on the helm chart is merged/done # {{ $.Values.charts.appgate.branch }}
     helm: 
       values: |
-        fullnameOverride: {{ .Values.network.type }}-{{ .Values.network.name }}-appgate-server
-        configsConfigMapName: {{ default (printf "configs-%s" .Values.image.tag) .Values.customConfigMap.configsName }}
-        keysSecretName: {{ default (printf "keys-%s" .Values.image.tag) .Values.customConfigMap.keysName }}
+        fullnameOverride: {{ $networkType }}-{{ $networkName }}-appgate-server-{{ $appgateNumber }}
+        configsConfigMapName: {{ default (printf "configs-%s" $imageTag) $.Values.customConfigMap.configsName }}
+        keysSecretName: {{ default (printf "keys-%s" $imageTag) $.Values.customConfigMap.keysName }}
         resources:
           limits:
             cpu: 0.5
@@ -35,23 +43,18 @@ spec:
           serviceMonitor:
             enabled: true
         config:
-          query_node_url: tcp://{{ .Values.network.type }}-{{ .Values.network.name }}-validator-poktrolld:26657
+          query_node_url: tcp://{{ $networkType }}-{{ $networkName }}-validator-poktrolld:26657
           listening_endpoint: http://0.0.0.0:80
-          query_node_rpc_url: tcp://{{ .Values.network.type }}-{{ .Values.network.name }}-validator-poktrolld:26657
-          query_node_grpc_url: tcp://{{ .Values.network.type }}-{{ .Values.network.name }}-validator-poktrolld:9090
+          query_node_rpc_url: tcp://{{ $networkType }}-{{ $networkName }}-validator-poktrolld:26657
+          query_node_grpc_url: tcp://{{ $networkType }}-{{ $networkName }}-validator-poktrolld:9090
           pprof:
             enabled: true
         image:
-          tag: {{ .Values.image.tag }}
+          tag: {{ $imageTag }}
   syncPolicy:
     automated:
-      # prune: true
       selfHeal: true
     syncOptions:
       - CreateNamespace=true
       - Replace=true
-  # ignoreDifferences:
-  # - jsonPointers:
-  #   - /spec/VolumeName
-  #   - /spec/StorageClassName
-  #   kind: PersistentVolumeClaim
+{{- end }}
