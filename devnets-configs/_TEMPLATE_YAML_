@@ -9,11 +9,15 @@ internal:
   # Though redundant, that fixes an issue with ArgoCD ApplicationSet Matrix + Plugin generators.
   networkName: "CHAIN_NAME"
 
+# Following command to run the e2e test against this devnet. Must use the correct k8s context! (gke_protocol-us-central1-d505_us-central1_protocol-us-central1)
+# IMAGE_TAG=sha-7042be3 NAMESPACE=devnet-dimatests JOB_NAME=e2e-test-7042be3 POCKET_NODE=tcp://devnet-dimatests-validator-poktrolld:36657 bash .github/workflows-helpers/run-e2e-test.sh
 image:
-  tag: sha-GIT_SHA-dev
+  tag: sha-7042be3
 
-# Scaling has been moved to the Dashboard UI: https://github.com/pokt-network/protocol-infra#scaling
-
-dev:
-  pocket:
-    branch: "main" # you can change this to the branch you want `pocket` helm chart to get deployed from
+# Do not scale to more than 3.
+appgateservers:
+  count: 1
+gateways:
+  count: 1
+relayminers:
+  count: 1
