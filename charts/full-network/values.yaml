@@ -5,6 +5,13 @@ network:
 image:
   tag: latest
 
+appgateservers:
+  count: 1
+gateways:
+  count: 2
+relayminers:
+  count: 1
+
 charts:
   sequencer:
     branch: main
