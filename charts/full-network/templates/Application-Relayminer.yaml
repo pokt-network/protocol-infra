@@ -1,7 +1,15 @@
+{{- $networkType := .Values.network.type }}
+{{- $networkName := .Values.network.name }}
+{{- $imageTag := .Values.image.tag }}
+{{- $relayMinerCount := default 1 .Values.relayminers.count | int }}
+
+{{- range $i := until $relayMinerCount }}
+{{- $relayMinerNumber := add $i 1 }}
+---
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: {{ .Values.network.type }}-{{ .Values.network.name }}-relayminer
+  name: {{ $networkType }}-{{ $networkName }}-relayminer-{{ $relayMinerNumber }}
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
@@ -10,17 +18,17 @@ metadata:
 spec:
   destination:
     server: https://kubernetes.default.svc
-    namespace: {{ .Values.network.type }}-{{ .Values.network.name }}
+    namespace: {{ $networkType }}-{{ $networkName }}
   project: default
   source:
     path: charts/relayminer
     repoURL: https://github.com/pokt-network/helm-charts.git
-    targetRevision: main # TODO: change to versioned releases when the work on the helm chart is merged/done # {{ .Values.charts.relayminer.branch }}
+    targetRevision: main # TODO: change to versioned releases when the work on the helm chart is merged/done # {{ $.Values.charts.relayminer.branch }}
     helm: 
       values: |
-        fullnameOverride: {{ .Values.network.type }}-{{ .Values.network.name }}-relayminer
-        configsConfigMapName: {{ default (printf "configs-%s" .Values.image.tag) .Values.customConfigMap.configsName }}
-        keysSecretName: {{ default (printf "keys-%s" .Values.image.tag) .Values.customConfigMap.keysName }}
+        fullnameOverride: {{ $networkType }}-{{ $networkName }}-relayminer-{{ $relayMinerNumber }}
+        configsConfigMapName: {{ default (printf "configs-%s" $imageTag) $.Values.customConfigMap.configsName }}
+        keysSecretName: {{ default (printf "keys-%s" $imageTag) $.Values.customConfigMap.keysName }}
         resources:
           limits:
             cpu: 0.5
@@ -33,27 +41,28 @@ spec:
           serviceMonitor:
             enabled: true
         image:
-          tag: {{ .Values.image.tag }}
+          tag: {{ $imageTag }}
         config:
+          default_signing_key_names: [supplier{{ $relayMinerNumber }}]
           pprof:
             enabled: true
           pocket_node:
-            query_node_rpc_url: tcp://{{ .Values.network.type }}-{{ .Values.network.name }}-validator-poktrolld:26657
-            query_node_grpc_url: tcp://{{ .Values.network.type }}-{{ .Values.network.name }}-validator-poktrolld:9090
-            tx_node_rpc_url: tcp://{{ .Values.network.type }}-{{ .Values.network.name }}-validator-poktrolld:26657
+            query_node_rpc_url: tcp://{{ $networkType }}-{{ $networkName }}-validator-poktrolld:26657
+            query_node_grpc_url: tcp://{{ $networkType }}-{{ $networkName }}-validator-poktrolld:9090
+            tx_node_rpc_url: tcp://{{ $networkType }}-{{ $networkName }}-validator-poktrolld:26657
           suppliers:
             - service_id: ollama
               listen_url: http://0.0.0.0:8545
               service_config:
                 backend_url: http://ollama:11434/
                 publicly_exposed_endpoints:
-                  - relayminer1 # schema and port intentionally omitted 
+                  - relayminer{{ $relayMinerNumber }} # schema and port intentionally omitted 
             - service_id: anvil
               listen_url: http://0.0.0.0:8545
               service_config:
                 backend_url: http://anvil:8547/
                 publicly_exposed_endpoints:
-                  - relayminer1 # schema and port intentionally omitted 
+                  - relayminer{{ $relayMinerNumber }} # schema and port intentionally omitted 
 
   syncPolicy:
     automated:
@@ -67,3 +76,4 @@ spec:
   #   - /spec/VolumeName
   #   - /spec/StorageClassName
   #   kind: PersistentVolumeClaim
+{{- end }}
