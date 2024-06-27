@@ -21,6 +21,7 @@ spec:
     protocol: TCP
     targetPort: 8545
 ---
+# relayminer1 is the value that we set in the blockchain state by default.
 apiVersion: v1
 kind: Service
 metadata:
@@ -28,9 +29,99 @@ metadata:
   namespace: {{ .Values.network.type }}-{{ .Values.network.name }}
 spec:
   selector:
-    pokt.network/purpose: relayminer
+    app.kubernetes.io/instance: {{ .Values.network.type }}-{{ .Values.network.name }}-relayminer-1
   ports:
   - name: http
     port: 8545
     protocol: TCP
     targetPort: 8545
+---
+# relayminer2 is the value that we set in the blockchain state by default.
+apiVersion: v1
+kind: Service
+metadata:
+  name: relayminer2
+  namespace: {{ .Values.network.type }}-{{ .Values.network.name }}
+spec:
+  selector:
+    app.kubernetes.io/instance: {{ .Values.network.type }}-{{ .Values.network.name }}-relayminer-2
+  ports:
+  - name: http
+    port: 8545
+    protocol: TCP
+    targetPort: 8545
+---
+# relayminer3 is the value that we set in the blockchain state by default.
+apiVersion: v1
+kind: Service
+metadata:
+  name: relayminer3
+  namespace: {{ .Values.network.type }}-{{ .Values.network.name }}
+spec:
+  selector:
+    app.kubernetes.io/instance: {{ .Values.network.type }}-{{ .Values.network.name }}-relayminer-3
+  ports:
+  - name: http
+    port: 8545
+    protocol: TCP
+    targetPort: 8545
+---
+# Points to the first gateway, for backwards-compatibility with existing e2e test suite
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.network.type }}-{{ .Values.network.name }}-gateway
+  namespace: {{ .Values.network.type }}-{{ .Values.network.name }}
+spec:
+  ports:
+  - name: http
+    port: 80
+    protocol: TCP
+    targetPort: http
+  - name: metrics
+    port: 9090
+    protocol: TCP
+    targetPort: 9090
+  selector:
+    app.kubernetes.io/instance: {{ .Values.network.type }}-{{ .Values.network.name }}-gateway-1
+    app.kubernetes.io/name: appgate-server
+---
+# Points to the first appgate-server, for backwards-compatibility with existing e2e test suite
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.network.type }}-{{ .Values.network.name }}-appgate-server
+  namespace: {{ .Values.network.type }}-{{ .Values.network.name }}
+spec:
+  ports:
+  - name: http
+    port: 80
+    protocol: TCP
+    targetPort: http
+  - name: metrics
+    port: 9090
+    protocol: TCP
+    targetPort: 9090
+  selector:
+    app.kubernetes.io/instance: {{ .Values.network.type }}-{{ .Values.network.name }}-appgate-server-1
+    app.kubernetes.io/name: appgate-server
+---
+# Points to the first relayminer, for backwards-compatibility with existing e2e test suite
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.network.type }}-{{ .Values.network.name }}-relayminer
+  namespace: {{ .Values.network.type }}-{{ .Values.network.name }}
+spec:
+  ports:
+  - name: http
+    port: 8545
+    protocol: TCP
+    targetPort: http
+  - name: metrics
+    port: 9090
+    protocol: TCP
+    targetPort: 9090
+  selector:
+    app.kubernetes.io/instance: {{ .Values.network.type }}-{{ .Values.network.name }}-relayminer-1
+    app.kubernetes.io/name: relayminer
