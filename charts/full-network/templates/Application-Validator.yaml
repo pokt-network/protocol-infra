@@ -49,23 +49,32 @@ spec:
             cpu: 0.5
 
         ingress:
-          enabled: true
-          annotations:
-            kubernetes.io/ingress.class: nginx
-          hosts:
-            - host: {{ .Values.network.type }}-{{ .Values.network.name }}-seqeuncer-rpc.poktroll.com
-              paths:
-                - path: /
-                  pathType: ImplementationSpecific
-            - host: {{ .Values.network.type }}-{{ .Values.network.name }}-validator-rpc.poktroll.com
-              paths:
-                - path: /
-                  pathType: ImplementationSpecific
-          tls:
-            - secretName: poktroll-wildcard-tls
-              hosts:
-                - {{ .Values.network.type }}-{{ .Values.network.name }}-seqeuncer-rpc.poktroll.com
-                - {{ .Values.network.type }}-{{ .Values.network.name }}-validator-rpc.poktroll.com
+          rpc:
+            enabled: true
+            annotations:
+              kubernetes.io/ingress.class: nginx
+            hosts:
+              - name: {{ .Values.network.type }}-{{ .Values.network.name }}-validator-rpc.poktroll.com
+            tls:
+              secretName: "poktroll-wildcard-tls"
+          grpc:
+            enabled: true
+            annotations:
+              kubernetes.io/ingress.class: nginx
+              nginx.ingress.kubernetes.io/backend-protocol: "GRPC"
+            hosts:
+              - name: {{ .Values.network.type }}-{{ .Values.network.name }}-validator-grpc.poktroll.com
+            tls:
+              secretName: "poktroll-wildcard-tls"
+          api:
+            enabled: true
+            annotations:
+              kubernetes.io/ingress.class: nginx
+            hosts:
+              - name: {{ .Values.network.type }}-{{ .Values.network.name }}-validator-api.poktroll.com
+            tls:
+              secretName: "poktroll-wildcard-tls"
+
   syncPolicy:
     automated:
       prune: true
