@@ -11,3 +11,10 @@ internal:
 
 image:
   tag: sha-7042be3
+
+appgateservers:
+  count: 2
+gateways:
+  count: 3
+relayminers:
+  count: 3
