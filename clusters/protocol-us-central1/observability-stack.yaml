@@ -151,10 +151,12 @@ spec:
   source:
     repoURL: https://grafana.github.io/helm-charts
     chart: loki-stack
-    targetRevision: 2.10.1
+    targetRevision: 2.10.2
     helm:
       values: |
         loki:
+          image:
+            tag: v2.9.9
           persistence:
             enabled: true
             accessModes:
