@@ -35,7 +35,7 @@ spec:
         persistence:
           enabled: true
           className: "premium-rwo"
-          size: 10Gi
+          size: 25Gi
 
         serviceP2P:
           type: LoadBalancer
