@@ -156,7 +156,7 @@ spec:
       values: |
         loki:
           image:
-            tag: v2.9.9
+            tag: 2.9.9
           persistence:
             enabled: true
             accessModes:
