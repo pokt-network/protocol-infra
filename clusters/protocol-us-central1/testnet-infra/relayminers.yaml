@@ -47,7 +47,7 @@ spec:
           serviceMonitor:
             enabled: true
         image:
-          tag: sha-6bd5fd3 #0.0.2
+          tag: sha-bdbc365 #0.0.3
         # homeDirectory: /home/pocket/.poktroll
         # podSecurityContext:
         #   runAsUser: 1025
@@ -125,7 +125,7 @@ spec:
           serviceMonitor:
             enabled: true
         image:
-          tag: sha-6bd5fd3 #0.0.2
+          tag: sha-bdbc365 #0.0.3
         # homeDirectory: /home/pocket/.poktroll
         # podSecurityContext:
         #   runAsUser: 1025
@@ -203,7 +203,7 @@ spec:
           serviceMonitor:
             enabled: true
         image:
-          tag: sha-6bd5fd3 #0.0.2
+          tag: sha-bdbc365 #0.0.3
         # homeDirectory: /home/pocket/.poktroll
         # podSecurityContext:
         #   runAsUser: 1025
@@ -281,7 +281,7 @@ spec:
           serviceMonitor:
             enabled: true
         image:
-          tag: sha-6bd5fd3 #0.0.2
+          tag: sha-bdbc365 #0.0.3
         # homeDirectory: /home/pocket/.poktroll
         # podSecurityContext:
         #   runAsUser: 1025
@@ -359,7 +359,7 @@ spec:
           serviceMonitor:
             enabled: true
         image:
-          tag: sha-6bd5fd3 #0.0.2
+          tag: sha-bdbc365 #0.0.3
         # homeDirectory: /home/pocket/.poktroll
         # podSecurityContext:
         #   runAsUser: 1025

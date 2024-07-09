@@ -44,7 +44,7 @@ spec:
           serviceMonitor:
             enabled: true
         image:
-          tag: sha-6bd5fd3 #0.0.2
+          tag: sha-bdbc365 #0.0.3
         ingress:
           enabled: true
           annotations:
@@ -109,7 +109,7 @@ spec:
           serviceMonitor:
             enabled: true
         image:
-          tag: sha-6bd5fd3 #0.0.2
+          tag: sha-bdbc365 #0.0.3
         ingress:
           enabled: true
           annotations:
@@ -174,7 +174,7 @@ spec:
           serviceMonitor:
             enabled: true
         image:
-          tag: sha-6bd5fd3 #0.0.2
+          tag: sha-bdbc365 #0.0.3
         ingress:
           enabled: true
           annotations:
@@ -239,7 +239,7 @@ spec:
           serviceMonitor:
             enabled: true
         image:
-          tag: sha-6bd5fd3 #0.0.2
+          tag: sha-bdbc365 #0.0.3
         ingress:
           enabled: true
           annotations:
@@ -304,7 +304,7 @@ spec:
           serviceMonitor:
             enabled: true
         image:
-          tag: sha-6bd5fd3 #0.0.2
+          tag: sha-bdbc365 #0.0.3
         ingress:
           enabled: true
           annotations:

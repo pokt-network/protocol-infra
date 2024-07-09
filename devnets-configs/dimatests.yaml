@@ -5,10 +5,6 @@
 # The network is going to be deployed to `devnet-${networkName}` kubernetes namespace.
 networkName: "dimatests"
 
-internal:
-  # Though redundant, that fixes an issue with ArgoCD ApplicationSet Matrix + Plugin generators.
-  networkName: "dimatests"
-
 # Following command to run the e2e test against this devnet. Must use the correct k8s context! (gke_protocol-us-central1-d505_us-central1_protocol-us-central1)
 # IMAGE_TAG=sha-7042be3 NAMESPACE=devnet-dimatests JOB_NAME=e2e-test-7042be3 POCKET_NODE=tcp://devnet-dimatests-validator-poktrolld:36657 bash .github/workflows-helpers/run-e2e-test.sh
 image:
