@@ -88,9 +88,6 @@ spec:
             persistentPeers: "d45feeeea0a8125fb16b328fd094d48d4371377c@35.184.178.214:26656"
             unconditionalPeerIds: "d45feeeea0a8125fb16b328fd094d48d4371377c"
 
-        ingress:
-          enabled: false
-
   destination:
     namespace: testnet-validated-seed1
     server: https://kubernetes.default.svc
