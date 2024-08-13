@@ -1,0 +1,48 @@
+# This is used in e2e tests
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: devnet-rest-api-demo
+  labels:
+    app: rest
+    provisioned-by: "protocol"
+  namespace: protocol-common
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: devnet-rest-api-demo
+  template:
+    metadata:
+      labels:
+        app: devnet-rest-api-demo
+        provisioned-by: "protocol"
+    spec:
+      containers:
+        - name: rest
+          image: davarski/go-rest-api-demo
+          resources:
+            limits:
+              cpu: "0.5"
+              memory: "0.5Gi"
+            requests:
+              cpu: "0.2"
+              memory: "128Mi"
+          ports:
+            - name: http
+              containerPort: 10000
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: devnet-rest-api-demo
+  namespace: protocol-common
+  labels:
+    provisioned-by: "protocol"
+spec:
+  type: LoadBalancer
+  selector:
+    app: devnet-rest-api-demo
+  ports:
+    # Default port used by the image
+    - port: 10000
