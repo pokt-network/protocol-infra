@@ -130,9 +130,9 @@ spec:
   syncPolicy:
     syncOptions:
       - Replace=true
-    automated: # Enables automated sync
-      prune: false # Enables pruning of resources not tracked anymore
-      selfHeal: false # Enables self-healing of out-of-sync resources
+    # automated: # Enables automated sync
+    #   prune: false # Enables pruning of resources not tracked anymore
+    #   selfHeal: false # Enables self-healing of out-of-sync resources
   ignoreDifferences:
     - group: cert-manager.io
       kind: Certificate
@@ -172,9 +172,9 @@ spec:
   syncPolicy:
     syncOptions:
       - Replace=true
-    automated: # Enables automated sync
-      prune: false # Enables pruning of resources not tracked anymore
-      selfHeal: false # Enables self-healing of out-of-sync resources
+    # automated: # Enables automated sync
+    #   prune: false # Enables pruning of resources not tracked anymore
+    #   selfHeal: false # Enables self-healing of out-of-sync resources
   ignoreDifferences:
     - group: cert-manager.io
       kind: Certificate

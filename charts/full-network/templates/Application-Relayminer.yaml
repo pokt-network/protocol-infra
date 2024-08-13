@@ -65,6 +65,13 @@ spec:
                 publicly_exposed_endpoints:
                   - relayminer{{ $relayMinerNumber }} # schema and port intentionally omitted 
                   - {{ $networkType }}-{{ $networkName }}-relayminer-{{ $relayMinerNumber }}.poktroll.com
+            - service_id: rest
+              listen_url: http://0.0.0.0:8545
+              service_config:
+                backend_url: http://devnet-rest-api-demo.protocol-common:10000/
+                publicly_exposed_endpoints:
+                  - relayminer{{ $relayMinerNumber }} # schema and port intentionally omitted 
+                  - {{ $networkType }}-{{ $networkName }}-relayminer-{{ $relayMinerNumber }}.poktroll.com
         ingress:
           enabled: true
           annotations:
