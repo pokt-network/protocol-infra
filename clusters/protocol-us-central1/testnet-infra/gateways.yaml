@@ -1,5 +1,22 @@
 # Secret created with: kubectl create secret generic --context=gke_protocol-us-central1-d505_us-central1_protocol-us-central1 --namespace=testnet-offchain-actors --from-file=$HOME/testnet-actors/keyring-test/gateway-1.info --from-file=$HOME/testnet-actors/keyring-test/gateway-2.info --from-file=$HOME/testnet-actors/keyring-test/gateway-3.info --from-file=$HOME/testnet-actors/keyring-test/gateway-4.info --from-file=$HOME/testnet-actors/keyring-test/gateway-5.info gateways
 
+# Fund with
+# poktrolld tx bank multi-send faucet \
+# pokt18anvrjyxvh2mc3agmxxhd047yna6ccfy2y97cs \
+# pokt1gdwgchpz56uyr2m2g29gvuu3lc8fe3649ew2am \
+# pokt1mm0xn9kxu789las3d4ehfndq3vudnujpdmkpjl \
+# pokt13an9w8plrpvf0vq2jywcc4xc5ggz3tkhmlj4uq \
+# pokt1y0pawkkgd8659n2mq6r80pgu50xkuzn5s62nfj \
+# pokt1asmnsld2pfnlvy56a9h4vnsqlzvyzmnr76w3zy \
+# pokt10eevpgtsrzl558vmgjprvvku99xyp3fegvldqa \
+# pokt1cq6pyj9crw32hq68l3puwhptyt0k052tu6ezut \
+# pokt1923n0fhhrcyvvj6g69s9zyqev3g8w0mk2jv0u9 \
+# pokt10a2lwlrkraqx6sud6gc8mk4ewvmtany6e9z7mp \
+# 10000upokt \
+# --keyring-backend=test \
+# --node=https://testnet-validated-validator-rpc.poktroll.com/ \
+# --home=$HOME/pocket/testnet/testnet-08-15/
+
 ---
 # Staked manually by shelling into the container with the following command:
 
@@ -32,7 +49,7 @@ spec:
         keysSecretName: gateways
         resources:
           limits:
-            cpu: 0.5
+            cpu: 1
             memory: 1Gi
           requests:
             cpu: 0.25
@@ -44,7 +61,7 @@ spec:
           serviceMonitor:
             enabled: true
         image:
-          tag: sha-bdbc365 #0.0.3
+          tag: sha-7034b79 #0.0.3
         ingress:
           enabled: true
           annotations:
@@ -97,7 +114,7 @@ spec:
         keysSecretName: gateways
         resources:
           limits:
-            cpu: 0.5
+            cpu: 1
             memory: 1Gi
           requests:
             cpu: 0.25
@@ -109,7 +126,7 @@ spec:
           serviceMonitor:
             enabled: true
         image:
-          tag: sha-bdbc365 #0.0.3
+          tag: sha-7034b79 #0.0.3
         ingress:
           enabled: true
           annotations:
@@ -162,7 +179,7 @@ spec:
         keysSecretName: gateways
         resources:
           limits:
-            cpu: 0.5
+            cpu: 1
             memory: 1Gi
           requests:
             cpu: 0.25
@@ -174,7 +191,7 @@ spec:
           serviceMonitor:
             enabled: true
         image:
-          tag: sha-bdbc365 #0.0.3
+          tag: sha-7034b79 #0.0.3
         ingress:
           enabled: true
           annotations:
@@ -227,7 +244,7 @@ spec:
         keysSecretName: gateways
         resources:
           limits:
-            cpu: 0.5
+            cpu: 1
             memory: 1Gi
           requests:
             cpu: 0.25
@@ -239,7 +256,7 @@ spec:
           serviceMonitor:
             enabled: true
         image:
-          tag: sha-bdbc365 #0.0.3
+          tag: sha-7034b79 #0.0.3
         ingress:
           enabled: true
           annotations:
@@ -292,7 +309,7 @@ spec:
         keysSecretName: gateways
         resources:
           limits:
-            cpu: 0.5
+            cpu: 1
             memory: 1Gi
           requests:
             cpu: 0.25
@@ -304,7 +321,7 @@ spec:
           serviceMonitor:
             enabled: true
         image:
-          tag: sha-bdbc365 #0.0.3
+          tag: sha-7034b79 #0.0.3
         ingress:
           enabled: true
           annotations:

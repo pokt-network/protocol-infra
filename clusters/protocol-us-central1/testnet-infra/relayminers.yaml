@@ -2,10 +2,19 @@
 
 ---
 # Staked manually by shelling into the container with the following command:
-# cat <<EOF >>/root/stake_config.yaml
+# cat <<EOF >/root/stake_config.yaml
 # stake_amount: 1000upokt
+# owner_address: pokt1asmnsld2pfnlvy56a9h4vnsqlzvyzmnr76w3zy
 # services:
 # - service_id: protocol-anvil
+#   endpoints:
+#   - publicly_exposed_url: https://testnet-relayminer-1.poktroll.com:443
+#     rpc_type: json_rpc
+# - service_id: proto-static-ngx
+#   endpoints:
+#   - publicly_exposed_url: https://testnet-relayminer-1.poktroll.com:443
+#     rpc_type: json_rpc
+# - service_id: "0021"
 #   endpoints:
 #   - publicly_exposed_url: https://testnet-relayminer-1.poktroll.com:443
 #     rpc_type: json_rpc
@@ -33,21 +42,21 @@ spec:
     targetRevision: adopt-prod-image # TODO: change to versioned releases when the work on the helm chart is merged/done
     helm:
       values: |
-        replicaCount: 0
+        replicaCount: 1
         keysSecretName: relayminers
         resources:
           limits:
-            cpu: 0.5
+            cpu: 1
             memory: 4Gi
           requests:
-            cpu: 0.25
-            memory: 4Gi
+            cpu: 0.5
+            memory: 1Gi
         metrics:
           enabled: true
           serviceMonitor:
             enabled: true
         image:
-          tag: sha-bdbc365 #0.0.3
+          tag: sha-7034b79 #0.0.3
         # homeDirectory: /home/pocket/.poktroll
         # podSecurityContext:
         #   runAsUser: 1025
@@ -66,7 +75,8 @@ spec:
               hosts:
                 - testnet-relayminer-1.poktroll.com
         config:
-          signing_key_name: relayminer-1
+          signing_key_name: relayminer-1 # For backwards compatibility with chart
+          default_signing_key_names: [relayminer-1]
           pocket_node:
             query_node_rpc_url: https://testnet-validated-validator-rpc.poktroll.com:443
             query_node_grpc_url: https://testnet-validated-validator-grpc.poktroll.com:443
@@ -78,12 +88,33 @@ spec:
                 backend_url: http://anvil.protocol-common:8547/
                 publicly_exposed_endpoints:
                   - testnet-relayminer-1.poktroll.com
+            - service_id: proto-static-ngx
+              listen_url: http://0.0.0.0:8545
+              service_config:
+                backend_url: http://static-nginx-service:80/
+                publicly_exposed_endpoints:
+                  - testnet-relayminer-1.poktroll.com
+            - service_id: "0021"
+              listen_url: http://0.0.0.0:8545
+              service_config:
+                backend_url: https://eth-mainnet.rpc.grove.city/v1/765112fe
+                publicly_exposed_endpoints:
+                  - testnet-relayminer-1.poktroll.com
 ---
 # Staked manually by shelling into the container with the following command:
-# cat <<EOF >>/root/stake_config.yaml
+# cat <<EOF >/root/stake_config.yaml
 # stake_amount: 1000upokt
+# owner_address: pokt10eevpgtsrzl558vmgjprvvku99xyp3fegvldqa
 # services:
 # - service_id: protocol-anvil
+#   endpoints:
+#   - publicly_exposed_url: https://testnet-relayminer-2.poktroll.com:443
+#     rpc_type: json_rpc
+# - service_id: proto-static-ngx
+#   endpoints:
+#   - publicly_exposed_url: https://testnet-relayminer-2.poktroll.com:443
+#     rpc_type: json_rpc
+# - service_id: "0021"
 #   endpoints:
 #   - publicly_exposed_url: https://testnet-relayminer-2.poktroll.com:443
 #     rpc_type: json_rpc
@@ -111,21 +142,21 @@ spec:
     targetRevision: adopt-prod-image # TODO: change to versioned releases when the work on the helm chart is merged/done
     helm:
       values: |
-        replicaCount: 0
+        replicaCount: 1
         keysSecretName: relayminers
         resources:
           limits:
-            cpu: 0.5
+            cpu: 1
             memory: 4Gi
           requests:
-            cpu: 0.25
-            memory: 4Gi
+            cpu: 0.5
+            memory: 1Gi
         metrics:
           enabled: true
           serviceMonitor:
             enabled: true
         image:
-          tag: sha-bdbc365 #0.0.3
+          tag: sha-7034b79 #0.0.3
         # homeDirectory: /home/pocket/.poktroll
         # podSecurityContext:
         #   runAsUser: 1025
@@ -144,7 +175,8 @@ spec:
               hosts:
                 - testnet-relayminer-2.poktroll.com
         config:
-          signing_key_name: relayminer-2
+          signing_key_name: relayminer-2 # For backwards compatibility with chart
+          default_signing_key_names: [relayminer-2]
           pocket_node:
             query_node_rpc_url: https://testnet-validated-validator-rpc.poktroll.com:443
             query_node_grpc_url: https://testnet-validated-validator-grpc.poktroll.com:443
@@ -156,12 +188,33 @@ spec:
                 backend_url: http://anvil.protocol-common:8547/
                 publicly_exposed_endpoints:
                   - testnet-relayminer-2.poktroll.com
+            - service_id: proto-static-ngx
+              listen_url: http://0.0.0.0:8545
+              service_config:
+                backend_url: http://static-nginx-service:80/
+                publicly_exposed_endpoints:
+                  - testnet-relayminer-2.poktroll.com
+            - service_id: "0021"
+              listen_url: http://0.0.0.0:8545
+              service_config:
+                backend_url: https://eth-mainnet.rpc.grove.city/v1/765112fe
+                publicly_exposed_endpoints:
+                  - testnet-relayminer-2.poktroll.com
 ---
 # Staked manually by shelling into the container with the following command:
-# cat <<EOF >>/root/stake_config.yaml
+# cat <<EOF >/root/stake_config.yaml
 # stake_amount: 1000upokt
+# owner_address: pokt1cq6pyj9crw32hq68l3puwhptyt0k052tu6ezut
 # services:
 # - service_id: protocol-anvil
+#   endpoints:
+#   - publicly_exposed_url: https://testnet-relayminer-3.poktroll.com:443
+#     rpc_type: json_rpc
+# - service_id: proto-static-ngx
+#   endpoints:
+#   - publicly_exposed_url: https://testnet-relayminer-3.poktroll.com:443
+#     rpc_type: json_rpc
+# - service_id: "0021"
 #   endpoints:
 #   - publicly_exposed_url: https://testnet-relayminer-3.poktroll.com:443
 #     rpc_type: json_rpc
@@ -189,21 +242,21 @@ spec:
     targetRevision: adopt-prod-image # TODO: change to versioned releases when the work on the helm chart is merged/done
     helm:
       values: |
-        replicaCount: 0
+        replicaCount: 1
         keysSecretName: relayminers
         resources:
           limits:
-            cpu: 0.5
+            cpu: 1
             memory: 4Gi
           requests:
-            cpu: 0.25
-            memory: 4Gi
+            cpu: 0.5
+            memory: 1Gi
         metrics:
           enabled: true
           serviceMonitor:
             enabled: true
         image:
-          tag: sha-bdbc365 #0.0.3
+          tag: sha-7034b79 #0.0.3
         # homeDirectory: /home/pocket/.poktroll
         # podSecurityContext:
         #   runAsUser: 1025
@@ -222,7 +275,8 @@ spec:
               hosts:
                 - testnet-relayminer-3.poktroll.com
         config:
-          signing_key_name: relayminer-3
+          signing_key_name: relayminer-3 # For backwards compatibility with chart
+          default_signing_key_names: [relayminer-3]
           pocket_node:
             query_node_rpc_url: https://testnet-validated-validator-rpc.poktroll.com:443
             query_node_grpc_url: https://testnet-validated-validator-grpc.poktroll.com:443
@@ -234,12 +288,33 @@ spec:
                 backend_url: http://anvil.protocol-common:8547/
                 publicly_exposed_endpoints:
                   - testnet-relayminer-3.poktroll.com
+            - service_id: proto-static-ngx
+              listen_url: http://0.0.0.0:8545
+              service_config:
+                backend_url: http://static-nginx-service:80/
+                publicly_exposed_endpoints:
+                  - testnet-relayminer-3.poktroll.com
+            - service_id: "0021"
+              listen_url: http://0.0.0.0:8545
+              service_config:
+                backend_url: https://eth-mainnet.rpc.grove.city/v1/765112fe
+                publicly_exposed_endpoints:
+                  - testnet-relayminer-3.poktroll.com
 ---
 # Staked manually by shelling into the container with the following command:
-# cat <<EOF >>/root/stake_config.yaml
+# cat <<EOF >/root/stake_config.yaml
 # stake_amount: 1000upokt
+# owner_address: pokt1923n0fhhrcyvvj6g69s9zyqev3g8w0mk2jv0u9
 # services:
 # - service_id: protocol-anvil
+#   endpoints:
+#   - publicly_exposed_url: https://testnet-relayminer-4.poktroll.com:443
+#     rpc_type: json_rpc
+# - service_id: proto-static-ngx
+#   endpoints:
+#   - publicly_exposed_url: https://testnet-relayminer-4.poktroll.com:443
+#     rpc_type: json_rpc
+# - service_id: "0021"
 #   endpoints:
 #   - publicly_exposed_url: https://testnet-relayminer-4.poktroll.com:443
 #     rpc_type: json_rpc
@@ -267,21 +342,21 @@ spec:
     targetRevision: adopt-prod-image # TODO: change to versioned releases when the work on the helm chart is merged/done
     helm:
       values: |
-        replicaCount: 0
+        replicaCount: 1
         keysSecretName: relayminers
         resources:
           limits:
-            cpu: 0.5
+            cpu: 1
             memory: 4Gi
           requests:
-            cpu: 0.25
-            memory: 4Gi
+            cpu: 0.5
+            memory: 1Gi
         metrics:
           enabled: true
           serviceMonitor:
             enabled: true
         image:
-          tag: sha-bdbc365 #0.0.3
+          tag: sha-7034b79 #0.0.3
         # homeDirectory: /home/pocket/.poktroll
         # podSecurityContext:
         #   runAsUser: 1025
@@ -300,7 +375,8 @@ spec:
               hosts:
                 - testnet-relayminer-4.poktroll.com
         config:
-          signing_key_name: relayminer-4
+          signing_key_name: relayminer-4 # For backwards compatibility with chart
+          default_signing_key_names: [relayminer-4]
           pocket_node:
             query_node_rpc_url: https://testnet-validated-validator-rpc.poktroll.com:443
             query_node_grpc_url: https://testnet-validated-validator-grpc.poktroll.com:443
@@ -312,12 +388,33 @@ spec:
                 backend_url: http://anvil.protocol-common:8547/
                 publicly_exposed_endpoints:
                   - testnet-relayminer-4.poktroll.com
+            - service_id: proto-static-ngx
+              listen_url: http://0.0.0.0:8545
+              service_config:
+                backend_url: http://static-nginx-service:80/
+                publicly_exposed_endpoints:
+                  - testnet-relayminer-4.poktroll.com
+            - service_id: "0021"
+              listen_url: http://0.0.0.0:8545
+              service_config:
+                backend_url: https://eth-mainnet.rpc.grove.city/v1/765112fe
+                publicly_exposed_endpoints:
+                  - testnet-relayminer-4.poktroll.com
 ---
 # Staked manually by shelling into the container with the following command:
-# cat <<EOF >>/root/stake_config.yaml
+# cat <<EOF >/root/stake_config.yaml
 # stake_amount: 1000upokt
+# owner_address: pokt10a2lwlrkraqx6sud6gc8mk4ewvmtany6e9z7mp
 # services:
 # - service_id: protocol-anvil
+#   endpoints:
+#   - publicly_exposed_url: https://testnet-relayminer-5.poktroll.com:443
+#     rpc_type: json_rpc
+# - service_id: proto-static-ngx
+#   endpoints:
+#   - publicly_exposed_url: https://testnet-relayminer-5.poktroll.com:443
+#     rpc_type: json_rpc
+# - service_id: "0021"
 #   endpoints:
 #   - publicly_exposed_url: https://testnet-relayminer-5.poktroll.com:443
 #     rpc_type: json_rpc
@@ -345,21 +442,21 @@ spec:
     targetRevision: adopt-prod-image # TODO: change to versioned releases when the work on the helm chart is merged/done
     helm:
       values: |
-        replicaCount: 0
+        replicaCount: 1
         keysSecretName: relayminers
         resources:
           limits:
-            cpu: 0.5
+            cpu: 1
             memory: 4Gi
           requests:
-            cpu: 0.25
-            memory: 4Gi
+            cpu: 0.5
+            memory: 1Gi
         metrics:
           enabled: true
           serviceMonitor:
             enabled: true
         image:
-          tag: sha-bdbc365 #0.0.3
+          tag: sha-7034b79 #0.0.3
         # homeDirectory: /home/pocket/.poktroll
         # podSecurityContext:
         #   runAsUser: 1025
@@ -378,7 +475,8 @@ spec:
               hosts:
                 - testnet-relayminer-5.poktroll.com
         config:
-          signing_key_name: relayminer-5
+          signing_key_name: relayminer-5 # For backwards compatibility with chart
+          default_signing_key_names: [relayminer-5]
           pocket_node:
             query_node_rpc_url: https://testnet-validated-validator-rpc.poktroll.com:443
             query_node_grpc_url: https://testnet-validated-validator-grpc.poktroll.com:443
@@ -388,5 +486,17 @@ spec:
               listen_url: http://0.0.0.0:8545
               service_config:
                 backend_url: http://anvil.protocol-common:8547/
+                publicly_exposed_endpoints:
+                  - testnet-relayminer-5.poktroll.com
+            - service_id: proto-static-ngx
+              listen_url: http://0.0.0.0:8545
+              service_config:
+                backend_url: http://static-nginx-service:80/
+                publicly_exposed_endpoints:
+                  - testnet-relayminer-5.poktroll.com
+            - service_id: "0021"
+              listen_url: http://0.0.0.0:8545
+              service_config:
+                backend_url: https://eth-mainnet.rpc.grove.city/v1/765112fe
                 publicly_exposed_endpoints:
                   - testnet-relayminer-5.poktroll.com

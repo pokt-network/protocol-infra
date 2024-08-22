@@ -172,7 +172,7 @@ data:
       enable-service-label = false
       enabled = true
       global-labels = []
-      prometheus-retention-time = 0
+      prometheus-retention-time = "600"
       service-name = ""
   client.toml: |
     broadcast-mode = "sync"
