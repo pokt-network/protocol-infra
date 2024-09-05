@@ -15,7 +15,8 @@
 # 10000upokt \
 # --keyring-backend=test \
 # --node=https://testnet-validated-validator-rpc.poktroll.com/ \
-# --home=$HOME/pocket/testnet/testnet-08-15/
+# --home=$HOME/pocket/testnet/testnet-08-15/ \
+# --gas=300000
 
 ---
 # Staked manually by shelling into the container with the following command:
@@ -46,7 +47,7 @@ spec:
     targetRevision: adopt-prod-image # TODO: change to versioned releases when the work on the helm chart is merged/done
     helm:
       values: |
-        replicaCount: 0
+        replicaCount: 1
         keysSecretName: gateways
         resources:
           limits:
@@ -112,7 +113,7 @@ spec:
     targetRevision: adopt-prod-image # TODO: change to versioned releases when the work on the helm chart is merged/done
     helm:
       values: |
-        replicaCount: 0
+        replicaCount: 1
         keysSecretName: gateways
         resources:
           limits:
@@ -178,7 +179,7 @@ spec:
     targetRevision: adopt-prod-image # TODO: change to versioned releases when the work on the helm chart is merged/done
     helm:
       values: |
-        replicaCount: 0
+        replicaCount: 1
         keysSecretName: gateways
         resources:
           limits:
@@ -244,7 +245,7 @@ spec:
     targetRevision: adopt-prod-image # TODO: change to versioned releases when the work on the helm chart is merged/done
     helm:
       values: |
-        replicaCount: 0
+        replicaCount: 1
         keysSecretName: gateways
         resources:
           limits:
@@ -310,7 +311,7 @@ spec:
     targetRevision: adopt-prod-image # TODO: change to versioned releases when the work on the helm chart is merged/done
     helm:
       values: |
-        replicaCount: 0
+        replicaCount: 1
         keysSecretName: gateways
         resources:
           limits:
