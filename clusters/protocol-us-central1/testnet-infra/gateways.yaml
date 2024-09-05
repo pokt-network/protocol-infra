@@ -62,7 +62,7 @@ spec:
           serviceMonitor:
             enabled: true
         image:
-          tag: sha-7034b79 #0.0.3
+          tag: sha-0360638
         ingress:
           enabled: true
           annotations:
@@ -128,7 +128,7 @@ spec:
           serviceMonitor:
             enabled: true
         image:
-          tag: sha-7034b79 #0.0.3
+          tag: sha-0360638
         ingress:
           enabled: true
           annotations:
@@ -194,7 +194,7 @@ spec:
           serviceMonitor:
             enabled: true
         image:
-          tag: sha-7034b79 #0.0.3
+          tag: sha-0360638
         ingress:
           enabled: true
           annotations:
@@ -260,7 +260,7 @@ spec:
           serviceMonitor:
             enabled: true
         image:
-          tag: sha-7034b79 #0.0.3
+          tag: sha-0360638
         ingress:
           enabled: true
           annotations:
@@ -326,7 +326,7 @@ spec:
           serviceMonitor:
             enabled: true
         image:
-          tag: sha-7034b79 #0.0.3
+          tag: sha-0360638
         ingress:
           enabled: true
           annotations:
