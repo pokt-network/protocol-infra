@@ -63,7 +63,7 @@ spec:
           serviceMonitor:
             enabled: true
         image:
-          tag: sha-0360638
+          tag: sha-e17a0df
         ingress:
           enabled: true
           annotations:
@@ -77,13 +77,14 @@ spec:
             - secretName: poktroll-wildcard-tls
               hosts:
                 - testnet-gateway-1.poktroll.com
+        grpcInsecure: true
         config:
           signing_key: gateway-1
           self_signing: false
-          query_node_url: https://testnet-validated-validator-rpc.poktroll.com:443
+          query_node_url: tcp://testnet-validated-poktrolld.testnet-validated:26657
           listening_endpoint: http://0.0.0.0:80
-          query_node_rpc_url: https://testnet-validated-validator-rpc.poktroll.com:443
-          query_node_grpc_url: https://testnet-validated-validator-grpc.poktroll.com:443
+          query_node_rpc_url: tcp://testnet-validated-poktrolld.testnet-validated:26657
+          query_node_grpc_url: tcp://testnet-validated-poktrolld.testnet-validated:9090
 ---
 # Staked manually by shelling into the container with the following command:
 
@@ -129,7 +130,7 @@ spec:
           serviceMonitor:
             enabled: true
         image:
-          tag: sha-0360638
+          tag: sha-e17a0df
         ingress:
           enabled: true
           annotations:
@@ -143,13 +144,14 @@ spec:
             - secretName: poktroll-wildcard-tls
               hosts:
                 - testnet-gateway-2.poktroll.com
+        grpcInsecure: true
         config:
           signing_key: gateway-2
           self_signing: false
-          query_node_url: https://testnet-validated-validator-rpc.poktroll.com:443
+          query_node_url: tcp://testnet-validated-poktrolld.testnet-validated:26657
           listening_endpoint: http://0.0.0.0:80
-          query_node_rpc_url: https://testnet-validated-validator-rpc.poktroll.com:443
-          query_node_grpc_url: https://testnet-validated-validator-grpc.poktroll.com:443
+          query_node_rpc_url: tcp://testnet-validated-poktrolld.testnet-validated:26657
+          query_node_grpc_url: tcp://testnet-validated-poktrolld.testnet-validated:9090
 ---
 # Staked manually by shelling into the container with the following command:
 
@@ -195,7 +197,7 @@ spec:
           serviceMonitor:
             enabled: true
         image:
-          tag: sha-0360638
+          tag: sha-e17a0df
         ingress:
           enabled: true
           annotations:
@@ -209,13 +211,14 @@ spec:
             - secretName: poktroll-wildcard-tls
               hosts:
                 - testnet-gateway-3.poktroll.com
+        grpcInsecure: true
         config:
           signing_key: gateway-3
           self_signing: false
-          query_node_url: https://testnet-validated-validator-rpc.poktroll.com:443
+          query_node_url: tcp://testnet-validated-poktrolld.testnet-validated:26657
           listening_endpoint: http://0.0.0.0:80
-          query_node_rpc_url: https://testnet-validated-validator-rpc.poktroll.com:443
-          query_node_grpc_url: https://testnet-validated-validator-grpc.poktroll.com:443
+          query_node_rpc_url: tcp://testnet-validated-poktrolld.testnet-validated:26657
+          query_node_grpc_url: tcp://testnet-validated-poktrolld.testnet-validated:9090
 ---
 # Staked manually by shelling into the container with the following command:
 
@@ -261,7 +264,7 @@ spec:
           serviceMonitor:
             enabled: true
         image:
-          tag: sha-0360638
+          tag: sha-e17a0df
         ingress:
           enabled: true
           annotations:
@@ -275,13 +278,14 @@ spec:
             - secretName: poktroll-wildcard-tls
               hosts:
                 - testnet-gateway-4.poktroll.com
+        grpcInsecure: true
         config:
           signing_key: gateway-4
           self_signing: false
-          query_node_url: https://testnet-validated-validator-rpc.poktroll.com:443
+          query_node_url: tcp://testnet-validated-poktrolld.testnet-validated:26657
           listening_endpoint: http://0.0.0.0:80
-          query_node_rpc_url: https://testnet-validated-validator-rpc.poktroll.com:443
-          query_node_grpc_url: https://testnet-validated-validator-grpc.poktroll.com:443
+          query_node_rpc_url: tcp://testnet-validated-poktrolld.testnet-validated:26657
+          query_node_grpc_url: tcp://testnet-validated-poktrolld.testnet-validated:9090
 ---
 # Staked manually by shelling into the container with the following command:
 
@@ -327,7 +331,7 @@ spec:
           serviceMonitor:
             enabled: true
         image:
-          tag: sha-0360638
+          tag: sha-e17a0df
         ingress:
           enabled: true
           annotations:
@@ -341,10 +345,11 @@ spec:
             - secretName: poktroll-wildcard-tls
               hosts:
                 - testnet-gateway-5.poktroll.com
+        grpcInsecure: true
         config:
           signing_key: gateway-5
           self_signing: false
-          query_node_url: https://testnet-validated-validator-rpc.poktroll.com:443
+          query_node_url: tcp://testnet-validated-poktrolld.testnet-validated:26657
           listening_endpoint: http://0.0.0.0:80
-          query_node_rpc_url: https://testnet-validated-validator-rpc.poktroll.com:443
-          query_node_grpc_url: https://testnet-validated-validator-grpc.poktroll.com:443
+          query_node_rpc_url: tcp://testnet-validated-poktrolld.testnet-validated:26657
+          query_node_grpc_url: tcp://testnet-validated-poktrolld.testnet-validated:9090

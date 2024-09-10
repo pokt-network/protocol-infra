@@ -56,7 +56,7 @@ spec:
           serviceMonitor:
             enabled: true
         image:
-          tag: sha-0360638
+          tag: sha-e17a0df
         # homeDirectory: /home/pocket/.poktroll
         # podSecurityContext:
         #   runAsUser: 1025
@@ -74,14 +74,15 @@ spec:
             - secretName: poktroll-wildcard-tls
               hosts:
                 - testnet-relayminer-1.poktroll.com
+        grpcInsecure: true
         config:
           signing_key_name: relayminer-1 # For backwards compatibility with chart
           default_signing_key_names: [relayminer-1]
           smt_store_path: /root/.poktroll/smt
           pocket_node:
-            query_node_rpc_url: https://testnet-validated-validator-rpc.poktroll.com:443
-            query_node_grpc_url: https://testnet-validated-validator-grpc.poktroll.com:443
-            tx_node_rpc_url: https://testnet-validated-validator-rpc.poktroll.com:443
+            query_node_rpc_url: tcp://testnet-validated-poktrolld.testnet-validated:26657
+            query_node_grpc_url: tcp://testnet-validated-poktrolld.testnet-validated:9090
+            tx_node_rpc_url: tcp://testnet-validated-poktrolld.testnet-validated:26657
           suppliers:
             - service_id: protocol-anvil
               listen_url: http://0.0.0.0:8545
@@ -157,7 +158,7 @@ spec:
           serviceMonitor:
             enabled: true
         image:
-          tag: sha-0360638
+          tag: sha-e17a0df
         # homeDirectory: /home/pocket/.poktroll
         # podSecurityContext:
         #   runAsUser: 1025
@@ -175,14 +176,15 @@ spec:
             - secretName: poktroll-wildcard-tls
               hosts:
                 - testnet-relayminer-2.poktroll.com
+        grpcInsecure: true
         config:
           signing_key_name: relayminer-2 # For backwards compatibility with chart
           default_signing_key_names: [relayminer-2]
           smt_store_path: /root/.poktroll/smt
           pocket_node:
-            query_node_rpc_url: https://testnet-validated-validator-rpc.poktroll.com:443
-            query_node_grpc_url: https://testnet-validated-validator-grpc.poktroll.com:443
-            tx_node_rpc_url: https://testnet-validated-validator-rpc.poktroll.com:443
+            query_node_rpc_url: tcp://testnet-validated-poktrolld.testnet-validated:26657
+            query_node_grpc_url: tcp://testnet-validated-poktrolld.testnet-validated:9090
+            tx_node_rpc_url: tcp://testnet-validated-poktrolld.testnet-validated:26657
           suppliers:
             - service_id: protocol-anvil
               listen_url: http://0.0.0.0:8545
@@ -258,7 +260,7 @@ spec:
           serviceMonitor:
             enabled: true
         image:
-          tag: sha-0360638
+          tag: sha-e17a0df
         # homeDirectory: /home/pocket/.poktroll
         # podSecurityContext:
         #   runAsUser: 1025
@@ -276,14 +278,15 @@ spec:
             - secretName: poktroll-wildcard-tls
               hosts:
                 - testnet-relayminer-3.poktroll.com
+        grpcInsecure: true
         config:
           signing_key_name: relayminer-3 # For backwards compatibility with chart
           default_signing_key_names: [relayminer-3]
           smt_store_path: /root/.poktroll/smt
           pocket_node:
-            query_node_rpc_url: https://testnet-validated-validator-rpc.poktroll.com:443
-            query_node_grpc_url: https://testnet-validated-validator-grpc.poktroll.com:443
-            tx_node_rpc_url: https://testnet-validated-validator-rpc.poktroll.com:443
+            query_node_rpc_url: tcp://testnet-validated-poktrolld.testnet-validated:26657
+            query_node_grpc_url: tcp://testnet-validated-poktrolld.testnet-validated:9090
+            tx_node_rpc_url: tcp://testnet-validated-poktrolld.testnet-validated:26657
           suppliers:
             - service_id: protocol-anvil
               listen_url: http://0.0.0.0:8545
@@ -359,7 +362,7 @@ spec:
           serviceMonitor:
             enabled: true
         image:
-          tag: sha-0360638
+          tag: sha-e17a0df
         # homeDirectory: /home/pocket/.poktroll
         # podSecurityContext:
         #   runAsUser: 1025
@@ -377,14 +380,15 @@ spec:
             - secretName: poktroll-wildcard-tls
               hosts:
                 - testnet-relayminer-4.poktroll.com
+        grpcInsecure: true
         config:
           signing_key_name: relayminer-4 # For backwards compatibility with chart
           default_signing_key_names: [relayminer-4]
           smt_store_path: /root/.poktroll/smt
           pocket_node:
-            query_node_rpc_url: https://testnet-validated-validator-rpc.poktroll.com:443
-            query_node_grpc_url: https://testnet-validated-validator-grpc.poktroll.com:443
-            tx_node_rpc_url: https://testnet-validated-validator-rpc.poktroll.com:443
+            query_node_rpc_url: tcp://testnet-validated-poktrolld.testnet-validated:26657
+            query_node_grpc_url: tcp://testnet-validated-poktrolld.testnet-validated:9090
+            tx_node_rpc_url: tcp://testnet-validated-poktrolld.testnet-validated:26657
           suppliers:
             - service_id: protocol-anvil
               listen_url: http://0.0.0.0:8545
@@ -460,7 +464,7 @@ spec:
           serviceMonitor:
             enabled: true
         image:
-          tag: sha-0360638
+          tag: sha-e17a0df
         # homeDirectory: /home/pocket/.poktroll
         # podSecurityContext:
         #   runAsUser: 1025
@@ -478,14 +482,15 @@ spec:
             - secretName: poktroll-wildcard-tls
               hosts:
                 - testnet-relayminer-5.poktroll.com
+        grpcInsecure: true
         config:
           signing_key_name: relayminer-5 # For backwards compatibility with chart
           default_signing_key_names: [relayminer-5]
           smt_store_path: /root/.poktroll/smt
           pocket_node:
-            query_node_rpc_url: https://testnet-validated-validator-rpc.poktroll.com:443
-            query_node_grpc_url: https://testnet-validated-validator-grpc.poktroll.com:443
-            tx_node_rpc_url: https://testnet-validated-validator-rpc.poktroll.com:443
+            query_node_rpc_url: tcp://testnet-validated-poktrolld.testnet-validated:26657
+            query_node_grpc_url: tcp://testnet-validated-poktrolld.testnet-validated:9090
+            tx_node_rpc_url: tcp://testnet-validated-poktrolld.testnet-validated:26657
           suppliers:
             - service_id: protocol-anvil
               listen_url: http://0.0.0.0:8545

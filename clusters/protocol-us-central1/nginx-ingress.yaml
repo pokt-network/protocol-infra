@@ -19,7 +19,14 @@ spec:
     helm:
       values: |
         controller:
-          replicaCount: 2
+          replicaCount: 3
+          resources:
+            limits:
+              cpu: 2
+              memory: 2Gi
+            requests:
+              cpu: 1
+              memory: 512Mi
           service:
             externalTrafficPolicy: Local
           metrics:
