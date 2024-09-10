@@ -20,6 +20,9 @@ spec:
       values: |
         controller:
           replicaCount: 2
+          config:
+            use-proxy-protocol: "true"
+            use-geoip: "true"
           resources:
             limits:
               cpu: 2
@@ -29,6 +32,20 @@ spec:
               memory: 512Mi
           service:
             externalTrafficPolicy: Local
+            # https://github.com/vultr/vultr-cloud-controller-manager/blob/master/docs/load-balancers.md
+            annotations:
+              service.beta.kubernetes.io/vultr-loadbalancer-algorithm: "least_connections"
+              service.beta.kubernetes.io/vultr-loadbalancer-proxy-protocol: "true"
+          affinity:
+            podAntiAffinity:
+              requiredDuringSchedulingIgnoredDuringExecution:
+                - labelSelector:
+                    matchExpressions:
+                      - key: "app.kubernetes.io/name"
+                        operator: In
+                        values:
+                        - ingress-nginx
+                  topologyKey: "kubernetes.io/hostname"
           metrics:
             enabled: true
             serviceMonitor:
