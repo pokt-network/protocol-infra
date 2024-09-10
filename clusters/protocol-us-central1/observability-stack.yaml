@@ -142,6 +142,7 @@ spec:
   syncPolicy:
     syncOptions:
       - Replace=true
+      - RespectIgnoreDifferences=true
     # automated: # Enables automated sync
     #   prune: false # Enables pruning of resources not tracked anymore
     #   selfHeal: false # Enables self-healing of out-of-sync resources
@@ -151,6 +152,17 @@ spec:
       jsonPointers:
         - /spec/duration
         - /spec/renewBefore
+    - group: ""
+      kind: Secret
+      name: <fullname>-validation
+      namespace: kube-system
+      jsonPointers:
+        - /data
+    - group: admissionregistration.k8s.io
+      kind: ValidatingWebhookConfiguration
+      name: <fullname>-admission
+      jqPathExpressions:
+      - '.webhooks[]?.clientConfig.caBundle'
 
 ---
 apiVersion: argoproj.io/v1alpha1
@@ -184,6 +196,7 @@ spec:
   syncPolicy:
     syncOptions:
       - Replace=true
+      - RespectIgnoreDifferences=true
     # automated: # Enables automated sync
     #   prune: false # Enables pruning of resources not tracked anymore
     #   selfHeal: false # Enables self-healing of out-of-sync resources
