@@ -33,7 +33,7 @@ spec:
               nginx.ingress.kubernetes.io/auth-type: basic
               nginx.ingress.kubernetes.io/auth-secret: basic-auth
             hosts:
-              - name: vm-usc1.poktroll.com
+              - vm-usc1.poktroll.com
             tls:
               - secretName: "poktroll-wildcard-tls"
                 hosts:
