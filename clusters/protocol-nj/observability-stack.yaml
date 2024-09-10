@@ -22,6 +22,16 @@ spec:
           enabled: false
 
         vmagent:
+          additionalRemoteWrites:
+            url: https://vm-usc1.poktroll.com/api/v1/write
+            basicAuth:
+              username:
+                key: username
+                name: basic-auth
+              password:
+                key: password
+                name: basic-auth
+
           spec:
             selectAllByDefault: true # all namespaces
             externalLabels:
