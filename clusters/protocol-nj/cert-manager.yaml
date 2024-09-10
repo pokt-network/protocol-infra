@@ -87,6 +87,7 @@ spec:
   dnsNames:
     - poktroll.com
     - "*.poktroll.com"
+    - "*.us-nj.poktroll.com"
   # Issuer references are always required.
   issuerRef:
     name: letsencrypt-production-dns
