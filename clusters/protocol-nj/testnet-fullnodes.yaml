@@ -1,4 +1,32 @@
 # Secrets such as `testnet-validated-seed1-validator-keys` are pushed to the cluster manually.
+apiVersion: v1
+kind: Service
+metadata:
+  name: testnet-all-fullnodes
+  namespace: testnet-onchain
+spec:
+  internalTrafficPolicy: Cluster
+  ports:
+    - name: grpc
+      port: 9090
+      protocol: TCP
+      targetPort: grpc
+    - name: rpc
+      port: 26657
+      protocol: TCP
+      targetPort: rpc
+    - name: api
+      port: 1317
+      protocol: TCP
+      targetPort: api
+    - name: comet-metrics
+      port: 26660
+      protocol: TCP
+      targetPort: comet-metrics
+  selector:
+    app.kubernetes.io/name: poktrolld
+    pokt.network/purpose: full-node
+---
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:

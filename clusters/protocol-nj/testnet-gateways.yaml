@@ -52,7 +52,7 @@ spec:
     targetRevision: adopt-prod-image # TODO: change to versioned releases when the work on the helm chart is merged/done
     helm:
       values: |
-        replicaCount: 1
+        replicaCount: 0
         keysSecretName: gateways
         resources:
           limits:
@@ -86,10 +86,10 @@ spec:
         config:
           signing_key: gateway-1
           self_signing: false
-          query_node_url: tcp://testnet-fullnode-1-poktrolld.testnet-onchain:26657
+          query_node_url: tcp://testnet-all-fullnodes.testnet-onchain:26657
           listening_endpoint: http://0.0.0.0:80
-          query_node_rpc_url: tcp://testnet-fullnode-1-poktrolld.testnet-onchain:26657
-          query_node_grpc_url: tcp://testnet-fullnode-1-poktrolld.testnet-onchain:9090
+          query_node_rpc_url: tcp://testnet-all-fullnodes.testnet-onchain:26657
+          query_node_grpc_url: tcp://testnet-all-fullnodes.testnet-onchain:9090
 ---
 # Staked manually by shelling into the container with the following command:
 
@@ -119,7 +119,7 @@ spec:
     targetRevision: adopt-prod-image # TODO: change to versioned releases when the work on the helm chart is merged/done
     helm:
       values: |
-        replicaCount: 1
+        replicaCount: 0
         keysSecretName: gateways
         resources:
           limits:
@@ -153,10 +153,10 @@ spec:
         config:
           signing_key: gateway-2
           self_signing: false
-          query_node_url: tcp://testnet-fullnode-1-poktrolld.testnet-onchain:26657
+          query_node_url: tcp://testnet-all-fullnodes.testnet-onchain:26657
           listening_endpoint: http://0.0.0.0:80
-          query_node_rpc_url: tcp://testnet-fullnode-1-poktrolld.testnet-onchain:26657
-          query_node_grpc_url: tcp://testnet-fullnode-1-poktrolld.testnet-onchain:9090
+          query_node_rpc_url: tcp://testnet-all-fullnodes.testnet-onchain:26657
+          query_node_grpc_url: tcp://testnet-all-fullnodes.testnet-onchain:9090
 ---
 # Staked manually by shelling into the container with the following command:
 
@@ -186,7 +186,7 @@ spec:
     targetRevision: adopt-prod-image # TODO: change to versioned releases when the work on the helm chart is merged/done
     helm:
       values: |
-        replicaCount: 1
+        replicaCount: 0
         keysSecretName: gateways
         resources:
           limits:
@@ -220,10 +220,10 @@ spec:
         config:
           signing_key: gateway-3
           self_signing: false
-          query_node_url: tcp://testnet-fullnode-1-poktrolld.testnet-onchain:26657
+          query_node_url: tcp://testnet-all-fullnodes.testnet-onchain:26657
           listening_endpoint: http://0.0.0.0:80
-          query_node_rpc_url: tcp://testnet-fullnode-1-poktrolld.testnet-onchain:26657
-          query_node_grpc_url: tcp://testnet-fullnode-1-poktrolld.testnet-onchain:9090
+          query_node_rpc_url: tcp://testnet-all-fullnodes.testnet-onchain:26657
+          query_node_grpc_url: tcp://testnet-all-fullnodes.testnet-onchain:9090
 ---
 # Staked manually by shelling into the container with the following command:
 
@@ -253,7 +253,7 @@ spec:
     targetRevision: adopt-prod-image # TODO: change to versioned releases when the work on the helm chart is merged/done
     helm:
       values: |
-        replicaCount: 1
+        replicaCount: 0
         keysSecretName: gateways
         resources:
           limits:
@@ -287,10 +287,10 @@ spec:
         config:
           signing_key: gateway-4
           self_signing: false
-          query_node_url: tcp://testnet-fullnode-1-poktrolld.testnet-onchain:26657
+          query_node_url: tcp://testnet-all-fullnodes.testnet-onchain:26657
           listening_endpoint: http://0.0.0.0:80
-          query_node_rpc_url: tcp://testnet-fullnode-1-poktrolld.testnet-onchain:26657
-          query_node_grpc_url: tcp://testnet-fullnode-1-poktrolld.testnet-onchain:9090
+          query_node_rpc_url: tcp://testnet-all-fullnodes.testnet-onchain:26657
+          query_node_grpc_url: tcp://testnet-all-fullnodes.testnet-onchain:9090
 ---
 # Staked manually by shelling into the container with the following command:
 
@@ -320,7 +320,7 @@ spec:
     targetRevision: adopt-prod-image # TODO: change to versioned releases when the work on the helm chart is merged/done
     helm:
       values: |
-        replicaCount: 1
+        replicaCount: 0
         keysSecretName: gateways
         resources:
           limits:
@@ -354,7 +354,7 @@ spec:
         config:
           signing_key: gateway-5
           self_signing: false
-          query_node_url: tcp://testnet-fullnode-1-poktrolld.testnet-onchain:26657
+          query_node_url: tcp://testnet-all-fullnodes.testnet-onchain:26657
           listening_endpoint: http://0.0.0.0:80
-          query_node_rpc_url: tcp://testnet-fullnode-1-poktrolld.testnet-onchain:26657
-          query_node_grpc_url: tcp://testnet-fullnode-1-poktrolld.testnet-onchain:9090
+          query_node_rpc_url: tcp://testnet-all-fullnodes.testnet-onchain:26657
+          query_node_grpc_url: tcp://testnet-all-fullnodes.testnet-onchain:9090

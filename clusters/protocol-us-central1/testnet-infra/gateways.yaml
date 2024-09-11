@@ -47,14 +47,14 @@ spec:
     targetRevision: adopt-prod-image # TODO: change to versioned releases when the work on the helm chart is merged/done
     helm:
       values: |
-        replicaCount: 0
+        replicaCount: 1
         keysSecretName: gateways
         resources:
           limits:
-            cpu: 2
+            cpu: 4
             memory: 4Gi
           requests:
-            cpu: 1
+            cpu: 2
             memory: 2Gi
         service:
           port: 80
@@ -114,14 +114,14 @@ spec:
     targetRevision: adopt-prod-image # TODO: change to versioned releases when the work on the helm chart is merged/done
     helm:
       values: |
-        replicaCount: 0
+        replicaCount: 1
         keysSecretName: gateways
         resources:
           limits:
-            cpu: 2
+            cpu: 4
             memory: 4Gi
           requests:
-            cpu: 1
+            cpu: 2
             memory: 2Gi
         service:
           port: 80
@@ -181,14 +181,14 @@ spec:
     targetRevision: adopt-prod-image # TODO: change to versioned releases when the work on the helm chart is merged/done
     helm:
       values: |
-        replicaCount: 0
+        replicaCount: 1
         keysSecretName: gateways
         resources:
           limits:
-            cpu: 2
+            cpu: 4
             memory: 4Gi
           requests:
-            cpu: 1
+            cpu: 2
             memory: 2Gi
         service:
           port: 80
@@ -248,14 +248,14 @@ spec:
     targetRevision: adopt-prod-image # TODO: change to versioned releases when the work on the helm chart is merged/done
     helm:
       values: |
-        replicaCount: 0
+        replicaCount: 1
         keysSecretName: gateways
         resources:
           limits:
-            cpu: 2
+            cpu: 4
             memory: 4Gi
           requests:
-            cpu: 1
+            cpu: 2
             memory: 2Gi
         service:
           port: 80
@@ -315,14 +315,14 @@ spec:
     targetRevision: adopt-prod-image # TODO: change to versioned releases when the work on the helm chart is merged/done
     helm:
       values: |
-        replicaCount: 0
+        replicaCount: 1
         keysSecretName: gateways
         resources:
           limits:
-            cpu: 2
+            cpu: 4
             memory: 4Gi
           requests:
-            cpu: 1
+            cpu: 2
             memory: 2Gi
         service:
           port: 80

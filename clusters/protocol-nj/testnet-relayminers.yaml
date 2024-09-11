@@ -79,9 +79,9 @@ spec:
           default_signing_key_names: [relayminer-1]
           smt_store_path: /root/.poktroll/smt
           pocket_node:
-            query_node_rpc_url: tcp://testnet-fullnode-1-poktrolld.testnet-onchain:26657
-            query_node_grpc_url: tcp://testnet-fullnode-1-poktrolld.testnet-onchain:9090
-            tx_node_rpc_url: tcp://testnet-fullnode-1-poktrolld.testnet-onchain:26657
+            query_node_rpc_url: tcp://testnet-all-fullnodes.testnet-onchain:26657
+            query_node_grpc_url: tcp://testnet-all-fullnodes.testnet-onchain:9090
+            tx_node_rpc_url: tcp://testnet-all-fullnodes.testnet-onchain:26657
           suppliers:
             - service_id: protocol-anvil
               listen_url: http://0.0.0.0:8545
@@ -181,9 +181,9 @@ spec:
           default_signing_key_names: [relayminer-2]
           smt_store_path: /root/.poktroll/smt
           pocket_node:
-            query_node_rpc_url: tcp://testnet-fullnode-1-poktrolld.testnet-onchain:26657
-            query_node_grpc_url: tcp://testnet-fullnode-1-poktrolld.testnet-onchain:9090
-            tx_node_rpc_url: tcp://testnet-fullnode-1-poktrolld.testnet-onchain:26657
+            query_node_rpc_url: tcp://testnet-all-fullnodes.testnet-onchain:26657
+            query_node_grpc_url: tcp://testnet-all-fullnodes.testnet-onchain:9090
+            tx_node_rpc_url: tcp://testnet-all-fullnodes.testnet-onchain:26657
           suppliers:
             - service_id: protocol-anvil
               listen_url: http://0.0.0.0:8545
@@ -283,9 +283,9 @@ spec:
           default_signing_key_names: [relayminer-3]
           smt_store_path: /root/.poktroll/smt
           pocket_node:
-            query_node_rpc_url: tcp://testnet-fullnode-1-poktrolld.testnet-onchain:26657
-            query_node_grpc_url: tcp://testnet-fullnode-1-poktrolld.testnet-onchain:9090
-            tx_node_rpc_url: tcp://testnet-fullnode-1-poktrolld.testnet-onchain:26657
+            query_node_rpc_url: tcp://testnet-all-fullnodes.testnet-onchain:26657
+            query_node_grpc_url: tcp://testnet-all-fullnodes.testnet-onchain:9090
+            tx_node_rpc_url: tcp://testnet-all-fullnodes.testnet-onchain:26657
           suppliers:
             - service_id: protocol-anvil
               listen_url: http://0.0.0.0:8545
@@ -385,9 +385,9 @@ spec:
           default_signing_key_names: [relayminer-4]
           smt_store_path: /root/.poktroll/smt
           pocket_node:
-            query_node_rpc_url: tcp://testnet-fullnode-1-poktrolld.testnet-onchain:26657
-            query_node_grpc_url: tcp://testnet-fullnode-1-poktrolld.testnet-onchain:9090
-            tx_node_rpc_url: tcp://testnet-fullnode-1-poktrolld.testnet-onchain:26657
+            query_node_rpc_url: tcp://testnet-all-fullnodes.testnet-onchain:26657
+            query_node_grpc_url: tcp://testnet-all-fullnodes.testnet-onchain:9090
+            tx_node_rpc_url: tcp://testnet-all-fullnodes.testnet-onchain:26657
           suppliers:
             - service_id: protocol-anvil
               listen_url: http://0.0.0.0:8545
@@ -487,9 +487,9 @@ spec:
           default_signing_key_names: [relayminer-5]
           smt_store_path: /root/.poktroll/smt
           pocket_node:
-            query_node_rpc_url: tcp://testnet-fullnode-1-poktrolld.testnet-onchain:26657
-            query_node_grpc_url: tcp://testnet-fullnode-1-poktrolld.testnet-onchain:9090
-            tx_node_rpc_url: tcp://testnet-fullnode-1-poktrolld.testnet-onchain:26657
+            query_node_rpc_url: tcp://testnet-all-fullnodes.testnet-onchain:26657
+            query_node_grpc_url: tcp://testnet-all-fullnodes.testnet-onchain:9090
+            tx_node_rpc_url: tcp://testnet-all-fullnodes.testnet-onchain:26657
           suppliers:
             - service_id: protocol-anvil
               listen_url: http://0.0.0.0:8545
@@ -590,9 +590,9 @@ spec:
           default_signing_key_names: [relayminer-6]
           smt_store_path: /root/.poktroll/smt
           pocket_node:
-            query_node_rpc_url: tcp://testnet-fullnode-1-poktrolld.testnet-onchain:26657
-            query_node_grpc_url: tcp://testnet-fullnode-1-poktrolld.testnet-onchain:9090
-            tx_node_rpc_url: tcp://testnet-fullnode-1-poktrolld.testnet-onchain:26657
+            query_node_rpc_url: tcp://testnet-all-fullnodes.testnet-onchain:26657
+            query_node_grpc_url: tcp://testnet-all-fullnodes.testnet-onchain:9090
+            tx_node_rpc_url: tcp://testnet-all-fullnodes.testnet-onchain:26657
           suppliers:
             - service_id: protocol-anvil
               listen_url: http://0.0.0.0:8545
@@ -692,9 +692,9 @@ spec:
           default_signing_key_names: [relayminer-7]
           smt_store_path: /root/.poktroll/smt
           pocket_node:
-            query_node_rpc_url: tcp://testnet-fullnode-1-poktrolld.testnet-onchain:26657
-            query_node_grpc_url: tcp://testnet-fullnode-1-poktrolld.testnet-onchain:9090
-            tx_node_rpc_url: tcp://testnet-fullnode-1-poktrolld.testnet-onchain:26657
+            query_node_rpc_url: tcp://testnet-all-fullnodes.testnet-onchain:26657
+            query_node_grpc_url: tcp://testnet-all-fullnodes.testnet-onchain:9090
+            tx_node_rpc_url: tcp://testnet-all-fullnodes.testnet-onchain:26657
           suppliers:
             - service_id: protocol-anvil
               listen_url: http://0.0.0.0:8545
@@ -794,9 +794,9 @@ spec:
           default_signing_key_names: [relayminer-8]
           smt_store_path: /root/.poktroll/smt
           pocket_node:
-            query_node_rpc_url: tcp://testnet-fullnode-1-poktrolld.testnet-onchain:26657
-            query_node_grpc_url: tcp://testnet-fullnode-1-poktrolld.testnet-onchain:9090
-            tx_node_rpc_url: tcp://testnet-fullnode-1-poktrolld.testnet-onchain:26657
+            query_node_rpc_url: tcp://testnet-all-fullnodes.testnet-onchain:26657
+            query_node_grpc_url: tcp://testnet-all-fullnodes.testnet-onchain:9090
+            tx_node_rpc_url: tcp://testnet-all-fullnodes.testnet-onchain:26657
           suppliers:
             - service_id: protocol-anvil
               listen_url: http://0.0.0.0:8545
@@ -896,9 +896,9 @@ spec:
           default_signing_key_names: [relayminer-9]
           smt_store_path: /root/.poktroll/smt
           pocket_node:
-            query_node_rpc_url: tcp://testnet-fullnode-1-poktrolld.testnet-onchain:26657
-            query_node_grpc_url: tcp://testnet-fullnode-1-poktrolld.testnet-onchain:9090
-            tx_node_rpc_url: tcp://testnet-fullnode-1-poktrolld.testnet-onchain:26657
+            query_node_rpc_url: tcp://testnet-all-fullnodes.testnet-onchain:26657
+            query_node_grpc_url: tcp://testnet-all-fullnodes.testnet-onchain:9090
+            tx_node_rpc_url: tcp://testnet-all-fullnodes.testnet-onchain:26657
           suppliers:
             - service_id: protocol-anvil
               listen_url: http://0.0.0.0:8545
@@ -998,9 +998,9 @@ spec:
           default_signing_key_names: [relayminer-10]
           smt_store_path: /root/.poktroll/smt
           pocket_node:
-            query_node_rpc_url: tcp://testnet-fullnode-1-poktrolld.testnet-onchain:26657
-            query_node_grpc_url: tcp://testnet-fullnode-1-poktrolld.testnet-onchain:9090
-            tx_node_rpc_url: tcp://testnet-fullnode-1-poktrolld.testnet-onchain:26657
+            query_node_rpc_url: tcp://testnet-all-fullnodes.testnet-onchain:26657
+            query_node_grpc_url: tcp://testnet-all-fullnodes.testnet-onchain:9090
+            tx_node_rpc_url: tcp://testnet-all-fullnodes.testnet-onchain:26657
           suppliers:
             - service_id: protocol-anvil
               listen_url: http://0.0.0.0:8545
