@@ -19,7 +19,8 @@ spec:
     helm:
       values: |
         controller:
-          replicaCount: 2
+          kind: DaemonSet
+          # replicaCount: 2
           # config:
           #   use-proxy-protocol: "true"
           #   use-geoip: "true"
@@ -38,6 +39,8 @@ spec:
           #   annotations:
           #     service.beta.kubernetes.io/vultr-loadbalancer-algorithm: "least_connections"
           #     service.beta.kubernetes.io/vultr-loadbalancer-proxy-protocol: "true"
+          nodeSelector:
+            vke.vultr.com/node-pool: static
           affinity:
             podAntiAffinity:
               requiredDuringSchedulingIgnoredDuringExecution:
