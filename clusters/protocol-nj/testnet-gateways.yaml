@@ -10,6 +10,7 @@
 # pokt1asmnsld2pfnlvy56a9h4vnsqlzvyzmnr76w3zy \
 # pokt10eevpgtsrzl558vmgjprvvku99xyp3fegvldqa \
 # pokt1cq6pyj9crw32hq68l3puwhptyt0k052tu6ezut \
+# pokt1cy9f9jf6mdvatl9n543sl6udaesp4q2k2v9qre \
 # pokt1923n0fhhrcyvvj6g69s9zyqev3g8w0mk2jv0u9 \
 # pokt10a2lwlrkraqx6sud6gc8mk4ewvmtany6e9z7mp \
 # pokt1ac5pyvxjhdy383dw7xfzneug93mf6y76shsrv3 \
@@ -51,7 +52,7 @@ spec:
     targetRevision: adopt-prod-image # TODO: change to versioned releases when the work on the helm chart is merged/done
     helm:
       values: |
-        replicaCount: 1
+        replicaCount: 0
         keysSecretName: gateways
         resources:
           limits:
@@ -118,7 +119,7 @@ spec:
     targetRevision: adopt-prod-image # TODO: change to versioned releases when the work on the helm chart is merged/done
     helm:
       values: |
-        replicaCount: 1
+        replicaCount: 0
         keysSecretName: gateways
         resources:
           limits:
@@ -185,7 +186,7 @@ spec:
     targetRevision: adopt-prod-image # TODO: change to versioned releases when the work on the helm chart is merged/done
     helm:
       values: |
-        replicaCount: 1
+        replicaCount: 0
         keysSecretName: gateways
         resources:
           limits:
@@ -252,7 +253,7 @@ spec:
     targetRevision: adopt-prod-image # TODO: change to versioned releases when the work on the helm chart is merged/done
     helm:
       values: |
-        replicaCount: 1
+        replicaCount: 0
         keysSecretName: gateways
         resources:
           limits:
@@ -319,7 +320,7 @@ spec:
     targetRevision: adopt-prod-image # TODO: change to versioned releases when the work on the helm chart is merged/done
     helm:
       values: |
-        replicaCount: 1
+        replicaCount: 0
         keysSecretName: gateways
         resources:
           limits:
