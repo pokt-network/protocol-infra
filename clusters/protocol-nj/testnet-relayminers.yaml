@@ -1,9 +1,7 @@
-# Secret created with: kubectl create secret generic --context=gke_protocol-us-central1-d505_us-central1_protocol-us-central1 --namespace=testnet-offchain-actors --from-file=$HOME/testnet-actors/keyring-test/relayminer-6.info --from-file=$HOME/testnet-actors/keyring-test/relayminer-7.info --from-file=$HOME/testnet-actors/keyring-test/relayminer-8.info --from-file=$HOME/testnet-actors/keyring-test/relayminer-9.info --from-file=$HOME/testnet-actors/keyring-test/relayminer-10.info relayminers
-# Secret created with: kubectl create secret generic --context=gke_protocol-us-central1-d505_us-central1_protocol-us-central1 --namespace=testnet-offchain-actors --from-file=$HOME/testnet-actors/keyring-test/relayminer-1.info --from-file=$HOME/testnet-actors/keyring-test/relayminer-2.info --from-file=$HOME/testnet-actors/keyring-test/relayminer-3.info --from-file=$HOME/testnet-actors/keyring-test/relayminer-4.info --from-file=$HOME/testnet-actors/keyring-test/relayminer-5.info relayminers
-
+# Secret created with: kubectl create secret generic --context=vke-2474cf9d-3f73-408a-a897-b0af5eedf2e0 --namespace=testnet-offchain-actors --from-file=$HOME/testnet-actors/keyring-test/relayminer-1.info --from-file=$HOME/testnet-actors/keyring-test/relayminer-2.info --from-file=$HOME/testnet-actors/keyring-test/relayminer-3.info --from-file=$HOME/testnet-actors/keyring-test/relayminer-4.info --from-file=$HOME/testnet-actors/keyring-test/relayminer-5.info --from-file=$HOME/testnet-actors/keyring-test/relayminer-6.info --from-file=$HOME/testnet-actors/keyring-test/relayminer-7.info --from-file=$HOME/testnet-actors/keyring-test/relayminer-8.info --from-file=$HOME/testnet-actors/keyring-test/relayminer-9.info --from-file=$HOME/testnet-actors/keyring-test/relayminer-10.info relayminers
 ---
 # Staked manually by shelling into the container with the following command:
-# cat <<EOF >/root/stake_config.yaml
+# cat <<EOF >stake_config.yaml
 # stake_amount: 1001upokt
 # owner_address: pokt1asmnsld2pfnlvy56a9h4vnsqlzvyzmnr76w3zy
 # services:
@@ -20,7 +18,7 @@
 #   - publicly_exposed_url: https://testnet-relayminer-1.us-nj.poktroll.com:443
 #     rpc_type: json_rpc
 # EOF
-# poktrolld tx supplier stake-supplier --config=/root/stake_config.yaml --from=relayminer-1 --chain-id=poktroll --yes --node=https://testnet-validated-validator-rpc.us-nj.poktroll.com:443/
+# poktrolld tx supplier stake-supplier --config=stake_config.yaml --home="$HOME/testnet-actors" --from=relayminer-1 --chain-id=poktroll --yes --node=https://testnet-validated-validator-rpc.poktroll.com:443/
 
 apiVersion: argoproj.io/v1alpha1
 kind: Application
@@ -43,7 +41,7 @@ spec:
     targetRevision: adopt-prod-image # TODO: change to versioned releases when the work on the helm chart is merged/done
     helm:
       values: |
-        replicaCount: 0
+        replicaCount: 1
         keysSecretName: relayminers
         resources:
           limits:
@@ -81,9 +79,9 @@ spec:
           default_signing_key_names: [relayminer-1]
           smt_store_path: /root/.poktroll/smt
           pocket_node:
-            query_node_rpc_url: tcp://testnet-validated-poktrolld.testnet-validated:26657
-            query_node_grpc_url: tcp://testnet-validated-poktrolld.testnet-validated:9090
-            tx_node_rpc_url: tcp://testnet-validated-poktrolld.testnet-validated:26657
+            query_node_rpc_url: tcp://testnet-fullnode-1-poktrolld.testnet-onchain:26657
+            query_node_grpc_url: tcp://testnet-fullnode-1-poktrolld.testnet-onchain:9090
+            tx_node_rpc_url: tcp://testnet-fullnode-1-poktrolld.testnet-onchain:26657
           suppliers:
             - service_id: protocol-anvil
               listen_url: http://0.0.0.0:8545
@@ -105,7 +103,7 @@ spec:
                   - testnet-relayminer-1.us-nj.poktroll.com
 ---
 # Staked manually by shelling into the container with the following command:
-# cat <<EOF >/root/stake_config.yaml
+# cat <<EOF >stake_config.yaml
 # stake_amount: 1001upokt
 # owner_address: pokt10eevpgtsrzl558vmgjprvvku99xyp3fegvldqa
 # services:
@@ -122,7 +120,7 @@ spec:
 #   - publicly_exposed_url: https://testnet-relayminer-2.us-nj.poktroll.com:443
 #     rpc_type: json_rpc
 # EOF
-# poktrolld tx supplier stake-supplier --config=/root/stake_config.yaml --from=relayminer-2 --chain-id=poktroll --yes --node=https://testnet-validated-validator-rpc.us-nj.poktroll.com:443/
+# poktrolld tx supplier stake-supplier --config=stake_config.yaml --home="$HOME/testnet-actors" --from=relayminer-2 --chain-id=poktroll --yes --node=https://testnet-validated-validator-rpc.poktroll.com:443/
 
 apiVersion: argoproj.io/v1alpha1
 kind: Application
@@ -145,7 +143,7 @@ spec:
     targetRevision: adopt-prod-image # TODO: change to versioned releases when the work on the helm chart is merged/done
     helm:
       values: |
-        replicaCount: 0
+        replicaCount: 1
         keysSecretName: relayminers
         resources:
           limits:
@@ -183,9 +181,9 @@ spec:
           default_signing_key_names: [relayminer-2]
           smt_store_path: /root/.poktroll/smt
           pocket_node:
-            query_node_rpc_url: tcp://testnet-validated-poktrolld.testnet-validated:26657
-            query_node_grpc_url: tcp://testnet-validated-poktrolld.testnet-validated:9090
-            tx_node_rpc_url: tcp://testnet-validated-poktrolld.testnet-validated:26657
+            query_node_rpc_url: tcp://testnet-fullnode-1-poktrolld.testnet-onchain:26657
+            query_node_grpc_url: tcp://testnet-fullnode-1-poktrolld.testnet-onchain:9090
+            tx_node_rpc_url: tcp://testnet-fullnode-1-poktrolld.testnet-onchain:26657
           suppliers:
             - service_id: protocol-anvil
               listen_url: http://0.0.0.0:8545
@@ -207,7 +205,7 @@ spec:
                   - testnet-relayminer-2.us-nj.poktroll.com
 ---
 # Staked manually by shelling into the container with the following command:
-# cat <<EOF >/root/stake_config.yaml
+# cat <<EOF >stake_config.yaml
 # stake_amount: 1001upokt
 # owner_address: pokt1cq6pyj9crw32hq68l3puwhptyt0k052tu6ezut
 # services:
@@ -224,7 +222,7 @@ spec:
 #   - publicly_exposed_url: https://testnet-relayminer-3.us-nj.poktroll.com:443
 #     rpc_type: json_rpc
 # EOF
-# poktrolld tx supplier stake-supplier --config=/root/stake_config.yaml --from=relayminer-3 --chain-id=poktroll --yes --node=https://testnet-validated-validator-rpc.us-nj.poktroll.com:443/
+# poktrolld tx supplier stake-supplier --config=stake_config.yaml --home="$HOME/testnet-actors" --from=relayminer-3 --chain-id=poktroll --yes --node=https://testnet-validated-validator-rpc.poktroll.com:443/
 
 apiVersion: argoproj.io/v1alpha1
 kind: Application
@@ -247,7 +245,7 @@ spec:
     targetRevision: adopt-prod-image # TODO: change to versioned releases when the work on the helm chart is merged/done
     helm:
       values: |
-        replicaCount: 0
+        replicaCount: 1
         keysSecretName: relayminers
         resources:
           limits:
@@ -285,9 +283,9 @@ spec:
           default_signing_key_names: [relayminer-3]
           smt_store_path: /root/.poktroll/smt
           pocket_node:
-            query_node_rpc_url: tcp://testnet-validated-poktrolld.testnet-validated:26657
-            query_node_grpc_url: tcp://testnet-validated-poktrolld.testnet-validated:9090
-            tx_node_rpc_url: tcp://testnet-validated-poktrolld.testnet-validated:26657
+            query_node_rpc_url: tcp://testnet-fullnode-1-poktrolld.testnet-onchain:26657
+            query_node_grpc_url: tcp://testnet-fullnode-1-poktrolld.testnet-onchain:9090
+            tx_node_rpc_url: tcp://testnet-fullnode-1-poktrolld.testnet-onchain:26657
           suppliers:
             - service_id: protocol-anvil
               listen_url: http://0.0.0.0:8545
@@ -309,7 +307,7 @@ spec:
                   - testnet-relayminer-3.us-nj.poktroll.com
 ---
 # Staked manually by shelling into the container with the following command:
-# cat <<EOF >/root/stake_config.yaml
+# cat <<EOF >stake_config.yaml
 # stake_amount: 1001upokt
 # owner_address: pokt1923n0fhhrcyvvj6g69s9zyqev3g8w0mk2jv0u9
 # services:
@@ -326,7 +324,7 @@ spec:
 #   - publicly_exposed_url: https://testnet-relayminer-4.us-nj.poktroll.com:443
 #     rpc_type: json_rpc
 # EOF
-# poktrolld tx supplier stake-supplier --config=/root/stake_config.yaml --from=relayminer-4 --chain-id=poktroll --yes --node=https://testnet-validated-validator-rpc.us-nj.poktroll.com:443/
+# poktrolld tx supplier stake-supplier --config=stake_config.yaml --home="$HOME/testnet-actors" --from=relayminer-4 --chain-id=poktroll --yes --node=https://testnet-validated-validator-rpc.poktroll.com:443/
 
 apiVersion: argoproj.io/v1alpha1
 kind: Application
@@ -349,7 +347,7 @@ spec:
     targetRevision: adopt-prod-image # TODO: change to versioned releases when the work on the helm chart is merged/done
     helm:
       values: |
-        replicaCount: 0
+        replicaCount: 1
         keysSecretName: relayminers
         resources:
           limits:
@@ -387,9 +385,9 @@ spec:
           default_signing_key_names: [relayminer-4]
           smt_store_path: /root/.poktroll/smt
           pocket_node:
-            query_node_rpc_url: tcp://testnet-validated-poktrolld.testnet-validated:26657
-            query_node_grpc_url: tcp://testnet-validated-poktrolld.testnet-validated:9090
-            tx_node_rpc_url: tcp://testnet-validated-poktrolld.testnet-validated:26657
+            query_node_rpc_url: tcp://testnet-fullnode-1-poktrolld.testnet-onchain:26657
+            query_node_grpc_url: tcp://testnet-fullnode-1-poktrolld.testnet-onchain:9090
+            tx_node_rpc_url: tcp://testnet-fullnode-1-poktrolld.testnet-onchain:26657
           suppliers:
             - service_id: protocol-anvil
               listen_url: http://0.0.0.0:8545
@@ -411,7 +409,7 @@ spec:
                   - testnet-relayminer-4.us-nj.poktroll.com
 ---
 # Staked manually by shelling into the container with the following command:
-# cat <<EOF >/root/stake_config.yaml
+# cat <<EOF >stake_config.yaml
 # stake_amount: 1001upokt
 # owner_address: pokt10a2lwlrkraqx6sud6gc8mk4ewvmtany6e9z7mp
 # services:
@@ -428,7 +426,7 @@ spec:
 #   - publicly_exposed_url: https://testnet-relayminer-5.us-nj.poktroll.com:443
 #     rpc_type: json_rpc
 # EOF
-# poktrolld tx supplier stake-supplier --config=/root/stake_config.yaml --from=relayminer-5 --chain-id=poktroll --yes --node=https://testnet-validated-validator-rpc.us-nj.poktroll.com:443/
+# poktrolld tx supplier stake-supplier --config=stake_config.yaml --home="$HOME/testnet-actors" --from=relayminer-5 --chain-id=poktroll --yes --node=https://testnet-validated-validator-rpc.poktroll.com:443/
 
 apiVersion: argoproj.io/v1alpha1
 kind: Application
@@ -451,7 +449,7 @@ spec:
     targetRevision: adopt-prod-image # TODO: change to versioned releases when the work on the helm chart is merged/done
     helm:
       values: |
-        replicaCount: 0
+        replicaCount: 1
         keysSecretName: relayminers
         resources:
           limits:
@@ -489,9 +487,9 @@ spec:
           default_signing_key_names: [relayminer-5]
           smt_store_path: /root/.poktroll/smt
           pocket_node:
-            query_node_rpc_url: tcp://testnet-validated-poktrolld.testnet-validated:26657
-            query_node_grpc_url: tcp://testnet-validated-poktrolld.testnet-validated:9090
-            tx_node_rpc_url: tcp://testnet-validated-poktrolld.testnet-validated:26657
+            query_node_rpc_url: tcp://testnet-fullnode-1-poktrolld.testnet-onchain:26657
+            query_node_grpc_url: tcp://testnet-fullnode-1-poktrolld.testnet-onchain:9090
+            tx_node_rpc_url: tcp://testnet-fullnode-1-poktrolld.testnet-onchain:26657
           suppliers:
             - service_id: protocol-anvil
               listen_url: http://0.0.0.0:8545
@@ -514,9 +512,9 @@ spec:
 
 ---
 # Staked manually by shelling into the container with the following command:
-# cat <<EOF >/root/stake_config.yaml
+# cat <<EOF >stake_config.yaml
 # stake_amount: 1001upokt
-# owner_address: pokt1asmnsld2pfnlvy56a9h4vnsqlzvyzmnr76w3zy
+# owner_address: pokt1cy9f9jf6mdvatl9n543sl6udaesp4q2k2v9qre
 # services:
 # - service_id: protocol-anvil
 #   endpoints:
@@ -531,7 +529,7 @@ spec:
 #   - publicly_exposed_url: https://testnet-relayminer-6.us-nj.poktroll.com:443
 #     rpc_type: json_rpc
 # EOF
-# poktrolld tx supplier stake-supplier --config=/root/stake_config.yaml --from=relayminer-6 --chain-id=poktroll --yes --node=https://testnet-validated-validator-rpc.us-nj.poktroll.com:443/
+# poktrolld tx supplier stake-supplier --config=stake_config.yaml --home="$HOME/testnet-actors" --from=relayminer-6 --chain-id=poktroll --yes --node=https://testnet-validated-validator-rpc.poktroll.com:443/
 
 apiVersion: argoproj.io/v1alpha1
 kind: Application
@@ -554,7 +552,7 @@ spec:
     targetRevision: adopt-prod-image # TODO: change to versioned releases when the work on the helm chart is merged/done
     helm:
       values: |
-        replicaCount: 0
+        replicaCount: 1
         keysSecretName: relayminers
         resources:
           limits:
@@ -592,9 +590,9 @@ spec:
           default_signing_key_names: [relayminer-6]
           smt_store_path: /root/.poktroll/smt
           pocket_node:
-            query_node_rpc_url: tcp://testnet-validated-poktrolld.testnet-validated:26657
-            query_node_grpc_url: tcp://testnet-validated-poktrolld.testnet-validated:9090
-            tx_node_rpc_url: tcp://testnet-validated-poktrolld.testnet-validated:26657
+            query_node_rpc_url: tcp://testnet-fullnode-1-poktrolld.testnet-onchain:26657
+            query_node_grpc_url: tcp://testnet-fullnode-1-poktrolld.testnet-onchain:9090
+            tx_node_rpc_url: tcp://testnet-fullnode-1-poktrolld.testnet-onchain:26657
           suppliers:
             - service_id: protocol-anvil
               listen_url: http://0.0.0.0:8545
@@ -616,9 +614,9 @@ spec:
                   - testnet-relayminer-6.us-nj.poktroll.com
 ---
 # Staked manually by shelling into the container with the following command:
-# cat <<EOF >/root/stake_config.yaml
+# cat <<EOF >stake_config.yaml
 # stake_amount: 1001upokt
-# owner_address: pokt10eevpgtsrzl558vmgjprvvku99xyp3fegvldqa
+# owner_address: pokt1ac5pyvxjhdy383dw7xfzneug93mf6y76shsrv3
 # services:
 # - service_id: protocol-anvil
 #   endpoints:
@@ -633,7 +631,7 @@ spec:
 #   - publicly_exposed_url: https://testnet-relayminer-7.us-nj.poktroll.com:443
 #     rpc_type: json_rpc
 # EOF
-# poktrolld tx supplier stake-supplier --config=/root/stake_config.yaml --from=relayminer-7 --chain-id=poktroll --yes --node=https://testnet-validated-validator-rpc.us-nj.poktroll.com:443/
+# poktrolld tx supplier stake-supplier --config=stake_config.yaml --home="$HOME/testnet-actors" --from=relayminer-7 --chain-id=poktroll --yes --node=https://testnet-validated-validator-rpc.poktroll.com:443/
 
 apiVersion: argoproj.io/v1alpha1
 kind: Application
@@ -656,7 +654,7 @@ spec:
     targetRevision: adopt-prod-image # TODO: change to versioned releases when the work on the helm chart is merged/done
     helm:
       values: |
-        replicaCount: 0
+        replicaCount: 1
         keysSecretName: relayminers
         resources:
           limits:
@@ -694,9 +692,9 @@ spec:
           default_signing_key_names: [relayminer-7]
           smt_store_path: /root/.poktroll/smt
           pocket_node:
-            query_node_rpc_url: tcp://testnet-validated-poktrolld.testnet-validated:26657
-            query_node_grpc_url: tcp://testnet-validated-poktrolld.testnet-validated:9090
-            tx_node_rpc_url: tcp://testnet-validated-poktrolld.testnet-validated:26657
+            query_node_rpc_url: tcp://testnet-fullnode-1-poktrolld.testnet-onchain:26657
+            query_node_grpc_url: tcp://testnet-fullnode-1-poktrolld.testnet-onchain:9090
+            tx_node_rpc_url: tcp://testnet-fullnode-1-poktrolld.testnet-onchain:26657
           suppliers:
             - service_id: protocol-anvil
               listen_url: http://0.0.0.0:8545
@@ -718,9 +716,9 @@ spec:
                   - testnet-relayminer-7.us-nj.poktroll.com
 ---
 # Staked manually by shelling into the container with the following command:
-# cat <<EOF >/root/stake_config.yaml
+# cat <<EOF >stake_config.yaml
 # stake_amount: 1001upokt
-# owner_address: pokt1cq6pyj9crw32hq68l3puwhptyt0k052tu6ezut
+# owner_address: pokt1ew883fm73v546l5gq6er8ftyqjxn48emxfjn50
 # services:
 # - service_id: protocol-anvil
 #   endpoints:
@@ -735,7 +733,7 @@ spec:
 #   - publicly_exposed_url: https://testnet-relayminer-8.us-nj.poktroll.com:443
 #     rpc_type: json_rpc
 # EOF
-# poktrolld tx supplier stake-supplier --config=/root/stake_config.yaml --from=relayminer-8 --chain-id=poktroll --yes --node=https://testnet-validated-validator-rpc.us-nj.poktroll.com:443/
+# poktrolld tx supplier stake-supplier --config=stake_config.yaml --home="$HOME/testnet-actors" --from=relayminer-8 --chain-id=poktroll --yes --node=https://testnet-validated-validator-rpc.poktroll.com:443/
 
 apiVersion: argoproj.io/v1alpha1
 kind: Application
@@ -758,7 +756,7 @@ spec:
     targetRevision: adopt-prod-image # TODO: change to versioned releases when the work on the helm chart is merged/done
     helm:
       values: |
-        replicaCount: 0
+        replicaCount: 1
         keysSecretName: relayminers
         resources:
           limits:
@@ -796,9 +794,9 @@ spec:
           default_signing_key_names: [relayminer-8]
           smt_store_path: /root/.poktroll/smt
           pocket_node:
-            query_node_rpc_url: tcp://testnet-validated-poktrolld.testnet-validated:26657
-            query_node_grpc_url: tcp://testnet-validated-poktrolld.testnet-validated:9090
-            tx_node_rpc_url: tcp://testnet-validated-poktrolld.testnet-validated:26657
+            query_node_rpc_url: tcp://testnet-fullnode-1-poktrolld.testnet-onchain:26657
+            query_node_grpc_url: tcp://testnet-fullnode-1-poktrolld.testnet-onchain:9090
+            tx_node_rpc_url: tcp://testnet-fullnode-1-poktrolld.testnet-onchain:26657
           suppliers:
             - service_id: protocol-anvil
               listen_url: http://0.0.0.0:8545
@@ -820,9 +818,9 @@ spec:
                   - testnet-relayminer-8.us-nj.poktroll.com
 ---
 # Staked manually by shelling into the container with the following command:
-# cat <<EOF >/root/stake_config.yaml
+# cat <<EOF >stake_config.yaml
 # stake_amount: 1001upokt
-# owner_address: pokt1923n0fhhrcyvvj6g69s9zyqev3g8w0mk2jv0u9
+# owner_address: pokt1x5snnglav49wvp4ztr4l6xhxmenczkwekdv2j0
 # services:
 # - service_id: protocol-anvil
 #   endpoints:
@@ -837,7 +835,7 @@ spec:
 #   - publicly_exposed_url: https://testnet-relayminer-9.us-nj.poktroll.com:443
 #     rpc_type: json_rpc
 # EOF
-# poktrolld tx supplier stake-supplier --config=/root/stake_config.yaml --from=relayminer-9 --chain-id=poktroll --yes --node=https://testnet-validated-validator-rpc.us-nj.poktroll.com:443/
+# poktrolld tx supplier stake-supplier --config=stake_config.yaml --home="$HOME/testnet-actors" --from=relayminer-9 --chain-id=poktroll --yes --node=https://testnet-validated-validator-rpc.poktroll.com:443/
 
 apiVersion: argoproj.io/v1alpha1
 kind: Application
@@ -860,7 +858,7 @@ spec:
     targetRevision: adopt-prod-image # TODO: change to versioned releases when the work on the helm chart is merged/done
     helm:
       values: |
-        replicaCount: 0
+        replicaCount: 1
         keysSecretName: relayminers
         resources:
           limits:
@@ -898,9 +896,9 @@ spec:
           default_signing_key_names: [relayminer-9]
           smt_store_path: /root/.poktroll/smt
           pocket_node:
-            query_node_rpc_url: tcp://testnet-validated-poktrolld.testnet-validated:26657
-            query_node_grpc_url: tcp://testnet-validated-poktrolld.testnet-validated:9090
-            tx_node_rpc_url: tcp://testnet-validated-poktrolld.testnet-validated:26657
+            query_node_rpc_url: tcp://testnet-fullnode-1-poktrolld.testnet-onchain:26657
+            query_node_grpc_url: tcp://testnet-fullnode-1-poktrolld.testnet-onchain:9090
+            tx_node_rpc_url: tcp://testnet-fullnode-1-poktrolld.testnet-onchain:26657
           suppliers:
             - service_id: protocol-anvil
               listen_url: http://0.0.0.0:8545
@@ -922,9 +920,9 @@ spec:
                   - testnet-relayminer-9.us-nj.poktroll.com
 ---
 # Staked manually by shelling into the container with the following command:
-# cat <<EOF >/root/stake_config.yaml
+# cat <<EOF >stake_config.yaml
 # stake_amount: 1001upokt
-# owner_address: pokt10a2lwlrkraqx6sud6gc8mk4ewvmtany6e9z7mp
+# owner_address: pokt17n0ag7c7dw9mtxmmr4knym9grkua6xsaalt7wf
 # services:
 # - service_id: protocol-anvil
 #   endpoints:
@@ -939,7 +937,7 @@ spec:
 #   - publicly_exposed_url: https://testnet-relayminer-10.us-nj.poktroll.com:443
 #     rpc_type: json_rpc
 # EOF
-# poktrolld tx supplier stake-supplier --config=/root/stake_config.yaml --from=relayminer-10 --chain-id=poktroll --yes --node=https://testnet-validated-validator-rpc.us-nj.poktroll.com:443/
+# poktrolld tx supplier stake-supplier --config=stake_config.yaml --home="$HOME/testnet-actors" --from=relayminer-10 --chain-id=poktroll --yes --node=https://testnet-validated-validator-rpc.poktroll.com:443/
 
 apiVersion: argoproj.io/v1alpha1
 kind: Application
@@ -962,7 +960,7 @@ spec:
     targetRevision: adopt-prod-image # TODO: change to versioned releases when the work on the helm chart is merged/done
     helm:
       values: |
-        replicaCount: 0
+        replicaCount: 1
         keysSecretName: relayminers
         resources:
           limits:
@@ -1000,9 +998,9 @@ spec:
           default_signing_key_names: [relayminer-10]
           smt_store_path: /root/.poktroll/smt
           pocket_node:
-            query_node_rpc_url: tcp://testnet-validated-poktrolld.testnet-validated:26657
-            query_node_grpc_url: tcp://testnet-validated-poktrolld.testnet-validated:9090
-            tx_node_rpc_url: tcp://testnet-validated-poktrolld.testnet-validated:26657
+            query_node_rpc_url: tcp://testnet-fullnode-1-poktrolld.testnet-onchain:26657
+            query_node_grpc_url: tcp://testnet-fullnode-1-poktrolld.testnet-onchain:9090
+            tx_node_rpc_url: tcp://testnet-fullnode-1-poktrolld.testnet-onchain:26657
           suppliers:
             - service_id: protocol-anvil
               listen_url: http://0.0.0.0:8545
