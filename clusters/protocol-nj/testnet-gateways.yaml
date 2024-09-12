@@ -135,7 +135,7 @@ spec:
           serviceMonitor:
             enabled: true
         image:
-          tag: sha-cf44850
+          tag: sha-5ae900b
         ingress:
           enabled: true
           annotations:
