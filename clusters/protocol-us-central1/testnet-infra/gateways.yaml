@@ -248,7 +248,7 @@ spec:
     targetRevision: adopt-prod-image # TODO: change to versioned releases when the work on the helm chart is merged/done
     helm:
       values: |
-        replicaCount: 0
+        replicaCount: 1
         keysSecretName: gateways
         resources:
           limits:
@@ -264,7 +264,7 @@ spec:
           serviceMonitor:
             enabled: true
         image:
-          tag: sha-04d049c
+          tag: sha-cf44850
         ingress:
           enabled: true
           annotations:
@@ -315,7 +315,7 @@ spec:
     targetRevision: adopt-prod-image # TODO: change to versioned releases when the work on the helm chart is merged/done
     helm:
       values: |
-        replicaCount: 0
+        replicaCount: 1
         keysSecretName: gateways
         resources:
           limits:
@@ -331,7 +331,7 @@ spec:
           serviceMonitor:
             enabled: true
         image:
-          tag: sha-04d049c
+          tag: sha-cf44850
         ingress:
           enabled: true
           annotations:
