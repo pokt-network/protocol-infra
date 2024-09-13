@@ -63,7 +63,7 @@ spec:
           serviceMonitor:
             enabled: true
         image:
-          tag: sha-5ae900b
+          tag: sha-ecf74ce
         ingress:
           enabled: true
           annotations:
@@ -130,7 +130,7 @@ spec:
           serviceMonitor:
             enabled: true
         image:
-          tag: sha-5ae900b
+          tag: sha-ecf74ce
         ingress:
           enabled: true
           annotations:
@@ -197,7 +197,7 @@ spec:
           serviceMonitor:
             enabled: true
         image:
-          tag: sha-5ae900b
+          tag: sha-ecf74ce
         ingress:
           enabled: true
           annotations:

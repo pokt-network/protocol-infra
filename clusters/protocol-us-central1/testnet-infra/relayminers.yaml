@@ -8,18 +8,18 @@
 # services:
 # - service_id: protocol-anvil
 #   endpoints:
-#   - publicly_exposed_url: https://testnet-relayminer-1.poktroll.com:443
+#   - publicly_exposed_url: https://testnet-relayminer-1.us-nj.poktroll.com:443
 #     rpc_type: json_rpc
 # - service_id: proto-static-ngx
 #   endpoints:
-#   - publicly_exposed_url: https://testnet-relayminer-1.poktroll.com:443
+#   - publicly_exposed_url: https://testnet-relayminer-1.us-nj.poktroll.com:443
 #     rpc_type: json_rpc
 # - service_id: "0021"
 #   endpoints:
-#   - publicly_exposed_url: https://testnet-relayminer-1.poktroll.com:443
+#   - publicly_exposed_url: https://testnet-relayminer-1.us-nj.poktroll.com:443
 #     rpc_type: json_rpc
 # EOF
-# poktrolld tx supplier stake-supplier --config=/root/stake_config.yaml --from=relayminer-1 --chain-id=poktroll --yes --node=https://testnet-validated-validator-rpc.poktroll.com:443/
+# poktrolld tx supplier stake-supplier --config=/root/stake_config.yaml --from=relayminer-1 --chain-id=poktroll --yes --node=https://testnet-validated-validator-rpc.us-nj.poktroll.com:443/
 
 apiVersion: argoproj.io/v1alpha1
 kind: Application
@@ -66,14 +66,14 @@ spec:
           annotations:
             kubernetes.io/ingress.class: nginx
           hosts:
-            - host: testnet-relayminer-1.poktroll.com
+            - host: testnet-relayminer-1.us-nj.poktroll.com
               paths:
                 - path: /
                   pathType: ImplementationSpecific
           tls:
             - secretName: poktroll-wildcard-tls
               hosts:
-                - testnet-relayminer-1.poktroll.com
+                - testnet-relayminer-1.us-nj.poktroll.com
         grpcInsecure: true
         config:
           signing_key_name: relayminer-1 # For backwards compatibility with chart
@@ -89,19 +89,19 @@ spec:
               service_config:
                 backend_url: http://anvil.protocol-common:8547/
                 publicly_exposed_endpoints:
-                  - testnet-relayminer-1.poktroll.com
+                  - testnet-relayminer-1.us-nj.poktroll.com
             - service_id: proto-static-ngx
               listen_url: http://0.0.0.0:8545
               service_config:
                 backend_url: http://static-nginx-service:80/
                 publicly_exposed_endpoints:
-                  - testnet-relayminer-1.poktroll.com
+                  - testnet-relayminer-1.us-nj.poktroll.com
             - service_id: "0021"
               listen_url: http://0.0.0.0:8545
               service_config:
                 backend_url: https://eth-mainnet.rpc.grove.city/v1/765112fe
                 publicly_exposed_endpoints:
-                  - testnet-relayminer-1.poktroll.com
+                  - testnet-relayminer-1.us-nj.poktroll.com
 ---
 # Staked manually by shelling into the container with the following command:
 # cat <<EOF >/root/stake_config.yaml
@@ -110,18 +110,18 @@ spec:
 # services:
 # - service_id: protocol-anvil
 #   endpoints:
-#   - publicly_exposed_url: https://testnet-relayminer-2.poktroll.com:443
+#   - publicly_exposed_url: https://testnet-relayminer-2.us-nj.poktroll.com:443
 #     rpc_type: json_rpc
 # - service_id: proto-static-ngx
 #   endpoints:
-#   - publicly_exposed_url: https://testnet-relayminer-2.poktroll.com:443
+#   - publicly_exposed_url: https://testnet-relayminer-2.us-nj.poktroll.com:443
 #     rpc_type: json_rpc
 # - service_id: "0021"
 #   endpoints:
-#   - publicly_exposed_url: https://testnet-relayminer-2.poktroll.com:443
+#   - publicly_exposed_url: https://testnet-relayminer-2.us-nj.poktroll.com:443
 #     rpc_type: json_rpc
 # EOF
-# poktrolld tx supplier stake-supplier --config=/root/stake_config.yaml --from=relayminer-2 --chain-id=poktroll --yes --node=https://testnet-validated-validator-rpc.poktroll.com:443/
+# poktrolld tx supplier stake-supplier --config=/root/stake_config.yaml --from=relayminer-2 --chain-id=poktroll --yes --node=https://testnet-validated-validator-rpc.us-nj.poktroll.com:443/
 
 apiVersion: argoproj.io/v1alpha1
 kind: Application
@@ -168,14 +168,14 @@ spec:
           annotations:
             kubernetes.io/ingress.class: nginx
           hosts:
-            - host: testnet-relayminer-2.poktroll.com
+            - host: testnet-relayminer-2.us-nj.poktroll.com
               paths:
                 - path: /
                   pathType: ImplementationSpecific
           tls:
             - secretName: poktroll-wildcard-tls
               hosts:
-                - testnet-relayminer-2.poktroll.com
+                - testnet-relayminer-2.us-nj.poktroll.com
         grpcInsecure: true
         config:
           signing_key_name: relayminer-2 # For backwards compatibility with chart
@@ -191,19 +191,19 @@ spec:
               service_config:
                 backend_url: http://anvil.protocol-common:8547/
                 publicly_exposed_endpoints:
-                  - testnet-relayminer-2.poktroll.com
+                  - testnet-relayminer-2.us-nj.poktroll.com
             - service_id: proto-static-ngx
               listen_url: http://0.0.0.0:8545
               service_config:
                 backend_url: http://static-nginx-service:80/
                 publicly_exposed_endpoints:
-                  - testnet-relayminer-2.poktroll.com
+                  - testnet-relayminer-2.us-nj.poktroll.com
             - service_id: "0021"
               listen_url: http://0.0.0.0:8545
               service_config:
                 backend_url: https://eth-mainnet.rpc.grove.city/v1/765112fe
                 publicly_exposed_endpoints:
-                  - testnet-relayminer-2.poktroll.com
+                  - testnet-relayminer-2.us-nj.poktroll.com
 ---
 # Staked manually by shelling into the container with the following command:
 # cat <<EOF >/root/stake_config.yaml
@@ -212,18 +212,18 @@ spec:
 # services:
 # - service_id: protocol-anvil
 #   endpoints:
-#   - publicly_exposed_url: https://testnet-relayminer-3.poktroll.com:443
+#   - publicly_exposed_url: https://testnet-relayminer-3.us-nj.poktroll.com:443
 #     rpc_type: json_rpc
 # - service_id: proto-static-ngx
 #   endpoints:
-#   - publicly_exposed_url: https://testnet-relayminer-3.poktroll.com:443
+#   - publicly_exposed_url: https://testnet-relayminer-3.us-nj.poktroll.com:443
 #     rpc_type: json_rpc
 # - service_id: "0021"
 #   endpoints:
-#   - publicly_exposed_url: https://testnet-relayminer-3.poktroll.com:443
+#   - publicly_exposed_url: https://testnet-relayminer-3.us-nj.poktroll.com:443
 #     rpc_type: json_rpc
 # EOF
-# poktrolld tx supplier stake-supplier --config=/root/stake_config.yaml --from=relayminer-3 --chain-id=poktroll --yes --node=https://testnet-validated-validator-rpc.poktroll.com:443/
+# poktrolld tx supplier stake-supplier --config=/root/stake_config.yaml --from=relayminer-3 --chain-id=poktroll --yes --node=https://testnet-validated-validator-rpc.us-nj.poktroll.com:443/
 
 apiVersion: argoproj.io/v1alpha1
 kind: Application
@@ -270,14 +270,14 @@ spec:
           annotations:
             kubernetes.io/ingress.class: nginx
           hosts:
-            - host: testnet-relayminer-3.poktroll.com
+            - host: testnet-relayminer-3.us-nj.poktroll.com
               paths:
                 - path: /
                   pathType: ImplementationSpecific
           tls:
             - secretName: poktroll-wildcard-tls
               hosts:
-                - testnet-relayminer-3.poktroll.com
+                - testnet-relayminer-3.us-nj.poktroll.com
         grpcInsecure: true
         config:
           signing_key_name: relayminer-3 # For backwards compatibility with chart
@@ -293,19 +293,19 @@ spec:
               service_config:
                 backend_url: http://anvil.protocol-common:8547/
                 publicly_exposed_endpoints:
-                  - testnet-relayminer-3.poktroll.com
+                  - testnet-relayminer-3.us-nj.poktroll.com
             - service_id: proto-static-ngx
               listen_url: http://0.0.0.0:8545
               service_config:
                 backend_url: http://static-nginx-service:80/
                 publicly_exposed_endpoints:
-                  - testnet-relayminer-3.poktroll.com
+                  - testnet-relayminer-3.us-nj.poktroll.com
             - service_id: "0021"
               listen_url: http://0.0.0.0:8545
               service_config:
                 backend_url: https://eth-mainnet.rpc.grove.city/v1/765112fe
                 publicly_exposed_endpoints:
-                  - testnet-relayminer-3.poktroll.com
+                  - testnet-relayminer-3.us-nj.poktroll.com
 ---
 # Staked manually by shelling into the container with the following command:
 # cat <<EOF >/root/stake_config.yaml
@@ -314,18 +314,18 @@ spec:
 # services:
 # - service_id: protocol-anvil
 #   endpoints:
-#   - publicly_exposed_url: https://testnet-relayminer-4.poktroll.com:443
+#   - publicly_exposed_url: https://testnet-relayminer-4.us-nj.poktroll.com:443
 #     rpc_type: json_rpc
 # - service_id: proto-static-ngx
 #   endpoints:
-#   - publicly_exposed_url: https://testnet-relayminer-4.poktroll.com:443
+#   - publicly_exposed_url: https://testnet-relayminer-4.us-nj.poktroll.com:443
 #     rpc_type: json_rpc
 # - service_id: "0021"
 #   endpoints:
-#   - publicly_exposed_url: https://testnet-relayminer-4.poktroll.com:443
+#   - publicly_exposed_url: https://testnet-relayminer-4.us-nj.poktroll.com:443
 #     rpc_type: json_rpc
 # EOF
-# poktrolld tx supplier stake-supplier --config=/root/stake_config.yaml --from=relayminer-4 --chain-id=poktroll --yes --node=https://testnet-validated-validator-rpc.poktroll.com:443/
+# poktrolld tx supplier stake-supplier --config=/root/stake_config.yaml --from=relayminer-4 --chain-id=poktroll --yes --node=https://testnet-validated-validator-rpc.us-nj.poktroll.com:443/
 
 apiVersion: argoproj.io/v1alpha1
 kind: Application
@@ -372,14 +372,14 @@ spec:
           annotations:
             kubernetes.io/ingress.class: nginx
           hosts:
-            - host: testnet-relayminer-4.poktroll.com
+            - host: testnet-relayminer-4.us-nj.poktroll.com
               paths:
                 - path: /
                   pathType: ImplementationSpecific
           tls:
             - secretName: poktroll-wildcard-tls
               hosts:
-                - testnet-relayminer-4.poktroll.com
+                - testnet-relayminer-4.us-nj.poktroll.com
         grpcInsecure: true
         config:
           signing_key_name: relayminer-4 # For backwards compatibility with chart
@@ -395,19 +395,19 @@ spec:
               service_config:
                 backend_url: http://anvil.protocol-common:8547/
                 publicly_exposed_endpoints:
-                  - testnet-relayminer-4.poktroll.com
+                  - testnet-relayminer-4.us-nj.poktroll.com
             - service_id: proto-static-ngx
               listen_url: http://0.0.0.0:8545
               service_config:
                 backend_url: http://static-nginx-service:80/
                 publicly_exposed_endpoints:
-                  - testnet-relayminer-4.poktroll.com
+                  - testnet-relayminer-4.us-nj.poktroll.com
             - service_id: "0021"
               listen_url: http://0.0.0.0:8545
               service_config:
                 backend_url: https://eth-mainnet.rpc.grove.city/v1/765112fe
                 publicly_exposed_endpoints:
-                  - testnet-relayminer-4.poktroll.com
+                  - testnet-relayminer-4.us-nj.poktroll.com
 ---
 # Staked manually by shelling into the container with the following command:
 # cat <<EOF >/root/stake_config.yaml
@@ -416,18 +416,18 @@ spec:
 # services:
 # - service_id: protocol-anvil
 #   endpoints:
-#   - publicly_exposed_url: https://testnet-relayminer-5.poktroll.com:443
+#   - publicly_exposed_url: https://testnet-relayminer-5.us-nj.poktroll.com:443
 #     rpc_type: json_rpc
 # - service_id: proto-static-ngx
 #   endpoints:
-#   - publicly_exposed_url: https://testnet-relayminer-5.poktroll.com:443
+#   - publicly_exposed_url: https://testnet-relayminer-5.us-nj.poktroll.com:443
 #     rpc_type: json_rpc
 # - service_id: "0021"
 #   endpoints:
-#   - publicly_exposed_url: https://testnet-relayminer-5.poktroll.com:443
+#   - publicly_exposed_url: https://testnet-relayminer-5.us-nj.poktroll.com:443
 #     rpc_type: json_rpc
 # EOF
-# poktrolld tx supplier stake-supplier --config=/root/stake_config.yaml --from=relayminer-5 --chain-id=poktroll --yes --node=https://testnet-validated-validator-rpc.poktroll.com:443/
+# poktrolld tx supplier stake-supplier --config=/root/stake_config.yaml --from=relayminer-5 --chain-id=poktroll --yes --node=https://testnet-validated-validator-rpc.us-nj.poktroll.com:443/
 
 apiVersion: argoproj.io/v1alpha1
 kind: Application
@@ -474,14 +474,14 @@ spec:
           annotations:
             kubernetes.io/ingress.class: nginx
           hosts:
-            - host: testnet-relayminer-5.poktroll.com
+            - host: testnet-relayminer-5.us-nj.poktroll.com
               paths:
                 - path: /
                   pathType: ImplementationSpecific
           tls:
             - secretName: poktroll-wildcard-tls
               hosts:
-                - testnet-relayminer-5.poktroll.com
+                - testnet-relayminer-5.us-nj.poktroll.com
         grpcInsecure: true
         config:
           signing_key_name: relayminer-5 # For backwards compatibility with chart
@@ -497,16 +497,16 @@ spec:
               service_config:
                 backend_url: http://anvil.protocol-common:8547/
                 publicly_exposed_endpoints:
-                  - testnet-relayminer-5.poktroll.com
+                  - testnet-relayminer-5.us-nj.poktroll.com
             - service_id: proto-static-ngx
               listen_url: http://0.0.0.0:8545
               service_config:
                 backend_url: http://static-nginx-service:80/
                 publicly_exposed_endpoints:
-                  - testnet-relayminer-5.poktroll.com
+                  - testnet-relayminer-5.us-nj.poktroll.com
             - service_id: "0021"
               listen_url: http://0.0.0.0:8545
               service_config:
                 backend_url: https://eth-mainnet.rpc.grove.city/v1/765112fe
                 publicly_exposed_endpoints:
-                  - testnet-relayminer-5.poktroll.com
+                  - testnet-relayminer-5.us-nj.poktroll.com

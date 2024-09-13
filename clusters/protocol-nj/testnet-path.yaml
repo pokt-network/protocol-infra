@@ -1,0 +1,58 @@
+# CM to be created with: kubectl create secret generic --context=vke-2474cf9d-3f73-408a-a897-b0af5eedf2e0 --namespace=testnet-offchain-actors --from-file=$HOME/testnet-actors/keyring-test/gateway-1.info --from-file=$HOME/testnet-actors/keyring-test/gateway-2.info --from-file=$HOME/testnet-actors/keyring-test/gateway-3.info --from-file=$HOME/testnet-actors/keyring-test/gateway-4.info --from-file=$HOME/testnet-actors/keyring-test/gateway-5.info gateways
+---
+# TODO: stake the apps.
+
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: testnet-path-1
+  namespace: argocd
+  labels:
+    team: "protocol"
+    purpose: "testnets"
+    testnet: "testnet-validated"
+    provisioned-by: "protocol"
+spec:
+  project: default
+  destination:
+    namespace: testnet-offchain-actors
+    server: https://kubernetes.default.svc
+  source:
+    path: charts/path
+    repoURL: https://github.com/pokt-network/helm-charts.git
+    targetRevision: add-path # change to main or pin version
+    helm:
+      values: |
+        replicaCount: 1
+        configMapName: TODO
+
+        resources:
+          limits:
+            cpu: 3
+            memory: 5Gi
+          requests:
+            cpu: 2
+            memory: 3.8Gi
+        image:
+          tag: sha-cf44850
+        ingress:
+          enabled: true
+          annotations:
+            kubernetes.io/ingress.class: nginx
+          hosts:
+            - host: testnet-paths-1.us-nj.poktroll.com
+              paths:
+                - path: /
+                  pathType: ImplementationSpecific
+          tls:
+            - secretName: poktroll-wildcard-tls
+              hosts:
+                - testnet-paths-1.us-nj.poktroll.com
+        # grpcInsecure: true
+        # config:
+        #   signing_key: gateway-1
+        #   self_signing: false
+        #   query_node_url: tcp://testnet-all-fullnodes.testnet-onchain:26657
+        #   listening_endpoint: http://0.0.0.0:80
+        #   query_node_rpc_url: tcp://testnet-all-fullnodes.testnet-onchain:26657
+        #   query_node_grpc_url: tcp://testnet-all-fullnodes.testnet-onchain:9090
