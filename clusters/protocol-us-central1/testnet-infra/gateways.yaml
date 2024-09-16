@@ -248,7 +248,7 @@ spec:
     targetRevision: adopt-prod-image # TODO: change to versioned releases when the work on the helm chart is merged/done
     helm:
       values: |
-        replicaCount: 1
+        replicaCount: 0
         keysSecretName: gateways
         resources:
           limits:
@@ -315,7 +315,7 @@ spec:
     targetRevision: adopt-prod-image # TODO: change to versioned releases when the work on the helm chart is merged/done
     helm:
       values: |
-        replicaCount: 1
+        replicaCount: 0
         keysSecretName: gateways
         resources:
           limits:
