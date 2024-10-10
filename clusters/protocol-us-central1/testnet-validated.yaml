@@ -49,6 +49,7 @@ spec:
             cpu: 1.5
 
         serviceP2P:
+          port: 25656 # just to prevent others from connecting
           type: LoadBalancer
           externalTrafficPolicy: Local
           annotations:
