@@ -29,7 +29,7 @@ spec:
 
         image:
           repository: ghcr.io/pokt-network/poktrolld
-          tag: sha-254c33a # sha-2c3e229 is v0.0.9-3, sha-56f7052 is v0.0.9, 254c33a test
+          tag: sha-51f555e # sha-2c3e229 is v0.0.9-3, sha-56f7052 is v0.0.9, 51f555e test
           pullPolicy: IfNotPresent
 
         persistence:
