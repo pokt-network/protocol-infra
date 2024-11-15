@@ -175,6 +175,11 @@ data:
       global-labels = []
       prometheus-retention-time = "600"
       service-name = ""
+    
+    [poktroll]
+    
+      [poktroll.telemetry]
+        cardinality-level = "high"
   client.toml: |
     broadcast-mode = "sync"
     chain-id = "poktroll"
