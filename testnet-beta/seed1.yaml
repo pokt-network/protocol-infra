@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: testnet-beta-validator1
+  name: testnet-beta-seed1
   namespace: argocd
   labels:
     team: "protocol"
@@ -19,8 +19,8 @@ spec:
     targetRevision: adopt-prod-image # TODO: change to versioned releases when the work on the helm chart is merged/done
     helm:
       values: |
-        # Can be created with `kubectl create secret generic validator1-keys --from-file=config/node_key.json --from-file=config/priv_validator_key.json --namespace=testnet-beta`
-        nodeKeysSecretName: validator1-keys
+        # Can be created with `kubectl create secret generic seed1-keys --from-file=config/node_key.json --from-file=config/priv_validator_key.json --namespace=testnet-beta`
+        nodeKeysSecretName: seed1-keys
 
         # Can be created with `kubectl create cm testnet-test-genesis --from-file=config/genesis.json --namespace=testnet-beta`
         # Provisioned below
@@ -55,7 +55,11 @@ spec:
 
         config:
           p2p:
-            externalAddress: "35.202.2.105:26656"
+            # Seed node peer id: 8b9060703e81129996234350c90f77d6ecddd11c
+            externalAddress: "34.45.40.180:26656"
+            seedMode: true
+            persistentPeers: "3b22532b929038d9addaf6f8c4cab1a833f2613e@35.202.2.105:26656"
+            unconditionalPeerIds: "3b22532b929038d9addaf6f8c4cab1a833f2613e"
 
         serviceMonitor:
           enabled: true
@@ -66,7 +70,7 @@ spec:
             annotations:
               kubernetes.io/ingress.class: nginx
             hosts:
-              - name: shannon-testnet-grove-val1-rpc.beta.poktroll.com
+              - name: shannon-testnet-grove-seed1-rpc.beta.poktroll.com
             tls:
               secretName: "beta-wildcard-tls"
           grpc:
@@ -75,7 +79,7 @@ spec:
               kubernetes.io/ingress.class: nginx
               nginx.ingress.kubernetes.io/backend-protocol: "GRPC"
             hosts:
-              - name: shannon-testnet-grove-val1-grpc.beta.poktroll.com
+              - name: shannon-testnet-grove-seed1-grpc.beta.poktroll.com
             tls:
               secretName: "beta-wildcard-tls"
           api:
@@ -83,7 +87,7 @@ spec:
             annotations:
               kubernetes.io/ingress.class: nginx
             hosts:
-              - name: shannon-testnet-grove-val1-api.beta.poktroll.com
+              - name: shannon-testnet-grove-seed1-api.beta.poktroll.com
             tls:
               secretName: "beta-wildcard-tls"
 
