@@ -1,0 +1,23 @@
+# The app to automatically pick up changes from `testnet-beta` directory in the root of the repo
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: testnet-beta
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+  labels:
+    provisioned-by: "protocol"
+spec:
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: default
+  project: default
+  source:
+    path: testnet-beta
+    repoURL: https://github.com/pokt-network/protocol-infra.git
+    targetRevision: main
+  syncPolicy:
+    automated:
+      selfHeal: true
+    syncOptions: {}

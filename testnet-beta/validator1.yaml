@@ -1,0 +1,99 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: testnet-beta-validator1
+  namespace: argocd
+  labels:
+    team: "protocol"
+    purpose: "testnets"
+    testnet: "beta"
+    provisioned-by: "protocol"
+spec:
+  project: default
+  destination:
+    namespace: testnet-beta
+    server: https://kubernetes.default.svc
+  source:
+    path: charts/poktrolld
+    repoURL: https://github.com/pokt-network/helm-charts.git
+    targetRevision: adopt-prod-image # TODO: change to versioned releases when the work on the helm chart is merged/done
+    helm:
+      values: |
+        # Can be created with `kubectl create secret generic validator1-keys --from-file=config/node_key.json --from-file=config/priv_validator_key.json --namespace=testnet-beta`
+        nodeKeysSecretName: validator1-keys
+
+        # Can be created with `kubectl create cm testnet-test-genesis --from-file=config/genesis.json --namespace=testnet-beta`
+        # Provisioned below
+        genesis:
+          configMapName: genesis
+
+        replicaCount: 1
+
+        image:
+          repository: ghcr.io/pokt-network/poktrolld
+          tag: 0.0.11-rc
+          pullPolicy: IfNotPresent
+
+        persistence:
+          enabled: true
+          className: "premium-rwo"
+          size: 80Gi
+
+        resources:
+          limits:
+            memory: 8Gi
+            cpu: '4'
+          requests:
+            memory: 8Gi
+            cpu: 1500m
+
+        serviceP2P:
+          type: LoadBalancer
+          externalTrafficPolicy: Local
+          annotations:
+            cloud.google.com/neg: '{"ingress":true}'
+
+        config:
+          p2p:
+            externalAddress: "35.202.2.105:26656"
+
+        serviceMonitor:
+          enabled: true
+
+        ingress:
+          rpc:
+            enabled: true
+            annotations:
+              kubernetes.io/ingress.class: nginx
+            hosts:
+              - name: shannon-testnet-grove-val1-rpc.beta.poktroll.com
+            tls:
+              secretName: "beta-wildcard-tls"
+          grpc:
+            enabled: true
+            annotations:
+              kubernetes.io/ingress.class: nginx
+              nginx.ingress.kubernetes.io/backend-protocol: "GRPC"
+            hosts:
+              - name: shannon-testnet-grove-val1-grpc.beta.poktroll.com
+            tls:
+              secretName: "beta-wildcard-tls"
+          api:
+            enabled: true
+            annotations:
+              kubernetes.io/ingress.class: nginx
+            hosts:
+              - name: shannon-testnet-grove-val1-api.beta.poktroll.com
+            tls:
+              secretName: "beta-wildcard-tls"
+
+        homeDirectory: /home/pocket/.poktroll
+        chownDataDirTo: 1025
+        containerSecurityContext:
+          runAsUser: 1025
+          runAsGroup: 1025
+          fsGroup: 1025
+
+        customConfigsConfigMap:
+          enabled: true
+          name: custom-configs
