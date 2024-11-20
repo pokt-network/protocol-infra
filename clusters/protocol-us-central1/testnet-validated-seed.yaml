@@ -62,6 +62,7 @@ spec:
             hosts:
               - name: shannon-testnet-grove-seed-rpc.poktroll.com
               - name: shannon-testnet-grove-seed-rpc.alpha.poktroll.com
+              - name: shannon-testnet-grove-seed1-rpc.alpha.poktroll.com
             tls:
               secretName: "poktroll-wildcard-tls"
           grpc:
@@ -72,6 +73,7 @@ spec:
             hosts:
               - name: shannon-testnet-grove-seed-grpc.poktroll.com
               - name: shannon-testnet-grove-seed-grpc.alpha.poktroll.com
+              - name: shannon-testnet-grove-seed1-grpc.alpha.poktroll.com
             tls:
               secretName: "poktroll-wildcard-tls"
           api:
@@ -81,6 +83,7 @@ spec:
             hosts:
               - name: shannon-testnet-grove-seed-api.poktroll.com
               - name: shannon-testnet-grove-seed-api.alpha.poktroll.com
+              - name: shannon-testnet-grove-seed1-api.alpha.poktroll.com
             tls:
               secretName: "poktroll-wildcard-tls"
 
