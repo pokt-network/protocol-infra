@@ -55,11 +55,11 @@ spec:
 
         config:
           p2p:
-            # Seed node peer id: 8b9060703e81129996234350c90f77d6ecddd11c
+            # Seed node peer id: 8b9060703e81129996234350c90f77d6ecddd11c@34.45.40.180:26656
             externalAddress: "34.45.40.180:26656"
             seedMode: true
             persistentPeers: "3b22532b929038d9addaf6f8c4cab1a833f2613e@35.202.2.105:26656"
-            unconditionalPeerIds: "3b22532b929038d9addaf6f8c4cab1a833f2613e"
+            # unconditionalPeerIds: "3b22532b929038d9addaf6f8c4cab1a833f2613e"
 
         serviceMonitor:
           enabled: true
