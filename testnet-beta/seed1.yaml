@@ -71,6 +71,7 @@ spec:
               kubernetes.io/ingress.class: nginx
             hosts:
               - name: shannon-testnet-grove-seed1-rpc.beta.poktroll.com
+              - name: shannon-testnet-grove-rpc.beta.poktroll.com
             tls:
               secretName: "beta-wildcard-tls"
           grpc:
@@ -80,6 +81,7 @@ spec:
               nginx.ingress.kubernetes.io/backend-protocol: "GRPC"
             hosts:
               - name: shannon-testnet-grove-seed1-grpc.beta.poktroll.com
+              - name: shannon-testnet-grove-grpc.beta.poktroll.com
             tls:
               secretName: "beta-wildcard-tls"
           api:
@@ -88,6 +90,7 @@ spec:
               kubernetes.io/ingress.class: nginx
             hosts:
               - name: shannon-testnet-grove-seed1-api.beta.poktroll.com
+              - name: shannon-testnet-grove-api.beta.poktroll.com
             tls:
               secretName: "beta-wildcard-tls"
 

@@ -63,6 +63,7 @@ spec:
               - name: shannon-testnet-grove-seed-rpc.poktroll.com
               - name: shannon-testnet-grove-seed-rpc.alpha.poktroll.com
               - name: shannon-testnet-grove-seed1-rpc.alpha.poktroll.com
+              - name: shannon-testnet-grove-rpc.alpha.poktroll.com
             tls:
               secretName: "poktroll-wildcard-tls"
           grpc:
@@ -74,6 +75,7 @@ spec:
               - name: shannon-testnet-grove-seed-grpc.poktroll.com
               - name: shannon-testnet-grove-seed-grpc.alpha.poktroll.com
               - name: shannon-testnet-grove-seed1-grpc.alpha.poktroll.com
+              - name: shannon-testnet-grove-grpc.alpha.poktroll.com
             tls:
               secretName: "poktroll-wildcard-tls"
           api:
@@ -84,6 +86,7 @@ spec:
               - name: shannon-testnet-grove-seed-api.poktroll.com
               - name: shannon-testnet-grove-seed-api.alpha.poktroll.com
               - name: shannon-testnet-grove-seed1-api.alpha.poktroll.com
+              - name: shannon-testnet-grove-api.alpha.poktroll.com
             tls:
               secretName: "poktroll-wildcard-tls"
 
