@@ -91,6 +91,7 @@ spec:
               secretName: "poktroll-wildcard-tls"
 
         config:
+          unsafeSkipUpgrades: [83725]
           p2p:
             externalAddress: '35.184.192.176:26656'
             seedMode: true

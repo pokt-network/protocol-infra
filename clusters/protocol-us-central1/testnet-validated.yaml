@@ -56,6 +56,7 @@ spec:
             cloud.google.com/neg: '{"ingress":true}'
 
         config:
+          unsafeSkipUpgrades: [83725]
           p2p:
             externalAddress: "35.184.178.214:26656"
             # persistentPeers: "c34e548758c20189ab32f36fae133c2408c2372a@34.66.135.151:26656"
