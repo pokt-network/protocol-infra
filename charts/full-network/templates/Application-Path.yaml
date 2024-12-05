@@ -42,6 +42,25 @@ spec:
           mountConfigMaps:
             - name: {{ $networkType }}-{{ $networkName }}-path-{{ $pathNumber }}-config
               mountPath: /app/config
+          ports:
+            - name: http
+              port: 3000
+              protocol: TCP
+              service:
+                type: ClusterIP
+              ingress:
+                enabled: true
+                annotations:
+                  kubernetes.io/ingress.class: nginx
+                hosts:
+                  - host: {{ $networkType }}-{{ $networkName }}-path-{{ $pathNumber }}.poktroll.com
+                    paths:
+                      - path: /
+                        pathType: ImplementationSpecific
+                tls:
+                  - secretName: poktroll-wildcard-tls
+                    hosts:
+                      - {{ $networkType }}-{{ $networkName }}-path-{{ $pathNumber }}.poktroll.com
   syncPolicy:
     automated:
       selfHeal: true
@@ -81,28 +100,4 @@ data:
     services:
       anvil:
         alias: anvil
----
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: {{ $networkType }}-{{ $networkName }}-path-{{ $pathNumber }}-ingress
-  namespace: {{ $networkType }}-{{ $networkName }}
-  annotations:
-    kubernetes.io/ingress.class: nginx
-spec:
-  rules:
-    - host: {{ $networkType }}-{{ $networkName }}-path-{{ $pathNumber }}.poktroll.com
-      http:
-        paths:
-          - path: /
-            pathType: ImplementationSpecific
-            backend:
-              service:
-                name: {{ $networkType }}-{{ $networkName }}-path-{{ $pathNumber }}
-                port:
-                  number: 80
-  tls:
-    - secretName: poktroll-wildcard-tls
-      hosts:
-        - {{ $networkType }}-{{ $networkName }}-path-{{ $pathNumber }}.poktroll.com
 {{- end }}
