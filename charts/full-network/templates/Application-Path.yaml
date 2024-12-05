@@ -30,7 +30,7 @@ spec:
           pullPolicy: Always
         image:
           tag: {{ $imageTag }}
-        fullnameOverride: {{ $networkType }}-{{ $networkName }}-appgate-server-{{ $pathNumber }}
+        fullnameOverride: {{ $networkType }}-{{ $networkName }}-path-{{ $pathNumber }}
         path:
           resources:
             limits:
