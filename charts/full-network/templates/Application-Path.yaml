@@ -1,0 +1,108 @@
+{{- $networkType := .Values.network.type }}
+{{- $networkName := .Values.network.name }}
+{{- $imageTag := .Values.image.tag }}
+{{- $pathCount := default 1 .Values.paths.count | int }}
+
+{{- range $i := until $pathCount }}
+{{- $pathNumber := add $i 1 }}
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: {{ $networkType }}-{{ $networkName }}-path-{{ $pathNumber }}
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+  labels:
+    provisioned-by: "protocol"
+spec:
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: {{ $networkType }}-{{ $networkName }}
+  project: default
+  source:
+    chart: path
+    repoURL: https://buildwithgrove.github.io/helm-charts
+    targetRevision: '0.1.4'
+    helm: 
+      values: |
+        global:
+          pullPolicy: Always
+        image:
+          tag: {{ $imageTag }}
+        fullnameOverride: {{ $networkType }}-{{ $networkName }}-appgate-server-{{ $pathNumber }}
+        path:
+          resources:
+            limits:
+              cpu: 0.5
+              memory: 1Gi
+            requests:
+              cpu: 0.25
+              memory: 512Mi
+          mountConfigMaps:
+            - name: {{ $networkType }}-{{ $networkName }}-path-{{ $pathNumber }}-config
+              mountPath: /app/config
+  syncPolicy:
+    automated:
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - Replace=true
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ $networkType }}-{{ $networkName }}-path-{{ $pathNumber }}-config
+  namespace: {{ $networkType }}-{{ $networkName }}
+data:
+  config.yaml: |
+    shannon_config:
+      full_node_config:
+        rpc_url: tcp://{{ $networkType }}-{{ $networkName }}-validator-poktrolld:26657
+        grpc_config:
+          host_port: {{ $networkType }}-{{ $networkName }}-validator-poktrolld:9090
+          insecure: true
+        lazy_mode: true
+      gateway_config:
+        gateway_mode: delegated
+        # TODO_TECHDEBT: hardcoded the keys just like localnet for now. If we need to support other/more
+        # Paths, we should revisit.
+        {{- if eq $pathNumber 1 }}
+        gateway_address: pokt15vzxjqklzjtlz7lahe8z2dfe9nm5vxwwmscne4 # gateway1
+        gateway_private_key_hex: cf09805c952fa999e9a63a9f434147b0a5abfd10f268879694c6b5a70e1ae177
+        {{- else if eq $pathNumber 2 }}
+        gateway_address: pokt15w3fhfyc0lttv7r585e2ncpf6t2kl9uh8rsnyz # gateway2
+        gateway_private_key_hex: 177ba43cec962ea407f71da9c3994ba685708e82d5d7a6d7da3268e74119bf88
+        {{- else }}
+        gateway_address: pokt1zhmkkd0rh788mc9prfq0m2h88t9ge0j83gnxya # gateway3
+        gateway_private_key_hex: f73b6f7f0b9c99603c7eeddbf1c419c6f6bbc241f3798e3e4c8da9769ca81c26
+        {{- end }}
+
+    services:
+      anvil:
+        alias: anvil
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ $networkType }}-{{ $networkName }}-path-{{ $pathNumber }}-ingress
+  namespace: {{ $networkType }}-{{ $networkName }}
+  annotations:
+    kubernetes.io/ingress.class: nginx
+spec:
+  rules:
+    - host: {{ $networkType }}-{{ $networkName }}-path-{{ $pathNumber }}.poktroll.com
+      http:
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: {{ $networkType }}-{{ $networkName }}-path-{{ $pathNumber }}
+                port:
+                  number: 80
+  tls:
+    - secretName: poktroll-wildcard-tls
+      hosts:
+        - {{ $networkType }}-{{ $networkName }}-path-{{ $pathNumber }}.poktroll.com
+{{- end }}

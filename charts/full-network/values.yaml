@@ -11,6 +11,10 @@ gateways:
   count: 1
 relayminers:
   count: 1
+paths:
+  image:
+    tag: main # TODO: add a way to change the tag for the path chart if this becomes necessary.
+  count: 1
 
 charts:
   sequencer:
