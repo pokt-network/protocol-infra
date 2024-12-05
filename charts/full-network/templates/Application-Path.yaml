@@ -1,6 +1,6 @@
 {{- $networkType := .Values.network.type }}
 {{- $networkName := .Values.network.name }}
-{{- $imageTag := .Values.image.tag }}
+{{- $imageTag := .Values.paths.image.tag }}
 {{- $pathCount := default 1 .Values.paths.count | int }}
 
 {{- range $i := until $pathCount }}
