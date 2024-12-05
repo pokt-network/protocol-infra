@@ -55,7 +55,7 @@ metadata:
   name: {{ $networkType }}-{{ $networkName }}-path-{{ $pathNumber }}-config
   namespace: {{ $networkType }}-{{ $networkName }}
 data:
-  config.yaml: |
+  .config.yaml: |
     shannon_config:
       full_node_config:
         rpc_url: tcp://{{ $networkType }}-{{ $networkName }}-validator-poktrolld:26657
