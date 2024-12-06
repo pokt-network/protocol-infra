@@ -37,18 +37,15 @@ data:
     def main
       namespace = ARGV[0]
       validator_endpoint = "#{namespace}-validator-poktrolld:26657"
-      appgate_server_endpoint = "#{namespace}-appgate-server:80"
-      gateway_endpoint = "#{namespace}-gateway:80"
+      path_endpoint = "#{namespace}-path:3000"
       relayminer_endpoint = "#{namespace}-relayminer:8545"
 
       puts "Validator Endpoint: #{validator_endpoint}"
-      puts "Appgate Server Endpoint: #{appgate_server_endpoint}"
-      puts "Gateway Endpoint: #{gateway_endpoint}"
+      puts "Path Endpoint: #{path_endpoint}"
       puts "Relayminer Endpoint: #{relayminer_endpoint}"
 
       check_http_status(validator_endpoint)
-      check_http_status(appgate_server_endpoint)
-      check_http_status(gateway_endpoint)
+      check_http_status(path_endpoint)
       check_http_status(relayminer_endpoint)
     end
 
