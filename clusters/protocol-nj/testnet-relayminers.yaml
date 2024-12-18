@@ -18,7 +18,7 @@
 #   - publicly_exposed_url: https://testnet-relayminer-1.us-nj.poktroll.com:443
 #     rpc_type: json_rpc
 # EOF
-# poktrolld tx supplier stake-supplier --config=stake_config.yaml --from=relayminer-1 --chain-id=poktroll --yes --node=https://testnet-validated-validator-rpc.poktroll.com:443/
+# poktrolld tx supplier stake-supplier --config=stake_config.yaml --from=relayminer-1 --chain-id=poktroll --yes --node=https://testnet-beta-validator-rpc.poktroll.com:443/
 
 apiVersion: argoproj.io/v1alpha1
 kind: Application
@@ -28,7 +28,7 @@ metadata:
   labels:
     team: "protocol"
     purpose: "testnets"
-    testnet: "testnet-validated"
+    testnet: "testnet-beta"
     provisioned-by: "protocol"
 spec:
   project: default
@@ -120,7 +120,7 @@ spec:
 #   - publicly_exposed_url: https://testnet-relayminer-2.us-nj.poktroll.com:443
 #     rpc_type: json_rpc
 # EOF
-# poktrolld tx supplier stake-supplier --config=stake_config.yaml --from=relayminer-2 --chain-id=poktroll --yes --node=https://testnet-validated-validator-rpc.poktroll.com:443/
+# poktrolld tx supplier stake-supplier --config=stake_config.yaml --from=relayminer-2 --chain-id=poktroll --yes --node=https://testnet-beta-validator-rpc.poktroll.com:443/
 
 apiVersion: argoproj.io/v1alpha1
 kind: Application
@@ -130,7 +130,7 @@ metadata:
   labels:
     team: "protocol"
     purpose: "testnets"
-    testnet: "testnet-validated"
+    testnet: "testnet-beta"
     provisioned-by: "protocol"
 spec:
   project: default
@@ -222,7 +222,7 @@ spec:
 #   - publicly_exposed_url: https://testnet-relayminer-3.us-nj.poktroll.com:443
 #     rpc_type: json_rpc
 # EOF
-# poktrolld tx supplier stake-supplier --config=stake_config.yaml --from=relayminer-3 --chain-id=poktroll --yes --node=https://testnet-validated-validator-rpc.poktroll.com:443/
+# poktrolld tx supplier stake-supplier --config=stake_config.yaml --from=relayminer-3 --chain-id=poktroll --yes --node=https://testnet-beta-validator-rpc.poktroll.com:443/
 
 apiVersion: argoproj.io/v1alpha1
 kind: Application
@@ -232,7 +232,7 @@ metadata:
   labels:
     team: "protocol"
     purpose: "testnets"
-    testnet: "testnet-validated"
+    testnet: "testnet-beta"
     provisioned-by: "protocol"
 spec:
   project: default
@@ -324,7 +324,7 @@ spec:
 #   - publicly_exposed_url: https://testnet-relayminer-4.us-nj.poktroll.com:443
 #     rpc_type: json_rpc
 # EOF
-# poktrolld tx supplier stake-supplier --config=stake_config.yaml --from=relayminer-4 --chain-id=poktroll --yes --node=https://testnet-validated-validator-rpc.poktroll.com:443/
+# poktrolld tx supplier stake-supplier --config=stake_config.yaml --from=relayminer-4 --chain-id=poktroll --yes --node=https://testnet-beta-validator-rpc.poktroll.com:443/
 
 apiVersion: argoproj.io/v1alpha1
 kind: Application
@@ -334,7 +334,7 @@ metadata:
   labels:
     team: "protocol"
     purpose: "testnets"
-    testnet: "testnet-validated"
+    testnet: "testnet-beta"
     provisioned-by: "protocol"
 spec:
   project: default
@@ -426,7 +426,7 @@ spec:
 #   - publicly_exposed_url: https://testnet-relayminer-5.us-nj.poktroll.com:443
 #     rpc_type: json_rpc
 # EOF
-# poktrolld tx supplier stake-supplier --config=stake_config.yaml --from=relayminer-5 --chain-id=poktroll --yes --node=https://testnet-validated-validator-rpc.poktroll.com:443/
+# poktrolld tx supplier stake-supplier --config=stake_config.yaml --from=relayminer-5 --chain-id=poktroll --yes --node=https://testnet-beta-validator-rpc.poktroll.com:443/
 
 apiVersion: argoproj.io/v1alpha1
 kind: Application
@@ -436,7 +436,7 @@ metadata:
   labels:
     team: "protocol"
     purpose: "testnets"
-    testnet: "testnet-validated"
+    testnet: "testnet-beta"
     provisioned-by: "protocol"
 spec:
   project: default
@@ -529,7 +529,7 @@ spec:
 #   - publicly_exposed_url: https://testnet-relayminer-6.us-nj.poktroll.com:443
 #     rpc_type: json_rpc
 # EOF
-# poktrolld tx supplier stake-supplier --config=stake_config.yaml --from=relayminer-6 --chain-id=poktroll --yes --node=https://testnet-validated-validator-rpc.poktroll.com:443/
+# poktrolld tx supplier stake-supplier --config=stake_config.yaml --from=relayminer-6 --chain-id=poktroll --yes --node=https://testnet-beta-validator-rpc.poktroll.com:443/
 
 apiVersion: argoproj.io/v1alpha1
 kind: Application
@@ -539,7 +539,7 @@ metadata:
   labels:
     team: "protocol"
     purpose: "testnets"
-    testnet: "testnet-validated"
+    testnet: "testnet-beta"
     provisioned-by: "protocol"
 spec:
   project: default
@@ -631,7 +631,7 @@ spec:
 #   - publicly_exposed_url: https://testnet-relayminer-7.us-nj.poktroll.com:443
 #     rpc_type: json_rpc
 # EOF
-# poktrolld tx supplier stake-supplier --config=stake_config.yaml --from=relayminer-7 --chain-id=poktroll --yes --node=https://testnet-validated-validator-rpc.poktroll.com:443/
+# poktrolld tx supplier stake-supplier --config=stake_config.yaml --from=relayminer-7 --chain-id=poktroll --yes --node=https://testnet-beta-validator-rpc.poktroll.com:443/
 
 apiVersion: argoproj.io/v1alpha1
 kind: Application
@@ -641,7 +641,7 @@ metadata:
   labels:
     team: "protocol"
     purpose: "testnets"
-    testnet: "testnet-validated"
+    testnet: "testnet-beta"
     provisioned-by: "protocol"
 spec:
   project: default
@@ -733,7 +733,7 @@ spec:
 #   - publicly_exposed_url: https://testnet-relayminer-8.us-nj.poktroll.com:443
 #     rpc_type: json_rpc
 # EOF
-# poktrolld tx supplier stake-supplier --config=stake_config.yaml --from=relayminer-8 --chain-id=poktroll --yes --node=https://testnet-validated-validator-rpc.poktroll.com:443/
+# poktrolld tx supplier stake-supplier --config=stake_config.yaml --from=relayminer-8 --chain-id=poktroll --yes --node=https://testnet-beta-validator-rpc.poktroll.com:443/
 
 apiVersion: argoproj.io/v1alpha1
 kind: Application
@@ -743,7 +743,7 @@ metadata:
   labels:
     team: "protocol"
     purpose: "testnets"
-    testnet: "testnet-validated"
+    testnet: "testnet-beta"
     provisioned-by: "protocol"
 spec:
   project: default
@@ -835,7 +835,7 @@ spec:
 #   - publicly_exposed_url: https://testnet-relayminer-9.us-nj.poktroll.com:443
 #     rpc_type: json_rpc
 # EOF
-# poktrolld tx supplier stake-supplier --config=stake_config.yaml --from=relayminer-9 --chain-id=poktroll --yes --node=https://testnet-validated-validator-rpc.poktroll.com:443/
+# poktrolld tx supplier stake-supplier --config=stake_config.yaml --from=relayminer-9 --chain-id=poktroll --yes --node=https://testnet-beta-validator-rpc.poktroll.com:443/
 
 apiVersion: argoproj.io/v1alpha1
 kind: Application
@@ -845,7 +845,7 @@ metadata:
   labels:
     team: "protocol"
     purpose: "testnets"
-    testnet: "testnet-validated"
+    testnet: "testnet-beta"
     provisioned-by: "protocol"
 spec:
   project: default
@@ -937,7 +937,7 @@ spec:
 #   - publicly_exposed_url: https://testnet-relayminer-10.us-nj.poktroll.com:443
 #     rpc_type: json_rpc
 # EOF
-# poktrolld tx supplier stake-supplier --config=stake_config.yaml --from=relayminer-10 --chain-id=poktroll --yes --node=https://testnet-validated-validator-rpc.poktroll.com:443/
+# poktrolld tx supplier stake-supplier --config=stake_config.yaml --from=relayminer-10 --chain-id=poktroll --yes --node=https://testnet-beta-validator-rpc.poktroll.com:443/
 
 apiVersion: argoproj.io/v1alpha1
 kind: Application
@@ -947,7 +947,7 @@ metadata:
   labels:
     team: "protocol"
     purpose: "testnets"
-    testnet: "testnet-validated"
+    testnet: "testnet-beta"
     provisioned-by: "protocol"
 spec:
   project: default

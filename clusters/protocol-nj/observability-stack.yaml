@@ -22,6 +22,7 @@ spec:
           enabled: false
 
         vmagent:
+          enabled: true
           additionalRemoteWrites:
           - url: https://vm-usc1.poktroll.com/api/v1/write
             basicAuth:
@@ -68,15 +69,15 @@ spec:
         - /spec/renewBefore
     - group: ""
       kind: Secret
-      name: <fullname>-validation
+      name: observability-vm-victoria-metrics-operator-validation
       namespace: kube-system
       jsonPointers:
         - /data
     - group: admissionregistration.k8s.io
       kind: ValidatingWebhookConfiguration
-      name: <fullname>-admission
+      name: observability-vm-victoria-metrics-operator-admission
       jqPathExpressions:
-      - '.webhooks[]?.clientConfig.caBundle'
+        - ".webhooks[]?.clientConfig.caBundle"
 
 ---
 apiVersion: argoproj.io/v1alpha1

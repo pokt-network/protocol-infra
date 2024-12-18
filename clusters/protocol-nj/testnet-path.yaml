@@ -1,16 +1,27 @@
 # CM to be created with: kubectl create secret generic --context=vke-2474cf9d-3f73-408a-a897-b0af5eedf2e0 --namespace=testnet-offchain-actors --from-file=$HOME/testnet-actors/keyring-test/gateway-1.info --from-file=$HOME/testnet-actors/keyring-test/gateway-2.info --from-file=$HOME/testnet-actors/keyring-test/gateway-3.info --from-file=$HOME/testnet-actors/keyring-test/gateway-4.info --from-file=$HOME/testnet-actors/keyring-test/gateway-5.info gateways
 ---
 # TODO: stake the apps.
+# CONFIG was created manually due to it containing a secret. Like that:
+# kubectl create configmap path-config-1 \
+#   --namespace=testnet-offchain-actors \
+#   --from-file=/Users/dk/pocket/poktroll/localnet/kubernetes/config-path-1.yaml
 
+# Staked with the following command:
+# cat <<EOF >$HOME/tmp/stake_config.yaml
+# stake_amount: 500000000upokt
+# EOF
+# pkd_beta_tx tx gateway stake-gateway --config=$HOME/tmp/stake_config.yaml --from=beta-path-1
+
+---
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: testnet-path-1
+  name: beta-testnet-path-1
   namespace: argocd
   labels:
     team: "protocol"
     purpose: "testnets"
-    testnet: "testnet-validated"
+    testnet: "testnet-beta"
     provisioned-by: "protocol"
 spec:
   project: default
@@ -18,41 +29,40 @@ spec:
     namespace: testnet-offchain-actors
     server: https://kubernetes.default.svc
   source:
-    path: charts/path
-    repoURL: https://github.com/pokt-network/helm-charts.git
-    targetRevision: add-path # change to main or pin version
+    # path: charts/path
+    chart: path
+    repoURL: https://buildwithgrove.github.io/helm-charts
+    targetRevision: 0.1.6
     helm:
       values: |
-        replicaCount: 1
-        configMapName: TODO
-
-        resources:
-          limits:
-            cpu: 3
-            memory: 5Gi
-          requests:
-            cpu: 2
-            memory: 3.8Gi
-        image:
-          tag: sha-cf44850
-        ingress:
-          enabled: true
-          annotations:
-            kubernetes.io/ingress.class: nginx
-          hosts:
-            - host: testnet-paths-1.us-nj.poktroll.com
-              paths:
-                - path: /
-                  pathType: ImplementationSpecific
-          tls:
-            - secretName: poktroll-wildcard-tls
-              hosts:
-                - testnet-paths-1.us-nj.poktroll.com
-        # grpcInsecure: true
-        # config:
-        #   signing_key: gateway-1
-        #   self_signing: false
-        #   query_node_url: tcp://testnet-all-fullnodes.testnet-onchain:26657
-        #   listening_endpoint: http://0.0.0.0:80
-        #   query_node_rpc_url: tcp://testnet-all-fullnodes.testnet-onchain:26657
-        #   query_node_grpc_url: tcp://testnet-all-fullnodes.testnet-onchain:9090
+        path:
+          fullnameOverride: beta-path-1
+          nameOverride: beta-path-1
+          global:
+            serviceAccount:
+              name: beta-path-1
+          mountConfigMaps:
+            - name: path-config-1
+              mountPath: /app/config/
+          ports:
+            - name: http
+              port: 3000
+              protocol: TCP
+              service:
+                type: ClusterIP
+              ingress:
+                annotations:
+                  kubernetes.io/ingress.class: "nginx"
+                  cert-manager.io/cluster-issuer: "letsencrypt-production-dns"
+                hosts:
+                  - host: "beta-path-1.us-nj.poktroll.com"
+                    paths:
+                      - path: /
+                        pathType: Prefix
+                tls:
+                  - secretName: beta-path-1-tls
+                    hosts:
+                      - "beta-path-1.us-nj.poktroll.com"
+        metrics:
+          serviceMonitor:
+            enabled: true

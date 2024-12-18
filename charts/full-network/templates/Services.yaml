@@ -102,22 +102,6 @@ spec:
     app.kubernetes.io/instance: {{ .Values.network.type }}-{{ .Values.network.name }}-path-1
     app.kubernetes.io/name: {{ .Values.network.type }}-{{ .Values.network.name }}-path-1
 ---
-# Points to the first path, for backwards-compatibility with existing e2e test suite
-apiVersion: v1
-kind: Service
-metadata:
-  name: anvil.{{ .Values.network.type }}-{{ .Values.network.name }}-path
-  namespace: {{ .Values.network.type }}-{{ .Values.network.name }}
-spec:
-  ports:
-  - name: http
-    port: 3000
-    protocol: TCP
-    targetPort: 3000
-  selector:
-    app.kubernetes.io/instance: {{ .Values.network.type }}-{{ .Values.network.name }}-path-1
-    app.kubernetes.io/name: {{ .Values.network.type }}-{{ .Values.network.name }}-path-1
----
 # Points to the first appgate-server, for backwards-compatibility with existing e2e test suite
 apiVersion: v1
 kind: Service
