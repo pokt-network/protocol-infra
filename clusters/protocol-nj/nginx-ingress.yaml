@@ -22,15 +22,15 @@ spec:
           # kind: DaemonSet
           replicaCount: 2
           config:
-            use-proxy-protocol: "true"
+            use-proxy-protocol: "false"
             # use-geoip: "true"
           resources:
             limits:
               cpu: 4
               memory: 4Gi
             requests:
-              cpu: 3
-              memory: 2Gi
+              cpu: 2
+              memory: 3Gi
           # hostPort:
           #   enabled: true
           service:
@@ -38,7 +38,7 @@ spec:
             # https://github.com/vultr/vultr-cloud-controller-manager/blob/master/docs/load-balancers.md
             annotations:
               service.beta.kubernetes.io/vultr-loadbalancer-algorithm: "least_connections"
-              service.beta.kubernetes.io/vultr-loadbalancer-proxy-protocol: "true"
+              service.beta.kubernetes.io/vultr-loadbalancer-proxy-protocol: "false"
           # nodeSelector:
           #   vke.vultr.com/node-pool: static
           affinity:
@@ -59,6 +59,25 @@ spec:
   destination:
     server: https://kubernetes.default.svc
     namespace: ingress-nginx
+# ---
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   annotations:
+#     service.beta.kubernetes.io/vultr-loadbalancer-algorithm: least_connections
+#     service.beta.kubernetes.io/vultr-loadbalancer-proxy-protocol: "false"
+#   finalizers:
+#     - service.kubernetes.io/load-balancer-cleanup
+#   name: ingress-nginx-controller-no-proxy
+#   namespace: ingress-nginx
+# spec:
+#   allocateLoadBalancerNodePorts: true
+#   externalTrafficPolicy: Local
+#   selector:
+#     app.kubernetes.io/component: controller
+#     app.kubernetes.io/instance: ingress-nginx
+#     app.kubernetes.io/name: ingress-nginx
+#   type: LoadBalancer
 ---
 apiVersion: v1
 kind: Namespace

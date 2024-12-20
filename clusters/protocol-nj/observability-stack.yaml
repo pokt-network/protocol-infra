@@ -78,6 +78,104 @@ spec:
       name: observability-vm-victoria-metrics-operator-admission
       jqPathExpressions:
         - ".webhooks[]?.clientConfig.caBundle"
+---
+# ingress:
+#   # -- Enable deployment of ingress for server component
+#   enabled: false
+
+#   # -- Ingress annotations
+#   annotations:
+#   #   kubernetes.io/ingress.class: nginx
+#   #   kubernetes.io/tls-acme: 'true'
+
+#   # -- Ingress extra labels
+#   extraLabels: {}
+
+#   # -- Array of host objects
+#   hosts:
+#     - name: vlogs.local
+#       path:
+#         - /
+#       port: http
+
+#   # -- Array of TLS objects
+#   tls: []
+#   #   - secretName: vmselect-ingress-tls
+#   #     hosts:
+#   #       - vmselect.local
+
+#   # -- Ingress controller class name
+#   ingressClassName: ""
+
+#   # -- Ingress path type
+#   pathType: Prefix
+
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: observability-vl
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://victoriametrics.github.io/helm-charts/
+    chart: victoria-logs-single
+    targetRevision: 0.8.11
+    helm:
+      values: |
+        fullnameOverride: vl
+        server:
+          persistentVolume:
+            enabled: true
+            size: 50Gi
+          ingress:
+            enabled: true
+            annotations:
+              kubernetes.io/ingress.class: "nginx"
+              cert-manager.io/cluster-issuer: "letsencrypt-production-dns"
+              nginx.ingress.kubernetes.io/auth-type: basic
+              nginx.ingress.kubernetes.io/auth-secret: nginx-basic-auth
+              nginx.ingress.kubernetes.io/auth-realm: "Authentication Required"
+            hosts:
+              - name: vlogs.us-nj.poktroll.com
+                path:
+                  - /
+                port: http
+            tls:
+              - secretName: vlogs-tls
+                hosts:
+                  - vlogs.us-nj.poktroll.com
+
+        vector:
+          enabled: true
+
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: observability
+  syncPolicy:
+    syncOptions:
+      - Replace=true
+      - RespectIgnoreDifferences=true
+    # automated: # Enables automated sync
+    #   prune: false # Enables pruning of resources not tracked anymore
+    #   selfHeal: false # Enables self-healing of out-of-sync resources
+  ignoreDifferences:
+    - group: cert-manager.io
+      kind: Certificate
+      jsonPointers:
+        - /spec/duration
+        - /spec/renewBefore
+    - group: ""
+      kind: Secret
+      name: observability-vl-victoria-metrics-operator-validation
+      namespace: kube-system
+      jsonPointers:
+        - /data
+    - group: admissionregistration.k8s.io
+      kind: ValidatingWebhookConfiguration
+      name: observability-vl-victoria-metrics-operator-admission
+      jqPathExpressions:
+        - ".webhooks[]?.clientConfig.caBundle"
 
 ---
 apiVersion: argoproj.io/v1alpha1

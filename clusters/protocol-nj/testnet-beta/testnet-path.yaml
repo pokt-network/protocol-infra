@@ -35,6 +35,8 @@ spec:
     targetRevision: 0.1.6
     helm:
       values: |
+        image:
+          tag: add-log-level
         path:
           fullnameOverride: beta-path-1
           nameOverride: beta-path-1
@@ -63,6 +65,7 @@ spec:
                   - secretName: beta-path-1-tls
                     hosts:
                       - "beta-path-1.us-nj.poktroll.com"
+                      - "*.beta-path-1.us-nj.poktroll.com"
         metrics:
           serviceMonitor:
             enabled: true
