@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: testnet-beta-fullnode1
+  name: testnet-beta-fullnode2
   namespace: argocd
   labels:
     team: "protocol"
@@ -19,8 +19,8 @@ spec:
     targetRevision: adopt-prod-image # TODO: change to versioned releases when the work on the helm chart is merged/done
     helm:
       values: |
-        # Can be created with `kubectl create secret generic fullnode1-keys --from-file=config/node_key.json --from-file=config/priv_validator_key.json --namespace=testnet-beta`
-        nodeKeysSecretName: fullnode1-keys
+        # Can be created with `kubectl create secret generic fullnode2-keys --from-file=config/node_key.json --from-file=config/priv_validator_key.json --namespace=testnet-beta`
+        nodeKeysSecretName: fullnode2-keys
 
         # Can be created with `kubectl create cm testnet-test-genesis --from-file=config/genesis.json --namespace=testnet-beta`
         # Provisioned below
@@ -53,7 +53,7 @@ spec:
 
         config:
           p2p:
-            externalAddress: "108.61.155.159:26656"
+            externalAddress: "173.199.115.245:26656"
             seeds: 8b9060703e81129996234350c90f77d6ecddd11c@34.45.40.180:26656
 
         serviceMonitor:
@@ -61,7 +61,7 @@ spec:
 
         logs:
           format: json
-          level: debug
+          level: info
 
         # ingress:
         #   rpc:

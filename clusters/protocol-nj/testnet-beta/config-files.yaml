@@ -65,7 +65,7 @@ data:
       enabled = true
       global-labels = []
       metrics-sink = "mem"
-      prometheus-retention-time = "1800"
+      prometheus-retention-time = "14400"
       service-name = ""
       statsd-addr = ""
   client.toml: |

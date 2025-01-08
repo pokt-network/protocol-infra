@@ -40,7 +40,8 @@ spec:
       values: |
         replicaCount: 1
         logs:
-          level:
+          level: debug # others are info
+        chainId: pocket-beta
         keysSecretName: relayminers
         resources:
           limits:
@@ -54,7 +55,7 @@ spec:
           serviceMonitor:
             enabled: true
         image:
-          tag: sha-2d03f55
+          tag: sha-766963e # pr1018
         # homeDirectory: /home/pocket/.poktroll
         # podSecurityContext:
         #   runAsUser: 1025
@@ -78,9 +79,9 @@ spec:
           default_signing_key_names: [beta-relayminer-1]
           smt_store_path: /root/.poktroll/smt
           pocket_node:
-            query_node_rpc_url: tcp://testnet-beta-fullnode1-poktrolld:26657
-            query_node_grpc_url: tcp://testnet-beta-fullnode1-poktrolld:9090
-            tx_node_rpc_url: tcp://testnet-beta-fullnode1-poktrolld:26657
+            query_node_rpc_url: tcp://testnet-beta-fullnode2-poktrolld:26657
+            query_node_grpc_url: tcp://testnet-beta-fullnode2-poktrolld:9090
+            tx_node_rpc_url: tcp://testnet-beta-fullnode2-poktrolld:26657
           suppliers:
             - service_id: proto-anvil
               listen_url: http://0.0.0.0:8545
@@ -134,7 +135,8 @@ spec:
       values: |
         replicaCount: 1
         logs:
-          level:
+          level: info
+        chainId: pocket-beta
         keysSecretName: relayminers
         resources:
           limits:
@@ -148,7 +150,7 @@ spec:
           serviceMonitor:
             enabled: true
         image:
-          tag: sha-2d03f55
+          tag: sha-766963e # pr1018
         # homeDirectory: /home/pocket/.poktroll
         # podSecurityContext:
         #   runAsUser: 1025
@@ -172,9 +174,9 @@ spec:
           default_signing_key_names: [beta-relayminer-2]
           smt_store_path: /root/.poktroll/smt
           pocket_node:
-            query_node_rpc_url: tcp://testnet-beta-fullnode1-poktrolld:26657
-            query_node_grpc_url: tcp://testnet-beta-fullnode1-poktrolld:9090
-            tx_node_rpc_url: tcp://testnet-beta-fullnode1-poktrolld:26657
+            query_node_rpc_url: tcp://testnet-beta-fullnode2-poktrolld:26657
+            query_node_grpc_url: tcp://testnet-beta-fullnode2-poktrolld:9090
+            tx_node_rpc_url: tcp://testnet-beta-fullnode2-poktrolld:26657
           suppliers:
             - service_id: proto-anvil
               listen_url: http://0.0.0.0:8545
@@ -228,7 +230,8 @@ spec:
       values: |
         replicaCount: 1
         logs:
-          level: debug
+          level: info
+        chainId: pocket-beta
         keysSecretName: relayminers
         resources:
           limits:
@@ -242,7 +245,7 @@ spec:
           serviceMonitor:
             enabled: true
         image:
-          tag: sha-2d03f55
+          tag: sha-766963e # pr1018
         # homeDirectory: /home/pocket/.poktroll
         # podSecurityContext:
         #   runAsUser: 1025
@@ -266,9 +269,9 @@ spec:
           default_signing_key_names: [beta-relayminer-3]
           smt_store_path: /root/.poktroll/smt
           pocket_node:
-            query_node_rpc_url: tcp://testnet-beta-fullnode1-poktrolld:26657
-            query_node_grpc_url: tcp://testnet-beta-fullnode1-poktrolld:9090
-            tx_node_rpc_url: tcp://testnet-beta-fullnode1-poktrolld:26657
+            query_node_rpc_url: tcp://testnet-beta-fullnode2-poktrolld:26657
+            query_node_grpc_url: tcp://testnet-beta-fullnode2-poktrolld:9090
+            tx_node_rpc_url: tcp://testnet-beta-fullnode2-poktrolld:26657
           suppliers:
             - service_id: proto-anvil
               listen_url: http://0.0.0.0:8545
@@ -322,7 +325,8 @@ spec:
       values: |
         replicaCount: 1
         logs:
-          level: debug
+          level: info
+        chainId: pocket-beta
         keysSecretName: relayminers
         resources:
           limits:
@@ -336,7 +340,7 @@ spec:
           serviceMonitor:
             enabled: true
         image:
-          tag: sha-2d03f55
+          tag: sha-766963e # pr1018
         # homeDirectory: /home/pocket/.poktroll
         # podSecurityContext:
         #   runAsUser: 1025
@@ -360,9 +364,9 @@ spec:
           default_signing_key_names: [beta-relayminer-4]
           smt_store_path: /root/.poktroll/smt
           pocket_node:
-            query_node_rpc_url: tcp://testnet-beta-fullnode1-poktrolld:26657
-            query_node_grpc_url: tcp://testnet-beta-fullnode1-poktrolld:9090
-            tx_node_rpc_url: tcp://testnet-beta-fullnode1-poktrolld:26657
+            query_node_rpc_url: tcp://testnet-beta-fullnode2-poktrolld:26657
+            query_node_grpc_url: tcp://testnet-beta-fullnode2-poktrolld:9090
+            tx_node_rpc_url: tcp://testnet-beta-fullnode2-poktrolld:26657
           suppliers:
             - service_id: proto-anvil
               listen_url: http://0.0.0.0:8545
@@ -416,7 +420,8 @@ spec:
       values: |
         replicaCount: 1
         logs:
-          level: debug
+          level: info
+        chainId: pocket-beta
         keysSecretName: relayminers
         resources:
           limits:
@@ -430,7 +435,7 @@ spec:
           serviceMonitor:
             enabled: true
         image:
-          tag: sha-2d03f55
+          tag: sha-766963e # pr1018
         # homeDirectory: /home/pocket/.poktroll
         # podSecurityContext:
         #   runAsUser: 1025
@@ -454,9 +459,9 @@ spec:
           default_signing_key_names: [beta-relayminer-5]
           smt_store_path: /root/.poktroll/smt
           pocket_node:
-            query_node_rpc_url: tcp://testnet-beta-fullnode1-poktrolld:26657
-            query_node_grpc_url: tcp://testnet-beta-fullnode1-poktrolld:9090
-            tx_node_rpc_url: tcp://testnet-beta-fullnode1-poktrolld:26657
+            query_node_rpc_url: tcp://testnet-beta-fullnode2-poktrolld:26657
+            query_node_grpc_url: tcp://testnet-beta-fullnode2-poktrolld:9090
+            tx_node_rpc_url: tcp://testnet-beta-fullnode2-poktrolld:26657
           suppliers:
             - service_id: proto-anvil
               listen_url: http://0.0.0.0:8545
@@ -511,7 +516,8 @@ spec:
       values: |
         replicaCount: 1
         logs:
-          level: debug
+          level: info
+        chainId: pocket-beta
         keysSecretName: relayminers
         resources:
           limits:
@@ -525,7 +531,7 @@ spec:
           serviceMonitor:
             enabled: true
         image:
-          tag: sha-2d03f55
+          tag: sha-766963e # pr1018
         # homeDirectory: /home/pocket/.poktroll
         # podSecurityContext:
         #   runAsUser: 1025
@@ -549,9 +555,9 @@ spec:
           default_signing_key_names: [beta-relayminer-6]
           smt_store_path: /root/.poktroll/smt
           pocket_node:
-            query_node_rpc_url: tcp://testnet-beta-fullnode1-poktrolld:26657
-            query_node_grpc_url: tcp://testnet-beta-fullnode1-poktrolld:9090
-            tx_node_rpc_url: tcp://testnet-beta-fullnode1-poktrolld:26657
+            query_node_rpc_url: tcp://testnet-beta-fullnode2-poktrolld:26657
+            query_node_grpc_url: tcp://testnet-beta-fullnode2-poktrolld:9090
+            tx_node_rpc_url: tcp://testnet-beta-fullnode2-poktrolld:26657
           suppliers:
             - service_id: proto-anvil
               listen_url: http://0.0.0.0:8545
@@ -605,7 +611,8 @@ spec:
       values: |
         replicaCount: 1
         logs:
-          level: debug
+          level: info
+        chainId: pocket-beta
         keysSecretName: relayminers
         resources:
           limits:
@@ -619,7 +626,7 @@ spec:
           serviceMonitor:
             enabled: true
         image:
-          tag: sha-2d03f55
+          tag: sha-766963e # pr1018
         # homeDirectory: /home/pocket/.poktroll
         # podSecurityContext:
         #   runAsUser: 1025
@@ -643,9 +650,9 @@ spec:
           default_signing_key_names: [beta-relayminer-7]
           smt_store_path: /root/.poktroll/smt
           pocket_node:
-            query_node_rpc_url: tcp://testnet-beta-fullnode1-poktrolld:26657
-            query_node_grpc_url: tcp://testnet-beta-fullnode1-poktrolld:9090
-            tx_node_rpc_url: tcp://testnet-beta-fullnode1-poktrolld:26657
+            query_node_rpc_url: tcp://testnet-beta-fullnode2-poktrolld:26657
+            query_node_grpc_url: tcp://testnet-beta-fullnode2-poktrolld:9090
+            tx_node_rpc_url: tcp://testnet-beta-fullnode2-poktrolld:26657
           suppliers:
             - service_id: proto-anvil
               listen_url: http://0.0.0.0:8545
@@ -699,7 +706,8 @@ spec:
       values: |
         replicaCount: 1
         logs:
-          level: debug
+          level: info
+        chainId: pocket-beta
         keysSecretName: relayminers
         resources:
           limits:
@@ -713,7 +721,7 @@ spec:
           serviceMonitor:
             enabled: true
         image:
-          tag: sha-2d03f55
+          tag: sha-766963e # pr1018
         # homeDirectory: /home/pocket/.poktroll
         # podSecurityContext:
         #   runAsUser: 1025
@@ -737,9 +745,9 @@ spec:
           default_signing_key_names: [beta-relayminer-8]
           smt_store_path: /root/.poktroll/smt
           pocket_node:
-            query_node_rpc_url: tcp://testnet-beta-fullnode1-poktrolld:26657
-            query_node_grpc_url: tcp://testnet-beta-fullnode1-poktrolld:9090
-            tx_node_rpc_url: tcp://testnet-beta-fullnode1-poktrolld:26657
+            query_node_rpc_url: tcp://testnet-beta-fullnode2-poktrolld:26657
+            query_node_grpc_url: tcp://testnet-beta-fullnode2-poktrolld:9090
+            tx_node_rpc_url: tcp://testnet-beta-fullnode2-poktrolld:26657
           suppliers:
             - service_id: proto-anvil
               listen_url: http://0.0.0.0:8545
@@ -793,7 +801,8 @@ spec:
       values: |
         replicaCount: 1
         logs:
-          level: debug
+          level: info
+        chainId: pocket-beta
         keysSecretName: relayminers
         resources:
           limits:
@@ -807,7 +816,7 @@ spec:
           serviceMonitor:
             enabled: true
         image:
-          tag: sha-2d03f55
+          tag: sha-766963e # pr1018
         # homeDirectory: /home/pocket/.poktroll
         # podSecurityContext:
         #   runAsUser: 1025
@@ -831,9 +840,9 @@ spec:
           default_signing_key_names: [beta-relayminer-9]
           smt_store_path: /root/.poktroll/smt
           pocket_node:
-            query_node_rpc_url: tcp://testnet-beta-fullnode1-poktrolld:26657
-            query_node_grpc_url: tcp://testnet-beta-fullnode1-poktrolld:9090
-            tx_node_rpc_url: tcp://testnet-beta-fullnode1-poktrolld:26657
+            query_node_rpc_url: tcp://testnet-beta-fullnode2-poktrolld:26657
+            query_node_grpc_url: tcp://testnet-beta-fullnode2-poktrolld:9090
+            tx_node_rpc_url: tcp://testnet-beta-fullnode2-poktrolld:26657
           suppliers:
             - service_id: proto-anvil
               listen_url: http://0.0.0.0:8545
@@ -887,7 +896,8 @@ spec:
       values: |
         replicaCount: 1
         logs:
-          level: debug
+          level: info
+        chainId: pocket-beta
         keysSecretName: relayminers
         resources:
           limits:
@@ -901,7 +911,7 @@ spec:
           serviceMonitor:
             enabled: true
         image:
-          tag: sha-2d03f55
+          tag: sha-766963e # pr1018
         # homeDirectory: /home/pocket/.poktroll
         # podSecurityContext:
         #   runAsUser: 1025
@@ -925,9 +935,9 @@ spec:
           default_signing_key_names: [beta-relayminer-10]
           smt_store_path: /root/.poktroll/smt
           pocket_node:
-            query_node_rpc_url: tcp://testnet-beta-fullnode1-poktrolld:26657
-            query_node_grpc_url: tcp://testnet-beta-fullnode1-poktrolld:9090
-            tx_node_rpc_url: tcp://testnet-beta-fullnode1-poktrolld:26657
+            query_node_rpc_url: tcp://testnet-beta-fullnode2-poktrolld:26657
+            query_node_grpc_url: tcp://testnet-beta-fullnode2-poktrolld:9090
+            tx_node_rpc_url: tcp://testnet-beta-fullnode2-poktrolld:26657
           suppliers:
             - service_id: proto-anvil
               listen_url: http://0.0.0.0:8545
