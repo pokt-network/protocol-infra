@@ -58,6 +58,7 @@ spec:
 
         serviceMonitor:
           enabled: true
+          interval: 5s
 
         logs:
           format: json
