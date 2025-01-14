@@ -45,7 +45,7 @@ spec:
             cpu: '4'
           requests:
             memory: 8Gi
-            cpu: 2000m
+            cpu: '2'
 
         # serviceP2P:
         #   type: LoadBalancer
@@ -95,7 +95,6 @@ spec:
         containerSecurityContext:
           runAsUser: 1025
           runAsGroup: 1025
-          fsGroup: 1025
 
         customConfigsConfigMap:
           enabled: true

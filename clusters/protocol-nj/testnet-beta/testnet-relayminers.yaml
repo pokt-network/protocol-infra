@@ -55,7 +55,7 @@ spec:
           serviceMonitor:
             enabled: true
         image:
-          tag: sha-766963e # pr1018
+          tag: sha-d573bfe # pr1027
         # homeDirectory: /home/pocket/.poktroll
         # podSecurityContext:
         #   runAsUser: 1025
@@ -150,7 +150,7 @@ spec:
           serviceMonitor:
             enabled: true
         image:
-          tag: sha-766963e # pr1018
+          tag: sha-d573bfe # pr1027
         # homeDirectory: /home/pocket/.poktroll
         # podSecurityContext:
         #   runAsUser: 1025
@@ -245,7 +245,7 @@ spec:
           serviceMonitor:
             enabled: true
         image:
-          tag: sha-766963e # pr1018
+          tag: sha-d573bfe # pr1027
         # homeDirectory: /home/pocket/.poktroll
         # podSecurityContext:
         #   runAsUser: 1025
@@ -340,7 +340,7 @@ spec:
           serviceMonitor:
             enabled: true
         image:
-          tag: sha-766963e # pr1018
+          tag: sha-d573bfe # pr1027
         # homeDirectory: /home/pocket/.poktroll
         # podSecurityContext:
         #   runAsUser: 1025
@@ -435,7 +435,7 @@ spec:
           serviceMonitor:
             enabled: true
         image:
-          tag: sha-766963e # pr1018
+          tag: sha-d573bfe # pr1027
         # homeDirectory: /home/pocket/.poktroll
         # podSecurityContext:
         #   runAsUser: 1025
@@ -531,7 +531,7 @@ spec:
           serviceMonitor:
             enabled: true
         image:
-          tag: sha-766963e # pr1018
+          tag: sha-d573bfe # pr1027
         # homeDirectory: /home/pocket/.poktroll
         # podSecurityContext:
         #   runAsUser: 1025
@@ -626,7 +626,7 @@ spec:
           serviceMonitor:
             enabled: true
         image:
-          tag: sha-766963e # pr1018
+          tag: sha-d573bfe # pr1027
         # homeDirectory: /home/pocket/.poktroll
         # podSecurityContext:
         #   runAsUser: 1025
@@ -721,7 +721,7 @@ spec:
           serviceMonitor:
             enabled: true
         image:
-          tag: sha-766963e # pr1018
+          tag: sha-d573bfe # pr1027
         # homeDirectory: /home/pocket/.poktroll
         # podSecurityContext:
         #   runAsUser: 1025
@@ -816,7 +816,7 @@ spec:
           serviceMonitor:
             enabled: true
         image:
-          tag: sha-766963e # pr1018
+          tag: sha-d573bfe # pr1027
         # homeDirectory: /home/pocket/.poktroll
         # podSecurityContext:
         #   runAsUser: 1025
@@ -911,7 +911,7 @@ spec:
           serviceMonitor:
             enabled: true
         image:
-          tag: sha-766963e # pr1018
+          tag: sha-d573bfe # pr1027
         # homeDirectory: /home/pocket/.poktroll
         # podSecurityContext:
         #   runAsUser: 1025
