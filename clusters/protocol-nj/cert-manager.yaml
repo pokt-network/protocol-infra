@@ -112,3 +112,4 @@ spec:
       - testnet-.+
       - .+-testnet
       - observability
+      - path-e2e

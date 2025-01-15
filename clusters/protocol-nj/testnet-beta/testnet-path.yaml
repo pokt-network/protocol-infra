@@ -32,7 +32,7 @@ spec:
     # path: charts/path
     chart: path
     repoURL: https://buildwithgrove.github.io/helm-charts
-    targetRevision: 0.1.6
+    targetRevision: 0.1.7
     helm:
       values: |
         image:
@@ -48,7 +48,7 @@ spec:
               mountPath: /app/config/
           ports:
             - name: http
-              port: 3000
+              port: 3069
               protocol: TCP
               service:
                 type: ClusterIP
