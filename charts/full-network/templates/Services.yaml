@@ -95,9 +95,9 @@ metadata:
 spec:
   ports:
   - name: http
-    port: 3000
+    port: 3069
     protocol: TCP
-    targetPort: 3000
+    targetPort: 3069
   selector:
     app.kubernetes.io/instance: {{ .Values.network.type }}-{{ .Values.network.name }}-path-1
     app.kubernetes.io/name: {{ .Values.network.type }}-{{ .Values.network.name }}-path-1
