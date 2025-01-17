@@ -20,6 +20,8 @@ spec:
         argocdReleaseOverride: observability-vm
         vmsingle:
           spec:
+            extraArgs:
+              maxLabelsPerTimeseries: "50"
             retentionPeriod: "1"
             storage:
               resources:

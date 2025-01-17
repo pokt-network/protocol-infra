@@ -36,7 +36,7 @@ spec:
     helm:
       values: |
         image:
-          tag: add-log-level
+          tag: sha-ac1f4fd-rc
         path:
           fullnameOverride: beta-path-1
           nameOverride: beta-path-1
