@@ -46,7 +46,7 @@ spec:
         resources:
           limits:
             cpu: 2
-            memory: 8Gi
+            memory: 12Gi
           requests:
             cpu: 1.1
             memory: 4Gi
@@ -55,7 +55,7 @@ spec:
           serviceMonitor:
             enabled: true
         image:
-          tag: sha-d573bfe # pr1027
+          tag: sha-0c52ba7 # main branch 
         # homeDirectory: /home/pocket/.poktroll
         # podSecurityContext:
         #   runAsUser: 1025
@@ -141,7 +141,7 @@ spec:
         resources:
           limits:
             cpu: 2
-            memory: 8Gi
+            memory: 12Gi
           requests:
             cpu: 1.1
             memory: 4Gi
@@ -150,7 +150,7 @@ spec:
           serviceMonitor:
             enabled: true
         image:
-          tag: sha-d573bfe # pr1027
+          tag: sha-0c52ba7 # main branch 
         # homeDirectory: /home/pocket/.poktroll
         # podSecurityContext:
         #   runAsUser: 1025
@@ -236,7 +236,7 @@ spec:
         resources:
           limits:
             cpu: 2
-            memory: 8Gi
+            memory: 12Gi
           requests:
             cpu: 1.1
             memory: 4Gi
@@ -245,7 +245,7 @@ spec:
           serviceMonitor:
             enabled: true
         image:
-          tag: sha-d573bfe # pr1027
+          tag: sha-0c52ba7 # main branch 
         # homeDirectory: /home/pocket/.poktroll
         # podSecurityContext:
         #   runAsUser: 1025
@@ -331,7 +331,7 @@ spec:
         resources:
           limits:
             cpu: 2
-            memory: 8Gi
+            memory: 12Gi
           requests:
             cpu: 1.1
             memory: 4Gi
@@ -340,7 +340,7 @@ spec:
           serviceMonitor:
             enabled: true
         image:
-          tag: sha-d573bfe # pr1027
+          tag: sha-0c52ba7 # main branch 
         # homeDirectory: /home/pocket/.poktroll
         # podSecurityContext:
         #   runAsUser: 1025
@@ -426,7 +426,7 @@ spec:
         resources:
           limits:
             cpu: 2
-            memory: 8Gi
+            memory: 12Gi
           requests:
             cpu: 1.1
             memory: 4Gi
@@ -435,7 +435,7 @@ spec:
           serviceMonitor:
             enabled: true
         image:
-          tag: sha-d573bfe # pr1027
+          tag: sha-0c52ba7 # main branch 
         # homeDirectory: /home/pocket/.poktroll
         # podSecurityContext:
         #   runAsUser: 1025
@@ -522,7 +522,7 @@ spec:
         resources:
           limits:
             cpu: 2
-            memory: 8Gi
+            memory: 12Gi
           requests:
             cpu: 1.1
             memory: 4Gi
@@ -531,7 +531,7 @@ spec:
           serviceMonitor:
             enabled: true
         image:
-          tag: sha-d573bfe # pr1027
+          tag: sha-0c52ba7 # main branch 
         # homeDirectory: /home/pocket/.poktroll
         # podSecurityContext:
         #   runAsUser: 1025
@@ -617,7 +617,7 @@ spec:
         resources:
           limits:
             cpu: 2
-            memory: 8Gi
+            memory: 12Gi
           requests:
             cpu: 1.1
             memory: 4Gi
@@ -626,7 +626,7 @@ spec:
           serviceMonitor:
             enabled: true
         image:
-          tag: sha-d573bfe # pr1027
+          tag: sha-0c52ba7 # main branch latest commit
         # homeDirectory: /home/pocket/.poktroll
         # podSecurityContext:
         #   runAsUser: 1025
@@ -712,7 +712,7 @@ spec:
         resources:
           limits:
             cpu: 2
-            memory: 8Gi
+            memory: 12Gi
           requests:
             cpu: 1.1
             memory: 4Gi
@@ -721,7 +721,7 @@ spec:
           serviceMonitor:
             enabled: true
         image:
-          tag: sha-d573bfe # pr1027
+          tag: sha-0c52ba7 # main branch 
         # homeDirectory: /home/pocket/.poktroll
         # podSecurityContext:
         #   runAsUser: 1025
@@ -807,7 +807,7 @@ spec:
         resources:
           limits:
             cpu: 2
-            memory: 8Gi
+            memory: 12Gi
           requests:
             cpu: 1.1
             memory: 4Gi
@@ -816,7 +816,7 @@ spec:
           serviceMonitor:
             enabled: true
         image:
-          tag: sha-d573bfe # pr1027
+          tag: sha-0c52ba7 # main branch 
         # homeDirectory: /home/pocket/.poktroll
         # podSecurityContext:
         #   runAsUser: 1025
@@ -902,7 +902,7 @@ spec:
         resources:
           limits:
             cpu: 2
-            memory: 8Gi
+            memory: 12Gi
           requests:
             cpu: 1.1
             memory: 4Gi
@@ -911,7 +911,7 @@ spec:
           serviceMonitor:
             enabled: true
         image:
-          tag: sha-d573bfe # pr1027
+          tag: sha-0c52ba7 # main branch 
         # homeDirectory: /home/pocket/.poktroll
         # podSecurityContext:
         #   runAsUser: 1025
