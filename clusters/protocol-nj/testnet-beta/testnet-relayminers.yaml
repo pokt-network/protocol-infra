@@ -45,11 +45,11 @@ spec:
         keysSecretName: relayminers
         resources:
           limits:
-            cpu: 2
+            cpu: 3
             memory: 12Gi
           requests:
-            cpu: 1.1
-            memory: 4Gi
+            cpu: 2
+            memory: 10Gi
         metrics:
           enabled: true
           serviceMonitor:
@@ -140,11 +140,11 @@ spec:
         keysSecretName: relayminers
         resources:
           limits:
-            cpu: 2
+            cpu: 3
             memory: 12Gi
           requests:
-            cpu: 1.1
-            memory: 4Gi
+            cpu: 2
+            memory: 10Gi
         metrics:
           enabled: true
           serviceMonitor:
@@ -235,11 +235,11 @@ spec:
         keysSecretName: relayminers
         resources:
           limits:
-            cpu: 2
+            cpu: 3
             memory: 12Gi
           requests:
-            cpu: 1.1
-            memory: 4Gi
+            cpu: 2
+            memory: 10Gi
         metrics:
           enabled: true
           serviceMonitor:
@@ -330,11 +330,11 @@ spec:
         keysSecretName: relayminers
         resources:
           limits:
-            cpu: 2
+            cpu: 3
             memory: 12Gi
           requests:
-            cpu: 1.1
-            memory: 4Gi
+            cpu: 2
+            memory: 10Gi
         metrics:
           enabled: true
           serviceMonitor:
@@ -425,11 +425,11 @@ spec:
         keysSecretName: relayminers
         resources:
           limits:
-            cpu: 2
+            cpu: 3
             memory: 12Gi
           requests:
-            cpu: 1.1
-            memory: 4Gi
+            cpu: 2
+            memory: 10Gi
         metrics:
           enabled: true
           serviceMonitor:
@@ -521,11 +521,11 @@ spec:
         keysSecretName: relayminers
         resources:
           limits:
-            cpu: 2
+            cpu: 3
             memory: 12Gi
           requests:
-            cpu: 1.1
-            memory: 4Gi
+            cpu: 2
+            memory: 10Gi
         metrics:
           enabled: true
           serviceMonitor:
@@ -616,11 +616,11 @@ spec:
         keysSecretName: relayminers
         resources:
           limits:
-            cpu: 2
+            cpu: 3
             memory: 12Gi
           requests:
-            cpu: 1.1
-            memory: 4Gi
+            cpu: 2
+            memory: 10Gi
         metrics:
           enabled: true
           serviceMonitor:
@@ -711,11 +711,11 @@ spec:
         keysSecretName: relayminers
         resources:
           limits:
-            cpu: 2
+            cpu: 3
             memory: 12Gi
           requests:
-            cpu: 1.1
-            memory: 4Gi
+            cpu: 2
+            memory: 10Gi
         metrics:
           enabled: true
           serviceMonitor:
@@ -806,11 +806,11 @@ spec:
         keysSecretName: relayminers
         resources:
           limits:
-            cpu: 2
+            cpu: 3
             memory: 12Gi
           requests:
-            cpu: 1.1
-            memory: 4Gi
+            cpu: 2
+            memory: 10Gi
         metrics:
           enabled: true
           serviceMonitor:
@@ -901,11 +901,11 @@ spec:
         keysSecretName: relayminers
         resources:
           limits:
-            cpu: 2
+            cpu: 3
             memory: 12Gi
           requests:
-            cpu: 1.1
-            memory: 4Gi
+            cpu: 2
+            memory: 10Gi
         metrics:
           enabled: true
           serviceMonitor:
