@@ -148,6 +148,8 @@ spec:
 
         vector:
           enabled: true
+          image:
+            tag: 0.44.0-distroless-libc
 
   destination:
     server: https://kubernetes.default.svc
