@@ -151,6 +151,47 @@ spec:
           image:
             tag: 0.44.0-distroless-libc
 
+          customConfig:
+            data_dir: /vector-data-dir
+            api:
+              enabled: false
+              address: 0.0.0.0:8686
+              playground: true
+            sources:
+              k8s:
+                type: kubernetes_logs
+                rotate_wait_secs: 10
+              internal_metrics:
+                type: internal_metrics
+            transforms:
+              parser:
+                type: remap
+                inputs: [k8s]
+                source: |
+                  .log = parse_json(.message) ?? .message
+                  del(.message)
+            sinks:
+              exporter:
+                type: prometheus_exporter
+                address: 0.0.0.0:9090
+                inputs: [internal_metrics]
+              vlogs:
+                type: elasticsearch
+                inputs: [parser]
+                endpoints: << include "vlogs.es.urls" . >>
+                mode: bulk
+                api_version: v8
+                compression: gzip
+                healthcheck:
+                  enabled: false
+                request:
+                  headers:
+                    VL-Time-Field: timestamp
+                    VL-Stream-Fields: stream,kubernetes.pod_name,kubernetes.container_name,kubernetes.pod_namespace
+                    VL-Msg-Field: message,msg,_msg,log.msg,log.message,log
+                    AccountID: "0"
+                    ProjectID: "0"
+
   destination:
     server: https://kubernetes.default.svc
     namespace: observability
