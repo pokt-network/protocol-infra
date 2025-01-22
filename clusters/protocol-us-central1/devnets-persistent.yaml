@@ -48,8 +48,6 @@ spec:
                 devnet: "{{.networkName}}"
                 provisioned-by: "protocol"
 
-            # for troubleshooting: {{.}}
-
       syncPolicy:
         automated:
           prune: true
