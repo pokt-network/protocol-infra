@@ -41,12 +41,7 @@ spec:
           customName: {{ printf "validator-%s" .Values.image.tag }}
 
         resources:
-          limits:
-            memory: 1Gi
-            cpu: 2
-          requests:
-            memory: 1Gi
-            cpu: 0.5
+          {{- toYaml (default .Values.validator.resources dict) | nindent 10 }}
 
         ingress:
           rpc:

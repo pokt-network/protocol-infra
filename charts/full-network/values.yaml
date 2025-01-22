@@ -11,6 +11,23 @@ gateways:
   count: 1
 relayminers:
   count: 1
+  resources:
+    limits:
+      cpu: 0.5
+      memory: 1Gi
+    requests:
+      cpu: 0.25
+      memory: 512Mi
+
+validator:
+  resources:
+    limits:
+      memory: 1Gi
+      cpu: 2
+    requests:
+      memory: 1Gi
+      cpu: 0.5
+
 paths:
   image:
     tag: main # TODO: add a way to change the tag for the path chart if this becomes necessary.
