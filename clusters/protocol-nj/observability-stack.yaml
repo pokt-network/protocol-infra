@@ -125,6 +125,8 @@ spec:
       values: |
         fullnameOverride: vl
         server:
+          serviceMonitor:
+            enabled: true
           persistentVolume:
             enabled: true
             size: 50Gi
