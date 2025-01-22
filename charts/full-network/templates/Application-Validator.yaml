@@ -18,9 +18,9 @@ spec:
     helm:
       values: |
         purpose: validator
-        nodeKeysSecretName: {{ default (printf "config-keys-%s" .Values.image.tag) .Values.customConfigMap.configsName }}
+        nodeKeysSecretName: {{ default (printf "config-keys-%s" (default .Values.image.tag .Values.configVersion)) .Values.customConfigMap.configsName }}
         genesis:
-          configMapName: {{ default (printf "configs-%s" .Values.image.tag) .Values.customConfigMap.configsName }}
+          configMapName: {{ default (printf "configs-%s" (default .Values.image.tag .Values.configVersion)) .Values.customConfigMap.configsName }}
 
         {{- if .Values.customConfigMap.validator.enabled }}
         customConfigsConfigMap:
@@ -44,7 +44,7 @@ spec:
           className: "premium-rwo"
           size: 10Gi
           useCustomName: true
-          customName: {{ printf "validator-%s" .Values.image.tag }}
+          customName: {{ printf "validator-%s" (default .Values.image.tag .Values.configVersion) }}
 
         resources:
           {{- toYaml (default .Values.validator.resources dict) | nindent 10 }}

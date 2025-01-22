@@ -5,6 +5,10 @@ network:
 image:
   tag: latest
 
+# Version used for configs, keys, and persistence
+# Defaults to image.tag if not specified
+configVersion: ""
+
 appgateservers:
   count: 1
 gateways:

@@ -2,7 +2,7 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: keys-configs-{{ .Values.image.tag }}
+  name: keys-configs-{{ default .Values.image.tag .Values.configVersion }}
   namespace: {{ .Values.network.type }}-{{ .Values.network.name }}
 spec:
   template:
@@ -18,7 +18,7 @@ spec:
         args:
         - -c
         - |
-          tag="{{ .Values.image.tag }}"
+          tag="{{ default .Values.image.tag .Values.configVersion }}"
 
           function create_resource() {
             local kind=$1  # "configmap" or "secret"
