@@ -51,3 +51,9 @@ charts:
 customConfigMap:
   configsName: ""
   keysName: ""
+  validator:
+    enabled: false
+    configs:
+      app: ""
+      client: ""
+      config: ""

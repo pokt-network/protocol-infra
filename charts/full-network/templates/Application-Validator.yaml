@@ -22,6 +22,12 @@ spec:
         genesis:
           configMapName: {{ default (printf "configs-%s" .Values.image.tag) .Values.customConfigMap.configsName }}
 
+        {{- if .Values.customConfigMap.validator.enabled }}
+        customConfigsConfigMap:
+          enabled: true
+          name: validator-custom-configs
+        {{- end }}
+
         replicaCount: 1
 
         image:

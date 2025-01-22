@@ -1,0 +1,20 @@
+{{- if .Values.customConfigMap.validator.enabled }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: validator-custom-configs
+  namespace: {{ .Values.network.type }}-{{ .Values.network.name }}
+data:
+  {{- if .Values.customConfigMap.validator.configs.app }}
+  app.toml: |
+    {{- .Values.customConfigMap.validator.configs.app | nindent 4 }}
+  {{- end }}
+  {{- if .Values.customConfigMap.validator.configs.client }}
+  client.toml: |
+    {{- .Values.customConfigMap.validator.configs.client | nindent 4 }}
+  {{- end }}
+  {{- if .Values.customConfigMap.validator.configs.config }}
+  config.toml: |
+    {{- .Values.customConfigMap.validator.configs.config | nindent 4 }}
+  {{- end }}
+{{- end }} 
