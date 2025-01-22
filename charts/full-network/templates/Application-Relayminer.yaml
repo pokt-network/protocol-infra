@@ -27,8 +27,8 @@ spec:
     helm: 
       values: |
         fullnameOverride: {{ $networkType }}-{{ $networkName }}-relayminer-{{ $relayMinerNumber }}
-        configsConfigMapName: {{ default (printf "configs-%s" $imageTag) $.Values.customConfigMap.configsName }}
-        keysSecretName: {{ default (printf "keys-%s" $imageTag) $.Values.customConfigMap.keysName }}
+        configsConfigMapName: {{ default (printf "configs-%s" (default $imageTag $.Values.configVersion)) $.Values.customConfigMap.configsName }}
+        keysSecretName: {{ default (printf "keys-%s" (default $imageTag $.Values.configVersion)) $.Values.customConfigMap.keysName }}
         resources:
           {{- toYaml (default $.Values.relayminers.resources dict) | nindent 10 }}
         metrics:
