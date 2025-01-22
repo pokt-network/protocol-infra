@@ -34,12 +34,7 @@ spec:
         nameOverride: {{ $networkType }}-{{ $networkName }}-path-{{ $pathNumber }}
         path:
           resources:
-            limits:
-              cpu: 0.5
-              memory: 1Gi
-            requests:
-              cpu: 0.25
-              memory: 512Mi
+            {{- toYaml (default $.Values.paths.resources dict) | nindent 12 }}
           mountConfigMaps:
             - name: {{ $networkType }}-{{ $networkName }}-path-{{ $pathNumber }}-config
               mountPath: /app/config
