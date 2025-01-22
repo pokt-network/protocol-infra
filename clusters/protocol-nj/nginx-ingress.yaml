@@ -20,7 +20,7 @@ spec:
       values: |
         controller:
           # kind: DaemonSet
-          replicaCount: 3
+          replicaCount: 4
           config:
             use-proxy-protocol: "false"
             # use-geoip: "true"
