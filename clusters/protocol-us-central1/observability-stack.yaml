@@ -227,7 +227,7 @@ spec:
     targetRevision: 0.8.13
     helm:
       values: |
-        fullnameOverride: vl
+        fullnameOverride: vl-usc1
         server:
           serviceMonitor:
             enabled: true
