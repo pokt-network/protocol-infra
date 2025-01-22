@@ -37,7 +37,7 @@ customConfigMap:
   validator:
     enabled: true
     configs:
-      app: |
+      app: |-
         app-db-backend = ""
         halt-height = 0
         halt-time = 0
@@ -105,14 +105,14 @@ customConfigMap:
           service-name = ""
           statsd-addr = ""
 
-      client: |
+      client: |-
         broadcast-mode = "sync"
         chain-id = "poktroll"
         keyring-backend = "test"
         node = "tcp://localhost:26657"
         output = "text"
 
-      config: |
+      config: |-
         # This is a TOML config file.
         # For more information, see https://github.com/toml-lang/toml
 
@@ -527,11 +527,11 @@ customConfigMap:
         timeout_propose = "60s"
         # How much timeout_propose increases with each round
         timeout_propose_delta = "5s"
-        # How long we wait after receiving +2/3 prevotes for “anything” (ie. not a single block or nil)
+        # How long we wait after receiving +2/3 prevotes for "anything" (ie. not a single block or nil)
         timeout_prevote = "10s"
         # How much the timeout_prevote increases with each round
         timeout_prevote_delta = "5s"
-        # How long we wait after receiving +2/3 precommits for “anything” (ie. not a single block or nil)
+        # How long we wait after receiving +2/3 precommits for "anything" (ie. not a single block or nil)
         timeout_precommit = "10s"
         # How much the timeout_precommit increases with each round
         timeout_precommit_delta = "5s"
