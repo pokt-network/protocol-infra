@@ -1,7 +1,7 @@
 networkName: "red0ne"
 
 image:
-  tag: sha-bb631a2
+  tag: sha-d87e1b3
 
 relayminers:
   resources:
