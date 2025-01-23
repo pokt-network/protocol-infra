@@ -1,7 +1,7 @@
 networkName: "red0ne"
 
 image:
-  tag: sha-c6fc68f
+  tag: sha-c7698f8
 
 configVersion: "sha-d87e1b3" # Previous image tag to keep chain history from being lost. Wipes the network if changed.
 
