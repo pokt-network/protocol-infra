@@ -61,7 +61,7 @@ spec:
 
         logs:
           format: json
-          level: info
+          level: error
 
         ingress:
           rpc:

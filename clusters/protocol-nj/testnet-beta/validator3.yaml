@@ -41,11 +41,11 @@ spec:
 
         resources:
           limits:
-            memory: 8Gi
-            cpu: '4'
+            memory: 16Gi
+            cpu: '6'
           requests:
-            memory: 8Gi
-            cpu: '2'
+            memory: 15Gi
+            cpu: '4'
 
         serviceP2P:
           type: LoadBalancer
@@ -62,7 +62,7 @@ spec:
 
         logs:
           format: json
-          level: info
+          level: error
 
         # ingress:
         #   rpc:
