@@ -31,6 +31,8 @@ validator:
     requests:
       memory: 1Gi
       cpu: 0.5
+  persistence:
+    size: 10Gi # Default size for validator persistence
 
 paths:
   image:

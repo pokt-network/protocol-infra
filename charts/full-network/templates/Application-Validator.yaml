@@ -42,7 +42,7 @@ spec:
         persistence:
           enabled: true
           className: "premium-rwo"
-          size: 10Gi
+          size: {{ default "10Gi" .Values.validator.persistence.size }}
           useCustomName: true
           customName: {{ printf "validator-%s" (default .Values.image.tag .Values.configVersion) }}
 

@@ -22,6 +22,8 @@ validator:
     requests:
       cpu: 2
       memory: 4Gi
+  persistence:
+    size: 100Gi # Override default 10Gi if needed
 
 paths:
   image:
