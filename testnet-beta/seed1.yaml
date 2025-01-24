@@ -41,11 +41,11 @@ spec:
 
         resources:
           limits:
-            memory: 8Gi
+            memory: 11Gi
             cpu: '4'
           requests:
-            memory: 8Gi
-            cpu: 1500m
+            memory: 10Gi
+            cpu: 3500m
 
         serviceP2P:
           type: LoadBalancer
@@ -106,3 +106,7 @@ spec:
         customConfigsConfigMap:
           enabled: true
           name: custom-configs
+
+        logs:
+          format: json
+          level: error
