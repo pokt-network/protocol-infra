@@ -37,6 +37,7 @@ spec:
             enabled: true
         image:
           tag: {{ $imageTag }}
+        grpcInsecure: true
         config:
           default_signing_key_names: [supplier{{ $relayMinerNumber }}]
           pprof:

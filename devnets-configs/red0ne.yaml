@@ -28,7 +28,7 @@ validator:
 paths:
   image:
     tag: main
-  count: 2
+  count: 1
   resources:
     limits:
       cpu: 2
