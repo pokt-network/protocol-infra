@@ -29,7 +29,7 @@ spec:
 
         image:
           repository: ghcr.io/pokt-network/poktrolld
-          tag: sha-10d45b7-2 # sha-2c3e229 is v0.0.9-3, sha-10d45b7 is v0.0.10 
+          tag: 0.0.11
           pullPolicy: IfNotPresent
 
         persistence:
@@ -97,6 +97,12 @@ spec:
             seedMode: true
             persistentPeers: "f666eaf64b4ff99364a759df2584a3630f5dd6bb@35.184.178.214:26656"
             unconditionalPeerIds: "f666eaf64b4ff99364a759df2584a3630f5dd6bb"
+
+        homeDirectory: /home/pocket/.poktroll
+        chownDataDirTo: 1025
+        containerSecurityContext:
+          runAsUser: 1025
+          runAsGroup: 1025
 
   destination:
     namespace: testnet-validated-seed1
