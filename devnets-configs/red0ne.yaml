@@ -3,7 +3,7 @@ networkName: "red0ne"
 image:
   tag: sha-ef9c8b7
 
-configVersion: "sha-1e34b01" # Previous image tag to keep chain history from being lost. Wipes the network if changed.
+configVersion: "sha-ef9c8b7" # Previous image tag to keep chain history from being lost. Wipes the network if changed.
 
 relayminers:
   resources:
