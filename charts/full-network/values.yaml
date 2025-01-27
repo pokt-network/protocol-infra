@@ -38,6 +38,7 @@ paths:
   image:
     tag: main
   count: 1
+  replicas: 1
   resources:
     limits:
       cpu: 0.5
@@ -63,3 +64,31 @@ customConfigMap:
       app: ""
       client: ""
       config: ""
+
+# Additional arbitrary Kubernetes resources to be included with the release
+additionalResources:
+  []
+  # - apiVersion: v1
+  #   kind: ConfigMap
+  #   metadata:
+  #     name: extra-config
+  #   data:
+  #     key: value
+  # - apiVersion: v1
+  #   kind: Secret
+  #   metadata:
+  #     name: extra-secret
+  #   stringData:
+  #     key: value
+
+fullnode:
+  enabled: false # Disabled by default
+  resources:
+    limits:
+      memory: 1Gi
+      cpu: 1
+    requests:
+      memory: 512Mi
+      cpu: 0.5
+  persistence:
+    size: 10Gi # Default size for fullnode persistence

@@ -1,0 +1,95 @@
+{{- if .Values.fullnode.enabled }}
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: {{ .Values.network.type }}-{{ .Values.network.name }}-fullnode
+  namespace: argocd
+  labels:
+    team: "protocol"
+    purpose: "testnets"
+    testnet: "public-testnet"
+    provisioned-by: "protocol"
+spec:
+  project: default
+  source:
+    path: charts/poktrolld
+    repoURL: https://github.com/pokt-network/helm-charts.git
+    targetRevision: main # TODO: change to versioned releases when the work on the helm chart is merged/done
+    helm:
+      values: |
+        purpose: fullnode
+        nodeKeysSecretName: {{ default (printf "config-keys-%s" (default .Values.image.tag .Values.configVersion)) .Values.customConfigMap.fullnode.keysName }}
+        genesis:
+          configMapName: {{ default (printf "configs-%s" (default .Values.image.tag .Values.configVersion)) .Values.customConfigMap.fullnode.genesisConfigMapName }}
+
+        {{- if .Values.customConfigMap.fullnode.enabled }}
+        customConfigsConfigMap:
+          enabled: true
+          name: fullnode-custom-configs
+        {{- end }}
+
+        replicaCount: 1
+
+        image:
+          tag: {{ .Values.image.tag }}
+
+        serviceP2P:
+          externalTrafficPolicy: ""
+
+        serviceMonitor:
+          enabled: true
+
+        persistence:
+          enabled: true
+          className: "premium-rwo"
+          size: {{ default "10Gi" .Values.fullnode.persistence.size }}
+          useCustomName: true
+          customName: {{ printf "fullnode-%s" (default .Values.image.tag .Values.configVersion) }}
+
+        resources:
+          {{- toYaml (default .Values.fullnode.resources dict) | nindent 10 }}
+
+        ingress:
+          rpc:
+            enabled: true
+            annotations:
+              kubernetes.io/ingress.class: nginx
+            hosts:
+              - name: {{ .Values.network.type }}-{{ .Values.network.name }}-fullnode-rpc.poktroll.com
+            tls:
+              secretName: "poktroll-wildcard-tls"
+          grpc:
+            enabled: true
+            annotations:
+              kubernetes.io/ingress.class: nginx
+              nginx.ingress.kubernetes.io/backend-protocol: "GRPC"
+            hosts:
+              - name: {{ .Values.network.type }}-{{ .Values.network.name }}-fullnode-grpc.poktroll.com
+            tls:
+              secretName: "poktroll-wildcard-tls"
+          api:
+            enabled: true
+            annotations:
+              kubernetes.io/ingress.class: nginx
+            hosts:
+              - name: {{ .Values.network.type }}-{{ .Values.network.name }}-fullnode-api.poktroll.com
+            tls:
+              secretName: "poktroll-wildcard-tls"
+
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - Replace=true
+  ignoreDifferences:
+  - jsonPointers:
+    - /spec/VolumeName
+    - /spec/StorageClassName
+    kind: PersistentVolumeClaim
+  destination:
+    namespace: {{ .Values.network.type }}-{{ .Values.network.name }}
+    server: https://kubernetes.default.svc
+{{- end }}

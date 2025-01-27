@@ -33,6 +33,7 @@ spec:
         fullnameOverride: {{ $networkType }}-{{ $networkName }}-path-{{ $pathNumber }}
         nameOverride: {{ $networkType }}-{{ $networkName }}-path-{{ $pathNumber }}
         path:
+          replicas: {{ $.Values.paths.replicas }}
           resources:
             {{- toYaml (default $.Values.paths.resources dict) | nindent 12 }}
           mountConfigMaps:
