@@ -18,3 +18,24 @@ data:
     {{- .Values.customConfigMap.validator.configs.config | nindent 4 }}
   {{- end }}
 {{- end }} 
+{{- if .Values.customConfigMap.fullnode.enabled }}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: fullnode-custom-configs
+  namespace: {{ .Values.network.type }}-{{ .Values.network.name }}
+data:
+  {{- if .Values.customConfigMap.fullnode.configs.app }}
+  app.toml: |
+    {{- .Values.customConfigMap.fullnode.configs.app | nindent 4 }}
+  {{- end }}
+  {{- if .Values.customConfigMap.fullnode.configs.client }}
+  client.toml: |
+    {{- .Values.customConfigMap.fullnode.configs.client | nindent 4 }}
+  {{- end }}
+  {{- if .Values.customConfigMap.fullnode.configs.config }}
+  config.toml: |
+    {{- .Values.customConfigMap.fullnode.configs.config | nindent 4 }}
+  {{- end }}
+{{- end }} 

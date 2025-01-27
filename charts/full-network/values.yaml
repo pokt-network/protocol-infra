@@ -64,6 +64,12 @@ customConfigMap:
       app: ""
       client: ""
       config: ""
+  fullnode:
+    enabled: false
+    configs:
+      app: ""
+      client: ""
+      config: ""
 
 # Additional arbitrary Kubernetes resources to be included with the release
 additionalResources:
