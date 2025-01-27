@@ -31,7 +31,7 @@ validator:
     size: 100Gi # Override default 10Gi if needed
 
 fullnode:
-  enabled: true
+  enabled: false
   config:
     p2p:
       persistentPeers: "66e95f65d19d102219c201946805f74c49aefeb6@devnet-red0ne-validator-poktrolld-p2p:26656"
