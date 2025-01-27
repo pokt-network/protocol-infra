@@ -46,12 +46,12 @@ fullnode:
     size: 100Gi # Override default 10Gi if needed
 
 paths:
-  full_node_config:
-    rpc_url: "tcp://devnet-red0ne-fullnode-poktrolld:26657"
-    grpc_config:
-      host_port: "devnet-red0ne-fullnode-poktrolld:9090"
-      insecure: true
-    lazy_mode: true
+  # full_node_config:
+  #   rpc_url: "tcp://devnet-red0ne-fullnode-poktrolld:26657"
+  #   grpc_config:
+  #     host_port: "devnet-red0ne-fullnode-poktrolld:9090"
+  #     insecure: true
+  #   lazy_mode: true
   image:
     tag: main
   replicas: 2
