@@ -4,7 +4,7 @@ image:
   tag: sha-abef59c
 
 # If you need to wipe the network, change the configVersion to the current `image.tag`.
-# Make sure to update `persistent_peers` (in fullnode config) to the new validator's peer ID (can be found in the `poktrolld` logs).
+# Make sure to update `fullnode.config.p2p.persistentPeers` to the new validator's peer ID (can be found in the `poktrolld` logs).
 configVersion: "sha-abef59c"
 
 relayminers:
@@ -29,6 +29,9 @@ validator:
 
 fullnode:
   enabled: true
+  config:
+    p2p:
+      persistentPeers: "66e95f65d19d102219c201946805f74c49aefeb6@devnet-red0ne-validator-poktrolld-p2p:26656"
   resources:
     limits:
       cpu: 4
@@ -925,7 +928,7 @@ customConfigMap:
         seeds = ""
 
         # Comma separated list of nodes to keep persistent connections to
-        persistent_peers = "66e95f65d19d102219c201946805f74c49aefeb6@devnet-red0ne-validator-poktrolld-p2p:26656"
+        persistent_peers = ""
 
         # Path to address book
         addr_book_file = "config/addrbook.json"

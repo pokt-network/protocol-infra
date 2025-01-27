@@ -77,6 +77,11 @@ spec:
             tls:
               secretName: "poktroll-wildcard-tls"
 
+        config:
+          p2p:
+            externalAddress: "{{ .Values.network.type }}-{{ .Values.network.name }}-fullnode-poktrolld-p2p:26656"
+            persistentPeers: {{ .Values.fullnode.config.p2p.persistentPeers }}
+
   syncPolicy:
     automated:
       prune: true

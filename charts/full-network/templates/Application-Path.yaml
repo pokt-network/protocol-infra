@@ -32,8 +32,8 @@ spec:
           tag: {{ $imageTag }}
         fullnameOverride: {{ $networkType }}-{{ $networkName }}-path-{{ $pathNumber }}
         nameOverride: {{ $networkType }}-{{ $networkName }}-path-{{ $pathNumber }}
+        replicas: {{ $.Values.paths.replicas }}
         path:
-          replicas: {{ $.Values.paths.replicas }}
           resources:
             {{- toYaml (default $.Values.paths.resources dict) | nindent 12 }}
           mountConfigMaps:
@@ -74,11 +74,11 @@ data:
   .config.yaml: |
     shannon_config:
       full_node_config:
-        rpc_url: tcp://{{ $networkType }}-{{ $networkName }}-validator-poktrolld:26657
+        rpc_url: {{ default (printf "tcp://%s-%s-validator-poktrolld:26657" $networkType $networkName) $.Values.paths.full_node_config.rpc_url }}
         grpc_config:
-          host_port: {{ $networkType }}-{{ $networkName }}-validator-poktrolld:9090
-          insecure: true
-        lazy_mode: true
+          host_port: {{ default (printf "%s-%s-validator-poktrolld:9090" $networkType $networkName) $.Values.paths.full_node_config.grpc_config.host_port }}
+          insecure: {{ $.Values.paths.full_node_config.grpc_config.insecure }}
+        lazy_mode: {{ $.Values.paths.full_node_config.lazy_mode }}
       gateway_config:
         gateway_mode: delegated
         # TODO_TECHDEBT: hardcoded the keys just like localnet for now. If we need to support other/more

@@ -46,6 +46,12 @@ paths:
     requests:
       cpu: 0.25
       memory: 512Mi
+  full_node_config:
+    rpc_url: ""
+    grpc_config:
+      host_port: ""
+      insecure: true
+    lazy_mode: true
 
 charts:
   sequencer:
@@ -89,6 +95,9 @@ additionalResources:
 
 fullnode:
   enabled: false # Disabled by default
+  config:
+    p2p:
+      persistentPeers: ""
   resources:
     limits:
       memory: 1Gi
