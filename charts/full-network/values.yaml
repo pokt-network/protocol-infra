@@ -22,6 +22,13 @@ relayminers:
     requests:
       cpu: 0.25
       memory: 512Mi
+  services:
+    ollama:
+      backend_url: "http://ollama:11434/" # Default value
+    anvil:
+      backend_url: "http://anvil:8547/" # Default value
+    rest:
+      backend_url: "http://devnet-rest-api-demo.protocol-common:10000/" # Default value
 
 validator:
   resources:
