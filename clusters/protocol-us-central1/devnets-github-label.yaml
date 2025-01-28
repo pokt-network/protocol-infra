@@ -89,3 +89,6 @@ spec:
             - /spec/VolumeName
             - /spec/StorageClassName
           kind: PersistentVolumeClaim
+        - jsonPointers:
+            - /spec/template/spec/containers/0/image
+          kind: Job
