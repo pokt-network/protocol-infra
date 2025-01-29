@@ -251,10 +251,10 @@ data:
     max_request_batch_size = 10
 
     # Maximum size of request body, in bytes
-    max_body_bytes = 1000000000
+    max_body_bytes = 100000000000
 
     # Maximum size of request header, in bytes
-    max_header_bytes = 5242880
+    max_header_bytes = 524288000
 
     # The path to a file containing certificate that is used to create the HTTPS server.
     # Might be either absolute path or path related to CometBFT's config directory.

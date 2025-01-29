@@ -77,7 +77,6 @@ spec:
               nginx.ingress.kubernetes.io/proxy-busy-buffers-size: "4m"
               nginx.ingress.kubernetes.io/client-body-buffer-size: "4m"
               nginx.ingress.kubernetes.io/proxy-connect-timeout: "60"
-              nginx.ingress.kubernetes.io/proxy-next-upstream-timeout: "180"
               nginx.ingress.kubernetes.io/proxy-request-buffering: "on"
               nginx.ingress.kubernetes.io/proxy-buffering: "on"
             hosts:
