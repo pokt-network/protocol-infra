@@ -243,7 +243,7 @@ data:
     # WARNING: Using a value larger than 10s will result in increasing the
     # global HTTP write timeout, which applies to all connections and endpoints.
     # See https://github.com/tendermint/tendermint/issues/3435
-    timeout_broadcast_tx_commit = "10s"
+    timeout_broadcast_tx_commit = "30s"
 
     # Maximum number of requests that can be sent in a batch
     # If the value is set to '0' (zero-value), then no maximum batch size will be
@@ -489,11 +489,11 @@ data:
     timeout_propose = "5m0s"
     # How much timeout_propose increases with each round
     timeout_propose_delta = "5s"
-    # How long we wait after receiving +2/3 prevotes for “anything” (ie. not a single block or nil)
+    # How long we wait after receiving +2/3 prevotes for "anything" (ie. not a single block or nil)
     timeout_prevote = "10s"
     # How much the timeout_prevote increases with each round
     timeout_prevote_delta = "5s"
-    # How long we wait after receiving +2/3 precommits for “anything” (ie. not a single block or nil)
+    # How long we wait after receiving +2/3 precommits for "anything" (ie. not a single block or nil)
     timeout_precommit = "10s"
     # How much the timeout_precommit increases with each round
     timeout_precommit_delta = "5s"
