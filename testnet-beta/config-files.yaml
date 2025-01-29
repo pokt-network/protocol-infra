@@ -243,7 +243,7 @@ data:
     # WARNING: Using a value larger than 10s will result in increasing the
     # global HTTP write timeout, which applies to all connections and endpoints.
     # See https://github.com/tendermint/tendermint/issues/3435
-    timeout_broadcast_tx_commit = "30s"
+    timeout_broadcast_tx_commit = "300s"
 
     # Maximum number of requests that can be sent in a batch
     # If the value is set to '0' (zero-value), then no maximum batch size will be
