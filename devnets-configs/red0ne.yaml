@@ -1,7 +1,7 @@
 networkName: "red0ne"
 
 image:
-  tag: sha-1486459
+  tag: sha-ccc99b4
 
 # If you need to wipe the network, change the configVersion to the current `image.tag`.
 # Make sure to update `fullnode.config.p2p.persistentPeers` to the new validator's peer ID (can be found in the `poktrolld` logs).
