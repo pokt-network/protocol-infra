@@ -16,7 +16,7 @@ spec:
   source:
     path: charts/poktrolld
     repoURL: https://github.com/pokt-network/helm-charts.git
-    targetRevision: adopt-prod-image # TODO: change to versioned releases when the work on the helm chart is merged/done
+    targetRevision: main # TODO: change to versioned releases when the work on the helm chart is merged/done
     helm:
       values: |
         # Can be created with `kubectl create secret generic validator3-keys --from-file=config/node_key.json --from-file=config/priv_validator_key.json --namespace=testnet-beta`
@@ -37,7 +37,10 @@ spec:
         persistence:
           enabled: true
           className: "vultr-block-storage"
-          size: 50Gi
+          size: 150Gi
+
+        cosmovisor:
+          enabled: true
 
         resources:
           limits:
