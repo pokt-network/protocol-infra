@@ -14,7 +14,7 @@ spec:
   source:
     path: charts/poktrolld
     repoURL: https://github.com/pokt-network/helm-charts.git
-    targetRevision: main # TODO: change to versioned releases when the work on the helm chart is merged/done
+    targetRevision: add-cosmovisor # TODO: change to versioned releases when the work on the helm chart is merged/done
     helm:
       values: |
         # Can be created with `kubectl create secret generic testnet-validated-seed1-validator-keys --from-file=config/node_key.json --from-file=config/priv_validator_key.json --namespace=testnet-validated-seed1`
@@ -35,7 +35,7 @@ spec:
         persistence:
           enabled: true
           className: "premium-rwo"
-          size: 25Gi
+          size: 50Gi
 
         serviceP2P:
           type: LoadBalancer
@@ -89,6 +89,10 @@ spec:
               - name: shannon-testnet-grove-api.alpha.poktroll.com
             tls:
               secretName: "poktroll-wildcard-tls"
+
+        cosmovisor:
+          enabled: true
+            
 
         config:
           unsafeSkipUpgrades: [83725]
