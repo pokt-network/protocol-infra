@@ -38,7 +38,7 @@ spec:
         persistence:
           enabled: true
           className: "premium-rwo"
-          size: 50Gi
+          size: 100Gi
 
         resources:
           limits:
