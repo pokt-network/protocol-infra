@@ -14,7 +14,7 @@ spec:
   source:
     path: charts/poktrolld
     repoURL: https://github.com/pokt-network/helm-charts.git
-    targetRevision: main # TODO: change to versioned releases when the work on the helm chart is merged/done
+    targetRevision: add-cosmovisor # TODO: change to versioned releases when the work on the helm chart is merged/done
     helm:
       values: |
         celestia-da:
@@ -54,6 +54,9 @@ spec:
           externalTrafficPolicy: Local
           annotations:
             cloud.google.com/neg: '{"ingress":true}'
+
+        cosmovisor:
+          enabled: true
 
         config:
           unsafeSkipUpgrades: [83725]
