@@ -22,6 +22,9 @@ spec:
         # Can be created with `kubectl create secret generic fullnode2-keys --from-file=config/node_key.json --from-file=config/priv_validator_key.json --namespace=testnet-beta`
         nodeKeysSecretName: fullnode2-keys
 
+        podLabels:
+          fullnodes-service-include: "true"
+
         # Can be created with `kubectl create cm testnet-test-genesis --from-file=config/genesis.json --namespace=testnet-beta`
         # Provisioned below
         genesis:
@@ -31,7 +34,7 @@ spec:
 
         image:
           repository: ghcr.io/pokt-network/poktrolld
-          tag: 0.0.11-rc
+          tag: 0.0.11-rc # Don't change. Cosmovisor handles versioning.
           pullPolicy: IfNotPresent
 
         persistence:

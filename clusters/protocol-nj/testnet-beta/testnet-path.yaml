@@ -36,7 +36,7 @@ spec:
     helm:
       values: |
         image:
-          tag: sha-ac1f4fd-rc
+          tag: sha-dad7813-rc
         path:
           fullnameOverride: beta-path-1
           nameOverride: beta-path-1

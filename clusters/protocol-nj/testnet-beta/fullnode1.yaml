@@ -31,7 +31,7 @@ spec:
 
         image:
           repository: ghcr.io/pokt-network/poktrolld
-          tag: 0.0.11-rc
+          tag: 0.0.11-rc # Don't change. Cosmovisor handles versioning.
           pullPolicy: IfNotPresent
 
         cosmovisor:

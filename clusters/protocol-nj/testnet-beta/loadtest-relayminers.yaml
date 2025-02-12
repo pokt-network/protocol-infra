@@ -55,11 +55,18 @@ spec:
           serviceMonitor:
             enabled: true
         image:
-          tag: sha-0c52ba7 # main branch 
-        # homeDirectory: /home/pocket/.poktroll
-        # podSecurityContext:
-        #   runAsUser: 1025
-        #   runAsGroup: 1025
+          tag: 0.0.12
+        homeDirectory: /home/pocket/.poktroll
+        chownDataDirTo: 1025
+        podSecurityContext:
+          fsGroup: 1025
+          runAsUser: 1025
+          runAsGroup: 1025
+
+        securityContext:
+          runAsNonRoot: true
+          runAsUser: 1025
+          allowPrivilegeEscalation: false
         ingress:
           enabled: true
           annotations:
@@ -77,11 +84,11 @@ spec:
         config:
           signing_key_name: beta-relayminer-1 # For backwards compatibility with chart
           default_signing_key_names: [beta-relayminer-1]
-          smt_store_path: /root/.poktroll/smt
+          smt_store_path: /home/pocket/.poktroll
           pocket_node:
-            query_node_rpc_url: tcp://testnet-beta-fullnode2-poktrolld:26657
-            query_node_grpc_url: tcp://testnet-beta-fullnode2-poktrolld:9090
-            tx_node_rpc_url: tcp://testnet-beta-fullnode2-poktrolld:26657
+            query_node_rpc_url: tcp://testnet-beta-fullnodes:26657
+            query_node_grpc_url: tcp://testnet-beta-fullnodes:9090
+            tx_node_rpc_url: tcp://testnet-beta-fullnodes:26657
           suppliers:
             - service_id: proto-anvil
               listen_url: http://0.0.0.0:8545
@@ -150,11 +157,18 @@ spec:
           serviceMonitor:
             enabled: true
         image:
-          tag: sha-0c52ba7 # main branch 
-        # homeDirectory: /home/pocket/.poktroll
-        # podSecurityContext:
-        #   runAsUser: 1025
-        #   runAsGroup: 1025
+          tag: 0.0.12
+        homeDirectory: /home/pocket/.poktroll
+        chownDataDirTo: 1025
+        podSecurityContext:
+          fsGroup: 1025
+          runAsUser: 1025
+          runAsGroup: 1025
+
+        securityContext:
+          runAsNonRoot: true
+          runAsUser: 1025
+          allowPrivilegeEscalation: false
         ingress:
           enabled: true
           annotations:
@@ -172,11 +186,11 @@ spec:
         config:
           signing_key_name: beta-relayminer-2 # For backwards compatibility with chart
           default_signing_key_names: [beta-relayminer-2]
-          smt_store_path: /root/.poktroll/smt
+          smt_store_path: /home/pocket/.poktroll
           pocket_node:
-            query_node_rpc_url: tcp://testnet-beta-fullnode2-poktrolld:26657
-            query_node_grpc_url: tcp://testnet-beta-fullnode2-poktrolld:9090
-            tx_node_rpc_url: tcp://testnet-beta-fullnode2-poktrolld:26657
+            query_node_rpc_url: tcp://testnet-beta-fullnodes:26657
+            query_node_grpc_url: tcp://testnet-beta-fullnodes:9090
+            tx_node_rpc_url: tcp://testnet-beta-fullnodes:26657
           suppliers:
             - service_id: proto-anvil
               listen_url: http://0.0.0.0:8545
@@ -245,11 +259,18 @@ spec:
           serviceMonitor:
             enabled: true
         image:
-          tag: sha-0c52ba7 # main branch 
-        # homeDirectory: /home/pocket/.poktroll
-        # podSecurityContext:
-        #   runAsUser: 1025
-        #   runAsGroup: 1025
+          tag: 0.0.12
+        homeDirectory: /home/pocket/.poktroll
+        chownDataDirTo: 1025
+        podSecurityContext:
+          fsGroup: 1025
+          runAsUser: 1025
+          runAsGroup: 1025
+
+        securityContext:
+          runAsNonRoot: true
+          runAsUser: 1025
+          allowPrivilegeEscalation: false
         ingress:
           enabled: true
           annotations:
@@ -267,11 +288,11 @@ spec:
         config:
           signing_key_name: beta-relayminer-3 # For backwards compatibility with chart
           default_signing_key_names: [beta-relayminer-3]
-          smt_store_path: /root/.poktroll/smt
+          smt_store_path: /home/pocket/.poktroll
           pocket_node:
-            query_node_rpc_url: tcp://testnet-beta-fullnode2-poktrolld:26657
-            query_node_grpc_url: tcp://testnet-beta-fullnode2-poktrolld:9090
-            tx_node_rpc_url: tcp://testnet-beta-fullnode2-poktrolld:26657
+            query_node_rpc_url: tcp://testnet-beta-fullnodes:26657
+            query_node_grpc_url: tcp://testnet-beta-fullnodes:9090
+            tx_node_rpc_url: tcp://testnet-beta-fullnodes:26657
           suppliers:
             - service_id: proto-anvil
               listen_url: http://0.0.0.0:8545
@@ -340,11 +361,18 @@ spec:
           serviceMonitor:
             enabled: true
         image:
-          tag: sha-0c52ba7 # main branch 
-        # homeDirectory: /home/pocket/.poktroll
-        # podSecurityContext:
-        #   runAsUser: 1025
-        #   runAsGroup: 1025
+          tag: 0.0.12
+        homeDirectory: /home/pocket/.poktroll
+        chownDataDirTo: 1025
+        podSecurityContext:
+          fsGroup: 1025
+          runAsUser: 1025
+          runAsGroup: 1025
+
+        securityContext:
+          runAsNonRoot: true
+          runAsUser: 1025
+          allowPrivilegeEscalation: false
         ingress:
           enabled: true
           annotations:
@@ -362,11 +390,11 @@ spec:
         config:
           signing_key_name: beta-relayminer-4 # For backwards compatibility with chart
           default_signing_key_names: [beta-relayminer-4]
-          smt_store_path: /root/.poktroll/smt
+          smt_store_path: /home/pocket/.poktroll
           pocket_node:
-            query_node_rpc_url: tcp://testnet-beta-fullnode2-poktrolld:26657
-            query_node_grpc_url: tcp://testnet-beta-fullnode2-poktrolld:9090
-            tx_node_rpc_url: tcp://testnet-beta-fullnode2-poktrolld:26657
+            query_node_rpc_url: tcp://testnet-beta-fullnodes:26657
+            query_node_grpc_url: tcp://testnet-beta-fullnodes:9090
+            tx_node_rpc_url: tcp://testnet-beta-fullnodes:26657
           suppliers:
             - service_id: proto-anvil
               listen_url: http://0.0.0.0:8545
@@ -435,11 +463,18 @@ spec:
           serviceMonitor:
             enabled: true
         image:
-          tag: sha-0c52ba7 # main branch 
-        # homeDirectory: /home/pocket/.poktroll
-        # podSecurityContext:
-        #   runAsUser: 1025
-        #   runAsGroup: 1025
+          tag: 0.0.12
+        homeDirectory: /home/pocket/.poktroll
+        chownDataDirTo: 1025
+        podSecurityContext:
+          fsGroup: 1025
+          runAsUser: 1025
+          runAsGroup: 1025
+
+        securityContext:
+          runAsNonRoot: true
+          runAsUser: 1025
+          allowPrivilegeEscalation: false
         ingress:
           enabled: true
           annotations:
@@ -457,11 +492,11 @@ spec:
         config:
           signing_key_name: beta-relayminer-5 # For backwards compatibility with chart
           default_signing_key_names: [beta-relayminer-5]
-          smt_store_path: /root/.poktroll/smt
+          smt_store_path: /home/pocket/.poktroll
           pocket_node:
-            query_node_rpc_url: tcp://testnet-beta-fullnode2-poktrolld:26657
-            query_node_grpc_url: tcp://testnet-beta-fullnode2-poktrolld:9090
-            tx_node_rpc_url: tcp://testnet-beta-fullnode2-poktrolld:26657
+            query_node_rpc_url: tcp://testnet-beta-fullnodes:26657
+            query_node_grpc_url: tcp://testnet-beta-fullnodes:9090
+            tx_node_rpc_url: tcp://testnet-beta-fullnodes:26657
           suppliers:
             - service_id: proto-anvil
               listen_url: http://0.0.0.0:8545
@@ -531,11 +566,18 @@ spec:
           serviceMonitor:
             enabled: true
         image:
-          tag: sha-0c52ba7 # main branch 
-        # homeDirectory: /home/pocket/.poktroll
-        # podSecurityContext:
-        #   runAsUser: 1025
-        #   runAsGroup: 1025
+          tag: 0.0.12
+        homeDirectory: /home/pocket/.poktroll
+        chownDataDirTo: 1025
+        podSecurityContext:
+          fsGroup: 1025
+          runAsUser: 1025
+          runAsGroup: 1025
+
+        securityContext:
+          runAsNonRoot: true
+          runAsUser: 1025
+          allowPrivilegeEscalation: false
         ingress:
           enabled: true
           annotations:
@@ -553,11 +595,11 @@ spec:
         config:
           signing_key_name: beta-relayminer-6 # For backwards compatibility with chart
           default_signing_key_names: [beta-relayminer-6]
-          smt_store_path: /root/.poktroll/smt
+          smt_store_path: /home/pocket/.poktroll
           pocket_node:
-            query_node_rpc_url: tcp://testnet-beta-fullnode2-poktrolld:26657
-            query_node_grpc_url: tcp://testnet-beta-fullnode2-poktrolld:9090
-            tx_node_rpc_url: tcp://testnet-beta-fullnode2-poktrolld:26657
+            query_node_rpc_url: tcp://testnet-beta-fullnodes:26657
+            query_node_grpc_url: tcp://testnet-beta-fullnodes:9090
+            tx_node_rpc_url: tcp://testnet-beta-fullnodes:26657
           suppliers:
             - service_id: proto-anvil
               listen_url: http://0.0.0.0:8545
@@ -626,11 +668,18 @@ spec:
           serviceMonitor:
             enabled: true
         image:
-          tag: sha-0c52ba7 # main branch latest commit
-        # homeDirectory: /home/pocket/.poktroll
-        # podSecurityContext:
-        #   runAsUser: 1025
-        #   runAsGroup: 1025
+          tag: 0.0.12
+        homeDirectory: /home/pocket/.poktroll
+        chownDataDirTo: 1025
+        podSecurityContext:
+          fsGroup: 1025
+          runAsUser: 1025
+          runAsGroup: 1025
+
+        securityContext:
+          runAsNonRoot: true
+          runAsUser: 1025
+          allowPrivilegeEscalation: false
         ingress:
           enabled: true
           annotations:
@@ -648,11 +697,11 @@ spec:
         config:
           signing_key_name: beta-relayminer-7 # For backwards compatibility with chart
           default_signing_key_names: [beta-relayminer-7]
-          smt_store_path: /root/.poktroll/smt
+          smt_store_path: /home/pocket/.poktroll
           pocket_node:
-            query_node_rpc_url: tcp://testnet-beta-fullnode2-poktrolld:26657
-            query_node_grpc_url: tcp://testnet-beta-fullnode2-poktrolld:9090
-            tx_node_rpc_url: tcp://testnet-beta-fullnode2-poktrolld:26657
+            query_node_rpc_url: tcp://testnet-beta-fullnodes:26657
+            query_node_grpc_url: tcp://testnet-beta-fullnodes:9090
+            tx_node_rpc_url: tcp://testnet-beta-fullnodes:26657
           suppliers:
             - service_id: proto-anvil
               listen_url: http://0.0.0.0:8545
@@ -721,11 +770,18 @@ spec:
           serviceMonitor:
             enabled: true
         image:
-          tag: sha-0c52ba7 # main branch 
-        # homeDirectory: /home/pocket/.poktroll
-        # podSecurityContext:
-        #   runAsUser: 1025
-        #   runAsGroup: 1025
+          tag: 0.0.12
+        homeDirectory: /home/pocket/.poktroll
+        chownDataDirTo: 1025
+        podSecurityContext:
+          fsGroup: 1025
+          runAsUser: 1025
+          runAsGroup: 1025
+
+        securityContext:
+          runAsNonRoot: true
+          runAsUser: 1025
+          allowPrivilegeEscalation: false
         ingress:
           enabled: true
           annotations:
@@ -743,11 +799,11 @@ spec:
         config:
           signing_key_name: beta-relayminer-8 # For backwards compatibility with chart
           default_signing_key_names: [beta-relayminer-8]
-          smt_store_path: /root/.poktroll/smt
+          smt_store_path: /home/pocket/.poktroll
           pocket_node:
-            query_node_rpc_url: tcp://testnet-beta-fullnode2-poktrolld:26657
-            query_node_grpc_url: tcp://testnet-beta-fullnode2-poktrolld:9090
-            tx_node_rpc_url: tcp://testnet-beta-fullnode2-poktrolld:26657
+            query_node_rpc_url: tcp://testnet-beta-fullnodes:26657
+            query_node_grpc_url: tcp://testnet-beta-fullnodes:9090
+            tx_node_rpc_url: tcp://testnet-beta-fullnodes:26657
           suppliers:
             - service_id: proto-anvil
               listen_url: http://0.0.0.0:8545
@@ -816,11 +872,18 @@ spec:
           serviceMonitor:
             enabled: true
         image:
-          tag: sha-0c52ba7 # main branch 
-        # homeDirectory: /home/pocket/.poktroll
-        # podSecurityContext:
-        #   runAsUser: 1025
-        #   runAsGroup: 1025
+          tag: 0.0.12
+        homeDirectory: /home/pocket/.poktroll
+        chownDataDirTo: 1025
+        podSecurityContext:
+          fsGroup: 1025
+          runAsUser: 1025
+          runAsGroup: 1025
+
+        securityContext:
+          runAsNonRoot: true
+          runAsUser: 1025
+          allowPrivilegeEscalation: false
         ingress:
           enabled: true
           annotations:
@@ -838,11 +901,11 @@ spec:
         config:
           signing_key_name: beta-relayminer-9 # For backwards compatibility with chart
           default_signing_key_names: [beta-relayminer-9]
-          smt_store_path: /root/.poktroll/smt
+          smt_store_path: /home/pocket/.poktroll
           pocket_node:
-            query_node_rpc_url: tcp://testnet-beta-fullnode2-poktrolld:26657
-            query_node_grpc_url: tcp://testnet-beta-fullnode2-poktrolld:9090
-            tx_node_rpc_url: tcp://testnet-beta-fullnode2-poktrolld:26657
+            query_node_rpc_url: tcp://testnet-beta-fullnodes:26657
+            query_node_grpc_url: tcp://testnet-beta-fullnodes:9090
+            tx_node_rpc_url: tcp://testnet-beta-fullnodes:26657
           suppliers:
             - service_id: proto-anvil
               listen_url: http://0.0.0.0:8545
@@ -911,11 +974,18 @@ spec:
           serviceMonitor:
             enabled: true
         image:
-          tag: sha-0c52ba7 # main branch 
-        # homeDirectory: /home/pocket/.poktroll
-        # podSecurityContext:
-        #   runAsUser: 1025
-        #   runAsGroup: 1025
+          tag: 0.0.12
+        homeDirectory: /home/pocket/.poktroll
+        chownDataDirTo: 1025
+        podSecurityContext:
+          fsGroup: 1025
+          runAsUser: 1025
+          runAsGroup: 1025
+
+        securityContext:
+          runAsNonRoot: true
+          runAsUser: 1025
+          allowPrivilegeEscalation: false
         ingress:
           enabled: true
           annotations:
@@ -933,11 +1003,11 @@ spec:
         config:
           signing_key_name: beta-relayminer-10 # For backwards compatibility with chart
           default_signing_key_names: [beta-relayminer-10]
-          smt_store_path: /root/.poktroll/smt
+          smt_store_path: /home/pocket/.poktroll
           pocket_node:
-            query_node_rpc_url: tcp://testnet-beta-fullnode2-poktrolld:26657
-            query_node_grpc_url: tcp://testnet-beta-fullnode2-poktrolld:9090
-            tx_node_rpc_url: tcp://testnet-beta-fullnode2-poktrolld:26657
+            query_node_rpc_url: tcp://testnet-beta-fullnodes:26657
+            query_node_grpc_url: tcp://testnet-beta-fullnodes:9090
+            tx_node_rpc_url: tcp://testnet-beta-fullnodes:26657
           suppliers:
             - service_id: proto-anvil
               listen_url: http://0.0.0.0:8545

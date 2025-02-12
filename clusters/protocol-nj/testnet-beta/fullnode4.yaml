@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: testnet-beta-validator5
+  name: testnet-beta-fullnode4
   namespace: argocd
   labels:
     team: "protocol"
@@ -19,8 +19,11 @@ spec:
     targetRevision: main # TODO: change to versioned releases when the work on the helm chart is merged/done
     helm:
       values: |
-        # Can be created with `kubectl create secret generic validator5-keys --from-file=config/node_key.json --from-file=config/priv_validator_key.json --namespace=testnet-beta`
-        nodeKeysSecretName: validator5-keys
+        # Can be created with `kubectl create secret generic fullnode4-keys --from-file=config/node_key.json --from-file=config/priv_validator_key.json --namespace=testnet-beta`
+        nodeKeysSecretName: fullnode4-keys
+
+        podLabels:
+          fullnodes-service-include: "false"
 
         # Can be created with `kubectl create cm testnet-test-genesis --from-file=config/genesis.json --namespace=testnet-beta`
         # Provisioned below
@@ -44,24 +47,23 @@ spec:
 
         resources:
           limits:
-            memory: 16Gi
-            cpu: '6'
-          requests:
-            memory: 15Gi
+            memory: 8Gi
             cpu: '4'
+          requests:
+            memory: 8Gi
+            cpu: '2'
 
-        serviceP2P:
-          type: LoadBalancer
-          externalTrafficPolicy: Local
+        # serviceP2P:
+        #   type: LoadBalancer
+        #   externalTrafficPolicy: Local
 
         config:
           p2p:
-            externalAddress: "45.77.110.71:26656"
+            # externalAddress: "173.199.115.245:26656"
             seeds: 8b9060703e81129996234350c90f77d6ecddd11c@34.45.40.180:26656
 
         serviceMonitor:
           enabled: true
-          interval: 5s
 
         logs:
           format: json

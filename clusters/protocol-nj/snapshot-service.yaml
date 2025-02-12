@@ -1,0 +1,417 @@
+# This is the snapshot service for the protocol-nj cluster.
+# Components:
+# Nginx server that exposes endpoints for uploading and downloading snapshots.
+# PVC for storing uploaded/distributed files.
+# CronJob to trigger creation and deletion of snapshots.
+# CronJob process:
+# - Stops full node;
+# - Creates a `poktrolld snapshot` (pruned snapshot);
+# - Archives full data directory (archival snapshot);
+# - Uploads snapshots to snapshot service;
+# - Performs an atomic swap/rename of the snapshots so the `latest` link points to the new snapshot;
+# - Starts the full node back up;
+
+# 1) PVC for storing uploaded/distributed files.
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: snapshot-data-pvc
+  namespace: protocol-common
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 100Gi
+  storageClassName: "vultr-block-storage-hdd" # Use HDD storage for lower cost
+
+---
+# 2) ConfigMap with OpenResty config, including DAV for one server block
+#    and read-only for another.
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: openresty-config
+  namespace: protocol-common
+data:
+  nginx.conf: |
+    # Main Nginx (OpenResty) configuration
+    worker_processes  4;
+
+    events {
+      worker_connections 1024;
+    }
+
+    http {
+      # ------------------------------------------------------
+      # SERVER #1: WebDAV on port 8080 (for PUT, MOVE, DELETE)
+      # ------------------------------------------------------
+      server {
+        listen       8080;
+        # can add a server_name later if necessary:  webdav.example.com;
+
+        # The main document root (mounted from PVC to /data):
+        root /data/snapshots;
+
+        # Use the same /data for temporary upload path to keep it on same filesystem.
+        client_body_temp_path /data/tmp;
+
+        # Enable DAV methods
+        dav_methods PUT DELETE MKCOL COPY MOVE;
+        create_full_put_path on;
+        dav_access  user:rw group:rw all:r;
+
+        # If we want to restrict write methods:
+        # limit_except GET HEAD {
+        #   allow 10.0.0.0/8;  # example
+        #   deny  all;
+        # }
+
+        # Allow for large files
+        client_max_body_size 0;
+      }
+
+      # -----------------------------------------------------
+      # SERVER #2: Distribution server on port 8081 (read-only)
+      # -----------------------------------------------------
+      server {
+        listen       8081;
+        # can add a server_name later if necessary:  distro.example.com;
+
+        root /data/snapshots;
+
+        # Just serve files (optionally enable autoindex to browse)
+        location / {
+          autoindex on;  # optional
+        }
+      }
+    }
+
+---
+# 3) Deployment: runs OpenResty with the above config, mounting the PVC
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: openresty-webdav-snapshot
+  namespace: protocol-common
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: openresty-webdav-snapshot
+  template:
+    metadata:
+      labels:
+        app: openresty-webdav-snapshot
+    spec:
+      containers:
+        - name: openresty
+          # Example OpenResty image that typically includes the WebDAV module;
+          # verify or use a custom build if needed.
+          image: "openresty/openresty:1.27.1.1-1-buster-fat"
+          ports:
+            - containerPort: 8080
+            - containerPort: 8081
+          volumeMounts:
+            - name: config-volume
+              mountPath: /usr/local/openresty/nginx/conf/nginx.conf
+              subPath: nginx.conf
+            - name: data
+              mountPath: /data
+      volumes:
+        - name: config-volume
+          configMap:
+            name: openresty-config
+            items:
+              - key: nginx.conf
+                path: nginx.conf
+        - name: data
+          persistentVolumeClaim:
+            claimName: snapshot-data-pvc
+
+---
+# 4) Services: one for the WebDAV port, one for the distro port
+apiVersion: v1
+kind: Service
+metadata:
+  # Not meant to be used by the public internet, but for internal use by the
+  # service to upload snapshots.
+  name: snapshot-service-webdav
+  namespace: protocol-common
+spec:
+  selector:
+    app: openresty-webdav-snapshot
+  ports:
+    - name: http-webdav
+      port: 80
+      targetPort: 8080
+  type: ClusterIP
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: snapshot-service-internet
+  namespace: protocol-common
+spec:
+  selector:
+    app: openresty-webdav-snapshot
+  ports:
+    - name: http-distro
+      port: 80
+      targetPort: 8081
+  type: ClusterIP
+---
+# 5) Ingress for the snapshot service (snapshots.us-nj.poktroll.com)
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: snapshot-service-ingress
+  namespace: protocol-common
+  annotations:
+    kubernetes.io/ingress.class: nginx
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: snapshots.us-nj.poktroll.com
+      http:
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: snapshot-service-internet
+                port:
+                  number: 8081
+  tls:
+    - secretName: poktroll-wildcard-tls
+      hosts:
+        - snapshots.us-nj.poktroll.com
+
+---
+# 6) ServiceAccount and RBAC for the snapshot CronJob
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: snapshot-creator
+  namespace: testnet-beta
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: snapshot-manager
+rules:
+  - apiGroups: ["apps"]
+    resources: ["statefulsets", "statefulsets/scale"]
+    verbs: ["get", "patch"]
+  - apiGroups: ["batch"]
+    resources: ["jobs"]
+    verbs: ["create", "get", "list", "watch"]
+  - apiGroups: [""]
+    resources: ["pods"]
+    verbs: ["get", "list", "watch"]
+  - apiGroups: [""]
+    resources: ["persistentvolumeclaims"]
+    verbs: ["get", "list"]
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: snapshot-creator-binding
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: snapshot-manager
+subjects:
+  - kind: ServiceAccount
+    name: snapshot-creator
+    namespace: testnet-beta
+
+---
+# Create a specific role binding for the testnet-beta namespace
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: snapshot-creator-testnet
+  namespace: testnet-beta
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: snapshot-manager
+subjects:
+  - kind: ServiceAccount
+    name: snapshot-creator
+    namespace: testnet-beta
+
+---
+# The CronJob that manages the entire process
+# Resources that will be used:
+# StatefulSet name: testnet-beta-fullnode4-poktrolld, Pod name created by that StatefulSet: testnet-beta-fullnode4-poktrolld-0
+# PVC name: testnet-beta-fullnode4-poktrolld-data
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: node-scaledown
+  namespace: testnet-beta
+spec:
+  schedule: "0 14 * * 2" # Run at 14:00 (2pm) every Tuesday
+  concurrencyPolicy: Forbid
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          serviceAccountName: snapshot-creator
+          restartPolicy: OnFailure
+          containers:
+            - name: scaledown
+              image: bitnami/kubectl:latest
+              command:
+                - /bin/sh
+                - -c
+                - |
+                  # Stage 1: Scale down
+                  kubectl scale sts testnet-beta-fullnode4-poktrolld -n testnet-beta --replicas=0
+
+                  # Wait for pod to terminate and PVC to detach
+                  while kubectl get pod testnet-beta-fullnode4-poktrolld-0 -n testnet-beta 2>/dev/null; do
+                    echo "Waiting for pod to terminate..."
+                    sleep 10
+                  done
+
+                  # Stage 2: Create and wait for snapshot job
+                  cat <<EOF | kubectl create -f -
+                  apiVersion: batch/v1
+                  kind: Job
+                  metadata:
+                    generateName: snapshot-worker-
+                    namespace: testnet-beta
+                    labels:
+                      job-name: snapshot-worker
+                  spec:
+                    template:
+                      spec:
+                        serviceAccountName: snapshot-creator
+                        securityContext:
+                          runAsUser: 0  # Run as root
+                          fsGroup: 0    # Use root group
+                        containers:
+                          - name: worker
+                            image: ubuntu:latest
+                            stdin: true
+                            tty: true
+                            command: ["/bin/bash", "-c"]
+                            args:
+                              - |
+                                set -ex
+                      
+                                # 1. Install required tools
+                                apt-get update && apt-get install -y zstd curl
+                                
+                                # Debug: Check binary permissions and ownership
+                                ls -la /root/.poktroll/cosmovisor/current/bin/poktrolld
+                                
+                                # Try to make it executable if it's not
+                                chmod +x /root/.poktroll/cosmovisor/current/bin/poktrolld || true
+                                
+                                # Debug: Check again after chmod
+                                ls -la /root/.poktroll/cosmovisor/current/bin/poktrolld
+                                
+                                # 2. Generate a new state snapshot and capture height/format
+                                echo "[*] Creating new snapshot using 'poktrolld snapshots export'..."
+                                SNAPSHOT_OUTPUT=$(/root/.poktroll/cosmovisor/current/bin/poktrolld snapshots export 2>&1)
+                                echo "$SNAPSHOT_OUTPUT"
+                                
+                                # Parse height and format from the last line of output
+                                SNAPSHOT_INFO=$(echo "$SNAPSHOT_OUTPUT" | grep "Snapshot created at height")
+                                if [ -z "$SNAPSHOT_INFO" ]; then
+                                    echo "Failed to find snapshot info in output:"
+                                    echo "$SNAPSHOT_OUTPUT"
+                                    exit 1
+                                fi
+                                
+                                # Parse height and format from output like "Snapshot created at height 62645, format 3, chunks 1"
+                                HEIGHT=$(echo "$SNAPSHOT_INFO" | grep -o "height [0-9]*" | awk '{print $2}')
+                                FORMAT=$(echo "$SNAPSHOT_INFO" | grep -o "format [0-9]*" | awk '{print $2}')
+                                
+                                if [ -z "$HEIGHT" ] || [ -z "$FORMAT" ]; then
+                                    echo "Failed to parse height or format from snapshot info:"
+                                    echo "$SNAPSHOT_INFO"
+                                    exit 1
+                                fi
+                                
+                                echo "[*] Created snapshot at height $HEIGHT format $FORMAT"
+                                
+                                # 3. Dump that snapshot to a tarball
+                                echo "[*] Dumping snapshot $HEIGHT-$FORMAT to tarball..."
+                                /root/.poktroll/cosmovisor/current/bin/poktrolld snapshots dump $HEIGHT $FORMAT
+                                
+                                # 4. Create an archival tarball (zstd-compressed) of the entire 'data' directory.
+                                echo "[*] Creating archival snapshot..."
+                                tar --zstd -cvf /root/poktroll-data-backup.tar.zst -C /root/.poktroll data
+                                
+                                # 5. Upload the archival snapshot
+                                echo "[*] Uploading archival snapshot to internal WebDAV..."
+                                curl -X PUT -T /root/poktroll-data-backup.tar.zst \
+                                  http://snapshot-service-webdav.protocol-common.svc.cluster.local:80/testnet-beta-$HEIGHT-archival.tar.zst
+                                
+                                # 6. Upload the small snapshot tarball
+                                echo "[*] Uploading small snapshot tarball (62645-3.tar.gz)..."
+                                curl -X PUT -T /root/.poktroll/$HEIGHT-$FORMAT.tar.gz \
+                                  http://snapshot-service-webdav.protocol-common.svc.cluster.local:80/testnet-beta-$HEIGHT-snapshot.tar.gz
+                    
+                                # 7. Update "latest" pointers (optional text files naming the new snapshot)
+                                echo "testnet-beta-$HEIGHT-archival.tar.zst" > latest-archival.txt
+                                echo "testnet-beta-$HEIGHT-snapshot.tar.gz" > latest-snapshot.txt
+                                curl -X PUT -T latest-archival.txt  http://snapshot-service-webdav.protocol-common.svc.cluster.local:80/latest-archival.txt
+                                curl -X PUT -T latest-snapshot.txt  http://snapshot-service-webdav.protocol-common.svc.cluster.local:80/latest-snapshot.txt
+                                
+                                # 8. Cleanup. Remove local snapshot data.
+                                echo "[*] Cleaning up local snapshot data..."
+                                rm -vf /root/.poktroll/$HEIGHT-$FORMAT.tar.gz
+                                rm -vf /root/poktroll-data-backup.tar.zst
+                                /root/.poktroll/cosmovisor/current/bin/poktrolld snapshots delete $HEIGHT $FORMAT || true
+                                
+                                # 9. Optionally keep only the last 2 snapshots on the server using cURL + WebDAV DELETE, etc.
+                    
+                                echo "[*] Done!"
+                            volumeMounts:
+                              - name: pocket-volume
+                                mountPath: "/root/.poktroll/"
+                              - name: pocket-volume
+                                mountPath: "/home/pocket/.poktroll/"
+                              - name: genesis-volume
+                                mountPath: "/root/.poktroll/config/genesis.json"
+                                subPath: "genesis.json"
+                              - name: config-volume
+                                mountPath: "/root/.poktroll/config/app.toml"
+                                subPath: "app.toml"
+                              - name: config-volume
+                                mountPath: "/root/.poktroll/config/config.toml"
+                                subPath: "config.toml"
+                        volumes:
+                          - name: pocket-volume
+                            persistentVolumeClaim:
+                              claimName: testnet-beta-fullnode4-poktrolld-data
+                          - name: genesis-volume
+                            configMap:
+                              name: genesis
+                          - name: config-volume
+                            configMap:
+                              name: custom-configs
+                              items:
+                                - key: app.toml
+                                  path: app.toml
+                                - key: config.toml
+                                  path: config.toml
+                        restartPolicy: OnFailure
+                  EOF
+
+                  # Wait for snapshot job to complete
+                  sleep 30  # Give time for job to start
+                  JOB_NAME=$(kubectl get jobs -n testnet-beta -l job-name=snapshot-worker --sort-by=.metadata.creationTimestamp -o jsonpath='{.items[-1].metadata.name}')
+                  kubectl wait -n testnet-beta --for=condition=complete job/$JOB_NAME --timeout=1h
+
+                  # Stage 3: Scale back up
+                  kubectl scale sts testnet-beta-fullnode4-poktrolld -n testnet-beta --replicas=1
