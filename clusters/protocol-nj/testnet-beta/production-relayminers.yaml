@@ -115,7 +115,7 @@ spec:
 # Staked manually with the following command:
 # cat <<EOF >stake_config.yaml
 # stake_amount: 1000001upokt
-# owner_address: pokt186qnzaum86cx5e7dh2fm6t5me8f29n93p7ap33
+# owner_address: pokt1z0w03mr6x2lfn9vurrezxx9n36fg5rglakkkwm
 # services:
 # - service_id: pocket-beta-rpc
 #   endpoints:

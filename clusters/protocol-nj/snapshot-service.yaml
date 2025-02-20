@@ -309,69 +309,56 @@ spec:
                                 # 1. Install required tools
                                 apt-get update && apt-get install -y zstd curl
                                 
-                                # Debug: Check binary permissions and ownership
+                                # Debug: Show environment and permissions
+                                echo "Current user and groups:"
+                                id
+                                echo "Binary details:"
                                 ls -la /root/.poktroll/cosmovisor/current/bin/poktrolld
+                                echo "Directory permissions:"
+                                ls -la /root/.poktroll/cosmovisor/current/bin/
+                                ls -la /root/.poktroll/cosmovisor/current/
+                                ls -la /root/.poktroll/cosmovisor/
+                                ls -la /root/.poktroll/
                                 
-                                # Try to make it executable if it's not
-                                chmod +x /root/.poktroll/cosmovisor/current/bin/poktrolld || true
-                                
-                                # Debug: Check again after chmod
-                                ls -la /root/.poktroll/cosmovisor/current/bin/poktrolld
-                                
-                                # 2. Generate a new state snapshot and capture height/format
+                                # 2. Run the commands that worked before
                                 echo "[*] Creating new snapshot using 'poktrolld snapshots export'..."
-                                SNAPSHOT_OUTPUT=$(/root/.poktroll/cosmovisor/current/bin/poktrolld snapshots export 2>&1)
-                                echo "$SNAPSHOT_OUTPUT"
+                                /root/.poktroll/cosmovisor/current/bin/poktrolld snapshots export || true
                                 
-                                # Parse height and format from the last line of output
-                                SNAPSHOT_INFO=$(echo "$SNAPSHOT_OUTPUT" | grep "Snapshot created at height")
-                                if [ -z "$SNAPSHOT_INFO" ]; then
-                                    echo "Failed to find snapshot info in output:"
-                                    echo "$SNAPSHOT_OUTPUT"
-                                    exit 1
-                                fi
+                                # 3. Dump snapshot to tarball with hardcoded values
+                                echo "[*] Dumping snapshot 64375-3 to tarball..."
+                                /root/.poktroll/cosmovisor/current/bin/poktrolld snapshots dump 64375 3
                                 
-                                # Parse height and format from output like "Snapshot created at height 62645, format 3, chunks 1"
-                                HEIGHT=$(echo "$SNAPSHOT_INFO" | grep -o "height [0-9]*" | awk '{print $2}')
-                                FORMAT=$(echo "$SNAPSHOT_INFO" | grep -o "format [0-9]*" | awk '{print $2}')
+                                # Debug: Find the snapshot file
+                                echo "Looking for snapshot file:"
+                                find /root/.poktroll -name "*.tar.gz" -o -name "*.tar.zst"
                                 
-                                if [ -z "$HEIGHT" ] || [ -z "$FORMAT" ]; then
-                                    echo "Failed to parse height or format from snapshot info:"
-                                    echo "$SNAPSHOT_INFO"
-                                    exit 1
-                                fi
-                                
-                                echo "[*] Created snapshot at height $HEIGHT format $FORMAT"
-                                
-                                # 3. Dump that snapshot to a tarball
-                                echo "[*] Dumping snapshot $HEIGHT-$FORMAT to tarball..."
-                                /root/.poktroll/cosmovisor/current/bin/poktrolld snapshots dump $HEIGHT $FORMAT
-                                
-                                # 4. Create an archival tarball (zstd-compressed) of the entire 'data' directory.
-                                echo "[*] Creating archival snapshot..."
-                                tar --zstd -cvf /root/poktroll-data-backup.tar.zst -C /root/.poktroll data
-                                
-                                # 5. Upload the archival snapshot
+                                # 4. Upload files
                                 echo "[*] Uploading archival snapshot to internal WebDAV..."
                                 curl -X PUT -T /root/poktroll-data-backup.tar.zst \
-                                  http://snapshot-service-webdav.protocol-common.svc.cluster.local:80/testnet-beta-$HEIGHT-archival.tar.zst
+                                    "http://snapshot-service-webdav.protocol-common.svc.cluster.local:80/testnet-beta-64375-archival.tar.zst"
                                 
-                                # 6. Upload the small snapshot tarball
-                                echo "[*] Uploading small snapshot tarball (62645-3.tar.gz)..."
-                                curl -X PUT -T /root/.poktroll/$HEIGHT-$FORMAT.tar.gz \
-                                  http://snapshot-service-webdav.protocol-common.svc.cluster.local:80/testnet-beta-$HEIGHT-snapshot.tar.gz
+                                # Upload the snapshot file (once we find it)
+                                echo "[*] Uploading small snapshot tarball..."
+                                SNAPSHOT_FILE=$(find /root/.poktroll -name "*64375*.tar.gz" | head -1)
+                                if [ -n "$SNAPSHOT_FILE" ]; then
+                                    curl -X PUT -T "$SNAPSHOT_FILE" \
+                                        "http://snapshot-service-webdav.protocol-common.svc.cluster.local:80/testnet-beta-64375-snapshot.tar.gz"
+                                else
+                                    echo "Could not find snapshot file!"
+                                    exit 1
+                                fi
                     
                                 # 7. Update "latest" pointers (optional text files naming the new snapshot)
-                                echo "testnet-beta-$HEIGHT-archival.tar.zst" > latest-archival.txt
-                                echo "testnet-beta-$HEIGHT-snapshot.tar.gz" > latest-snapshot.txt
+                                echo "testnet-beta-64375-archival.tar.zst" > latest-archival.txt
+                                echo "testnet-beta-64375-snapshot.tar.gz" > latest-snapshot.txt
                                 curl -X PUT -T latest-archival.txt  http://snapshot-service-webdav.protocol-common.svc.cluster.local:80/latest-archival.txt
                                 curl -X PUT -T latest-snapshot.txt  http://snapshot-service-webdav.protocol-common.svc.cluster.local:80/latest-snapshot.txt
                                 
                                 # 8. Cleanup. Remove local snapshot data.
                                 echo "[*] Cleaning up local snapshot data..."
-                                rm -vf /root/.poktroll/$HEIGHT-$FORMAT.tar.gz
+                                rm -vf /root/.poktroll/64375-3.tar.gz
                                 rm -vf /root/poktroll-data-backup.tar.zst
-                                /root/.poktroll/cosmovisor/current/bin/poktrolld snapshots delete $HEIGHT $FORMAT || true
+                                /root/.poktroll/cosmovisor/current/bin/poktrolld snapshots delete 64375 3 || true
                                 
                                 # 9. Optionally keep only the last 2 snapshots on the server using cURL + WebDAV DELETE, etc.
                     

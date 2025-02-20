@@ -52,3 +52,28 @@ spec:
       name: rpc
       port: 8547
       targetPort: 8547
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: anvil
+  namespace: protocol-common
+  labels:
+    provisioned-by: "protocol"
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: anvil.us-nj.poktroll.com
+      http:
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: anvil
+                port:
+                  number: 8547
+  tls:
+    - secretName: poktroll-wildcard-tls
+      hosts:
+        - anvil.us-nj.poktroll.com
