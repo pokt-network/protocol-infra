@@ -23,6 +23,7 @@ spec:
           replicaCount: 4
           config:
             use-proxy-protocol: "false"
+            use-gzip: true
             # use-geoip: "true"
           resources:
             limits:
