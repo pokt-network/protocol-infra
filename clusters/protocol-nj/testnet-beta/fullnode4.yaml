@@ -23,7 +23,7 @@ spec:
         nodeKeysSecretName: fullnode4-keys
 
         podLabels:
-          fullnodes-service-include: "false"
+          fullnodes-service-include: "true"
 
         # Can be created with `kubectl create cm testnet-test-genesis --from-file=config/genesis.json --namespace=testnet-beta`
         # Provisioned below
