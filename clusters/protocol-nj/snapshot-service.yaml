@@ -141,7 +141,7 @@ spec:
                 path: nginx.conf
         - name: data
           persistentVolumeClaim:
-            claimName: snapshot-data-pvc
+            claimName: snapshot-data-ssd
 
 ---
 # 4) Services: one for the WebDAV port, one for the distro port
