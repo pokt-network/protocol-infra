@@ -12,18 +12,18 @@
 # - Starts the full node back up;
 
 # 1) PVC for storing uploaded/distributed files.
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: snapshot-data-pvc
-  namespace: protocol-common
-spec:
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 100Gi
-  storageClassName: "vultr-block-storage-hdd" # Use HDD storage for lower cost
+# apiVersion: v1
+# kind: PersistentVolumeClaim
+# metadata:
+#   name: snapshot-data-pvc
+#   namespace: protocol-common
+# spec:
+#   accessModes:
+#     - ReadWriteOnce
+#   resources:
+#     requests:
+#       storage: 100Gi
+#   storageClassName: "vultr-block-storage-hdd" # Use HDD storage for lower cost
 
 ---
 apiVersion: v1
