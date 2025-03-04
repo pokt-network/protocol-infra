@@ -39,19 +39,6 @@ spec:
       storage: 200Gi
   storageClassName: "vultr-block-storage"
 ---
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: snapshot-data-rwx
-  namespace: protocol-common
-spec:
-  accessModes:
-    - ReadWriteMany
-  resources:
-    requests:
-      storage: 200Gi
-  storageClassName: "vultr-block-storage" # Use HDD storage for lower cost
----
 # 2) ConfigMap with OpenResty config, including DAV for one server block
 #    and read-only for another.
 apiVersion: v1
@@ -174,7 +161,7 @@ spec:
                 path: nginx.conf
         - name: data
           persistentVolumeClaim:
-            claimName: snapshot-data-rwx
+            claimName: snapshot-data-ssd
 
 ---
 # 4) Services: one for the WebDAV port, one for the distro port
