@@ -188,8 +188,8 @@ metadata:
   namespace: protocol-common
   annotations:
     service.beta.kubernetes.io/vultr-loadbalancer-ssl: poktroll-wildcard-tls
-    service.beta.kubernetes.io/vultr-loadbalancer-protocol: "tcp"
-    service.beta.kubernetes.io/vultr-loadbalancer-backend-protocol: "tcp"
+    service.beta.kubernetes.io/vultr-loadbalancer-protocol: "https"
+    service.beta.kubernetes.io/vultr-loadbalancer-backend-protocol: "http"
     service.beta.kubernetes.io/vultr-loadbalancer-https-ports: "443"
     service.beta.kubernetes.io/vultr-loadbalancer-ssl-pass-through: "false"
 spec:
