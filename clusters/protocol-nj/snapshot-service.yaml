@@ -62,13 +62,27 @@ metadata:
 data:
   nginx.conf: |
     # Main Nginx (OpenResty) configuration
-    worker_processes  4;
+    worker_processes auto;  # Auto-detect number of cores
+
+    # Increase file descriptors limit
+    worker_rlimit_nofile 65535;
 
     events {
-      worker_connections 1024;
+      worker_connections 16384;  # Increased for high concurrency
+      multi_accept on;           # Accept as many connections as possible
     }
 
     http {
+      # File handling optimizations for large files
+      open_file_cache max=10000 inactive=5m;
+      open_file_cache_valid 2m;
+      open_file_cache_min_uses 1;
+      open_file_cache_errors on;
+      
+      # Buffer size optimizations
+      client_body_buffer_size 128k;
+      client_max_body_size 0;    # No limit on body size
+      
       # ------------------------------------------------------
       # SERVER #1: WebDAV on port 8080 (for PUT, MOVE, DELETE)
       # ------------------------------------------------------
@@ -105,10 +119,17 @@ data:
         # can add a server_name later if necessary:  distro.example.com;
 
         root /data/snapshots;
-
-        # Just serve files (optionally enable autoindex to browse)
+        
+        # Optimize for torrent web seeding
         location / {
-          autoindex on;  # optional
+          autoindex on;
+          
+          # Enable byte-range requests (required for torrent web seeding)
+          add_header Accept-Ranges bytes;
+          
+          # Set appropriate cache headers for large files
+          expires 30d;
+          add_header Cache-Control "public, no-transform";
         }
       }
     }
