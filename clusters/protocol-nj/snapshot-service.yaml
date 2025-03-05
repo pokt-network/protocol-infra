@@ -180,26 +180,7 @@ spec:
       port: 80
       targetPort: 8080
   type: ClusterIP
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: snapshot-service-internet-direct
-  namespace: protocol-common
-  annotations:
-    service.beta.kubernetes.io/vultr-loadbalancer-ssl: poktroll-wildcard-tls
-    service.beta.kubernetes.io/vultr-loadbalancer-protocol: "https"
-    service.beta.kubernetes.io/vultr-loadbalancer-backend-protocol: "http"
-    service.beta.kubernetes.io/vultr-loadbalancer-https-ports: "443"
-    service.beta.kubernetes.io/vultr-loadbalancer-ssl-pass-through: "false"
-spec:
-  selector:
-    app: openresty-webdav-snapshot
-  ports:
-    - name: http-distro
-      port: 80
-      targetPort: 8081
-  type: LoadBalancer
+
 ---
 apiVersion: v1
 kind: Service
