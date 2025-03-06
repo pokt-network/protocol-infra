@@ -121,6 +121,7 @@ data:
           autoindex on;
           autoindex_exact_size on;
           autoindex_localtime on;
+          index disabled_index.html;  # This forces directory listing since this file doesn't exist
         }
       }
     }
