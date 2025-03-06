@@ -84,7 +84,7 @@ data:
         client_body_temp_path /data/tmp;
 
         # Enable DAV methods
-        dav_methods PUT DELETE MKCOL COPY MOVE PROPFIND;
+        dav_methods PUT DELETE MKCOL COPY MOVE;
         create_full_put_path on;
         dav_access  user:rw group:rw all:r;
 
