@@ -118,6 +118,14 @@ data:
           expires 30d;
           add_header Cache-Control "public, no-transform";
         }
+
+        # Add a dedicated location for directory listing
+        location /list/ {
+          alias /data/snapshots/;
+          autoindex on;
+          autoindex_exact_size on;
+          autoindex_localtime on;
+        }
       }
     }
 
