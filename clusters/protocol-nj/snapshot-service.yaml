@@ -113,10 +113,6 @@ data:
           
           # Enable byte-range requests (required for torrent web seeding)
           add_header Accept-Ranges bytes;
-          
-          # Set appropriate cache headers for large files
-          expires 30d;
-          add_header Cache-Control "public, no-transform";
         }
 
         # Add a dedicated location for directory listing
