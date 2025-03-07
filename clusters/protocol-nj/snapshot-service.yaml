@@ -226,4 +226,51 @@ spec:
     - secretName: poktroll-wildcard-tls
       hosts:
         - snapshots.us-nj.poktroll.com
+---
 
+# Create a secret for basic auth
+# apiVersion: v1
+# kind: Secret
+# metadata:
+#   name: snapshot-upload-auth
+#   namespace: protocol-common
+# type: Opaque
+# data:
+#   # htpasswd -nb uploader your-secure-password | base64
+#   auth: dXBsb2FkZXI6JGFwcjEkVVNTLlVzc1MkZEZFTHRmN3JqZWZ6RWdnc2xtZlZ6MQo= # example: uploader:your-secure-password
+
+---
+# Ingress for the WebDAV upload endpoint (upload-snapshots.us-nj.poktroll.com)
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: snapshot-upload-ingress
+  namespace: protocol-common
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/auth-type: basic
+    nginx.ingress.kubernetes.io/auth-secret: snapshot-upload-auth
+    nginx.ingress.kubernetes.io/auth-realm: "Authentication Required"
+    # Optional: restrict to specific IPs if needed
+    # nginx.ingress.kubernetes.io/whitelist-source-range: "YOUR.IP.ADDRESS/32"
+    # Add these annotations for large file support
+    nginx.ingress.kubernetes.io/proxy-body-size: "0"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "300"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "300"
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: upload-snapshots.us-nj.poktroll.com
+      http:
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: snapshot-service-webdav
+                port:
+                  number: 80
+  tls:
+    - secretName: poktroll-wildcard-tls
+      hosts:
+        - upload-snapshots.us-nj.poktroll.com
