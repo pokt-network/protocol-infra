@@ -55,7 +55,7 @@ spec:
           serviceMonitor:
             enabled: true
         image:
-          tag: 0.0.12
+          tag: 0.0.13
         homeDirectory: /home/pocket/.poktroll
         chownDataDirTo: 1025
         podSecurityContext:
@@ -157,7 +157,7 @@ spec:
           serviceMonitor:
             enabled: true
         image:
-          tag: 0.0.12
+          tag: 0.0.13
         homeDirectory: /home/pocket/.poktroll
         chownDataDirTo: 1025
         podSecurityContext:
@@ -259,7 +259,7 @@ spec:
           serviceMonitor:
             enabled: true
         image:
-          tag: 0.0.12
+          tag: 0.0.13
         homeDirectory: /home/pocket/.poktroll
         chownDataDirTo: 1025
         podSecurityContext:
@@ -361,7 +361,7 @@ spec:
           serviceMonitor:
             enabled: true
         image:
-          tag: 0.0.12
+          tag: 0.0.13
         homeDirectory: /home/pocket/.poktroll
         chownDataDirTo: 1025
         podSecurityContext:
@@ -463,7 +463,7 @@ spec:
           serviceMonitor:
             enabled: true
         image:
-          tag: 0.0.12
+          tag: 0.0.13
         homeDirectory: /home/pocket/.poktroll
         chownDataDirTo: 1025
         podSecurityContext:
@@ -566,7 +566,7 @@ spec:
           serviceMonitor:
             enabled: true
         image:
-          tag: 0.0.12
+          tag: 0.0.13
         homeDirectory: /home/pocket/.poktroll
         chownDataDirTo: 1025
         podSecurityContext:
@@ -668,7 +668,7 @@ spec:
           serviceMonitor:
             enabled: true
         image:
-          tag: 0.0.12
+          tag: 0.0.13
         homeDirectory: /home/pocket/.poktroll
         chownDataDirTo: 1025
         podSecurityContext:
@@ -770,7 +770,7 @@ spec:
           serviceMonitor:
             enabled: true
         image:
-          tag: 0.0.12
+          tag: 0.0.13
         homeDirectory: /home/pocket/.poktroll
         chownDataDirTo: 1025
         podSecurityContext:
@@ -872,7 +872,7 @@ spec:
           serviceMonitor:
             enabled: true
         image:
-          tag: 0.0.12
+          tag: 0.0.13
         homeDirectory: /home/pocket/.poktroll
         chownDataDirTo: 1025
         podSecurityContext:
@@ -974,7 +974,7 @@ spec:
           serviceMonitor:
             enabled: true
         image:
-          tag: 0.0.12
+          tag: 0.0.13
         homeDirectory: /home/pocket/.poktroll
         chownDataDirTo: 1025
         podSecurityContext:
