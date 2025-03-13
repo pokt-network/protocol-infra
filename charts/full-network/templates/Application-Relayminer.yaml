@@ -64,7 +64,7 @@ spec:
             - service_id: anvilws
               listen_url: http://0.0.0.0:8545
               service_config:
-                backend_url: {{ default "ws://anvil:8547/" $.Values.relayminers.services.anvil.backend_url }}
+                backend_url: {{ default "ws://anvil:8547/" $.Values.relayminers.services.anvilws.backend_url }}
                 publicly_exposed_endpoints:
                   - relayminer{{ $relayMinerNumber }}
                   - {{ $networkType }}-{{ $networkName }}-relayminer-{{ $relayMinerNumber }}.poktroll.com
