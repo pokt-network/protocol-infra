@@ -47,13 +47,6 @@ spec:
             query_node_grpc_url: tcp://{{ $networkType }}-{{ $networkName }}-validator-poktrolld:9090
             tx_node_rpc_url: tcp://{{ $networkType }}-{{ $networkName }}-validator-poktrolld:26657
           suppliers:
-            - service_id: ollama
-              listen_url: http://0.0.0.0:8545
-              service_config:
-                backend_url: {{ default "http://ollama:11434/" $.Values.relayminers.services.ollama.backend_url }}
-                publicly_exposed_endpoints:
-                  - relayminer{{ $relayMinerNumber }}
-                  - {{ $networkType }}-{{ $networkName }}-relayminer-{{ $relayMinerNumber }}.poktroll.com
             - service_id: anvil
               listen_url: http://0.0.0.0:8545
               service_config:
@@ -65,13 +58,6 @@ spec:
               listen_url: http://0.0.0.0:8545
               service_config:
                 backend_url: {{ default "ws://anvil:8547/" $.Values.relayminers.services.anvilws.backend_url }}
-                publicly_exposed_endpoints:
-                  - relayminer{{ $relayMinerNumber }}
-                  - {{ $networkType }}-{{ $networkName }}-relayminer-{{ $relayMinerNumber }}.poktroll.com
-            - service_id: rest
-              listen_url: http://0.0.0.0:8545
-              service_config:
-                backend_url: {{ default "http://devnet-rest-api-demo.protocol-common:10000/" $.Values.relayminers.services.rest.backend_url }}
                 publicly_exposed_endpoints:
                   - relayminer{{ $relayMinerNumber }}
                   - {{ $networkType }}-{{ $networkName }}-relayminer-{{ $relayMinerNumber }}.poktroll.com
