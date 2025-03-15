@@ -19,21 +19,21 @@ spec:
         fullnameOverride: vm
         argocdReleaseOverride: observability-vm
         vmsingle:
-          resources:
-            requests:
-              cpu: 1500m
-              memory: 4000Mi
-            limits:
-              cpu: 4000m
-              memory: 6000Mi
           spec:
+            resources:
+              requests:
+                cpu: 1500m
+                memory: 4000Mi
+              limits:
+                cpu: 4000m
+                memory: 6000Mi
             extraArgs:
               maxLabelsPerTimeseries: "50"
-            retentionPeriod: "1"
+            retentionPeriod: "6"
             storage:
               resources:
                 requests:
-                  storage: 20Gi
+                  storage: 80Gi
               storageClassName: standard
           ingress:
             enabled: true
