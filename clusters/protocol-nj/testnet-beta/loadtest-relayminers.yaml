@@ -46,10 +46,10 @@ spec:
         resources:
           limits:
             cpu: 3
-            memory: 12Gi
+            memory: 14Gi
           requests:
-            cpu: 2
-            memory: 10Gi
+            cpu: 3
+            memory: 12Gi
         metrics:
           enabled: true
           serviceMonitor:
@@ -6148,10 +6148,10 @@ spec:
         resources:
           limits:
             cpu: 3
-            memory: 12Gi
+            memory: 14Gi
           requests:
-            cpu: 2
-            memory: 10Gi
+            cpu: 3
+            memory: 12Gi
         metrics:
           enabled: true
           serviceMonitor:
@@ -12250,10 +12250,10 @@ spec:
         resources:
           limits:
             cpu: 3
-            memory: 12Gi
+            memory: 14Gi
           requests:
-            cpu: 2
-            memory: 10Gi
+            cpu: 3
+            memory: 12Gi
         metrics:
           enabled: true
           serviceMonitor:
@@ -18352,10 +18352,10 @@ spec:
         resources:
           limits:
             cpu: 3
-            memory: 12Gi
+            memory: 14Gi
           requests:
-            cpu: 2
-            memory: 10Gi
+            cpu: 3
+            memory: 12Gi
         metrics:
           enabled: true
           serviceMonitor:
@@ -24454,10 +24454,10 @@ spec:
         resources:
           limits:
             cpu: 3
-            memory: 12Gi
+            memory: 14Gi
           requests:
-            cpu: 2
-            memory: 10Gi
+            cpu: 3
+            memory: 12Gi
         metrics:
           enabled: true
           serviceMonitor:
@@ -30557,10 +30557,10 @@ spec:
         resources:
           limits:
             cpu: 3
-            memory: 12Gi
+            memory: 14Gi
           requests:
-            cpu: 2
-            memory: 10Gi
+            cpu: 3
+            memory: 12Gi
         metrics:
           enabled: true
           serviceMonitor:
@@ -36659,10 +36659,10 @@ spec:
         resources:
           limits:
             cpu: 3
-            memory: 12Gi
+            memory: 14Gi
           requests:
-            cpu: 2
-            memory: 10Gi
+            cpu: 3
+            memory: 12Gi
         metrics:
           enabled: true
           serviceMonitor:
@@ -42761,10 +42761,10 @@ spec:
         resources:
           limits:
             cpu: 3
-            memory: 12Gi
+            memory: 14Gi
           requests:
-            cpu: 2
-            memory: 10Gi
+            cpu: 3
+            memory: 12Gi
         metrics:
           enabled: true
           serviceMonitor:
@@ -48863,10 +48863,10 @@ spec:
         resources:
           limits:
             cpu: 3
-            memory: 12Gi
+            memory: 14Gi
           requests:
-            cpu: 2
-            memory: 10Gi
+            cpu: 3
+            memory: 12Gi
         metrics:
           enabled: true
           serviceMonitor:
@@ -54965,10 +54965,10 @@ spec:
         resources:
           limits:
             cpu: 3
-            memory: 12Gi
+            memory: 14Gi
           requests:
-            cpu: 2
-            memory: 10Gi
+            cpu: 3
+            memory: 12Gi
         metrics:
           enabled: true
           serviceMonitor:

@@ -44,11 +44,11 @@ spec:
 
         resources:
           limits:
-            memory: 11Gi
-            cpu: '4'
+            memory: 48Gi
+            cpu: '6'
           requests:
-            memory: 10Gi
-            cpu: 3500m
+            memory: 48Gi
+            cpu: '4'
 
         serviceP2P:
           type: LoadBalancer
