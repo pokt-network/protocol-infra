@@ -37,7 +37,7 @@ spec:
         persistence:
           enabled: true
           className: "vultr-block-storage"
-          size: 150Gi
+          size: 250Gi
 
         cosmovisor:
           enabled: true

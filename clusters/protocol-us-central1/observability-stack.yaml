@@ -19,6 +19,13 @@ spec:
         fullnameOverride: vm
         argocdReleaseOverride: observability-vm
         vmsingle:
+          resources:
+            requests:
+              cpu: 1500m
+              memory: 4000Mi
+            limits:
+              cpu: 4000m
+              memory: 6000Mi
           spec:
             extraArgs:
               maxLabelsPerTimeseries: "50"
