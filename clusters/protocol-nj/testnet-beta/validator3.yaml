@@ -44,10 +44,10 @@ spec:
 
         resources:
           limits:
-            memory: 48Gi
+            memory: 16Gi
             cpu: '6'
           requests:
-            memory: 48Gi
+            memory: 15Gi
             cpu: '4'
 
         serviceP2P:

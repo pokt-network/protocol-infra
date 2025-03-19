@@ -110,7 +110,7 @@ spec:
           serviceMonitor:
             enabled: true
         image:
-          tag: main-dev # <- change this to the desired tag
+          tag: sha-88c6497 # main-dev # <- change this to the desired tag
           pullPolicy: Always
         ingress:
           enabled: true
