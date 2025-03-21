@@ -28,6 +28,10 @@ metadata:
     testnet: "testnet-beta"
     provisioned-by: "protocol"
 spec:
+  syncPolicy:
+    syncOptions:
+      - ServerSideApply=true
+      - Replace=true
   project: default
   destination:
     namespace: testnet-beta
@@ -55,7 +59,7 @@ spec:
           serviceMonitor:
             enabled: true
         image:
-          tag: sha-88c6497-main-prod
+          tag: 0.0.14
         homeDirectory: /home/pocket/.poktroll
         chownDataDirTo: 1025
         podSecurityContext:
@@ -6099,7 +6103,7 @@ spec:
             - service_id: proto-static-ngx
               listen_url: http://0.0.0.0:8545
               service_config:
-                backend_url: http://static-nginx-service:80/
+                backend_url: http://static-nginx-service.testnet-offchain-actors:80/
                 publicly_exposed_endpoints:
                   - beta-relayminer-1.us-nj.poktroll.com
 ---
@@ -6130,6 +6134,10 @@ metadata:
     testnet: "testnet-beta"
     provisioned-by: "protocol"
 spec:
+  syncPolicy:
+    syncOptions:
+      - ServerSideApply=true
+      - Replace=true
   project: default
   destination:
     namespace: testnet-beta
@@ -6157,7 +6165,7 @@ spec:
           serviceMonitor:
             enabled: true
         image:
-          tag: sha-88c6497-main-prod
+          tag: 0.0.14
         homeDirectory: /home/pocket/.poktroll
         chownDataDirTo: 1025
         podSecurityContext:
@@ -12201,7 +12209,7 @@ spec:
             - service_id: proto-static-ngx
               listen_url: http://0.0.0.0:8545
               service_config:
-                backend_url: http://static-nginx-service:80/
+                backend_url: http://static-nginx-service.testnet-offchain-actors:80/
                 publicly_exposed_endpoints:
                   - beta-relayminer-2.us-nj.poktroll.com
 ---
@@ -12232,6 +12240,10 @@ metadata:
     testnet: "testnet-beta"
     provisioned-by: "protocol"
 spec:
+  syncPolicy:
+    syncOptions:
+      - ServerSideApply=true
+      - Replace=true
   project: default
   destination:
     namespace: testnet-beta
@@ -12259,7 +12271,7 @@ spec:
           serviceMonitor:
             enabled: true
         image:
-          tag: sha-88c6497-main-prod
+          tag: 0.0.14
         homeDirectory: /home/pocket/.poktroll
         chownDataDirTo: 1025
         podSecurityContext:
@@ -18303,7 +18315,7 @@ spec:
             - service_id: proto-static-ngx
               listen_url: http://0.0.0.0:8545
               service_config:
-                backend_url: http://static-nginx-service:80/
+                backend_url: http://static-nginx-service.testnet-offchain-actors:80/
                 publicly_exposed_endpoints:
                   - beta-relayminer-3.us-nj.poktroll.com
 ---
@@ -18334,6 +18346,10 @@ metadata:
     testnet: "testnet-beta"
     provisioned-by: "protocol"
 spec:
+  syncPolicy:
+    syncOptions:
+      - ServerSideApply=true
+      - Replace=true
   project: default
   destination:
     namespace: testnet-beta
@@ -18361,7 +18377,7 @@ spec:
           serviceMonitor:
             enabled: true
         image:
-          tag: sha-88c6497-main-prod
+          tag: 0.0.14
         homeDirectory: /home/pocket/.poktroll
         chownDataDirTo: 1025
         podSecurityContext:
@@ -24405,7 +24421,7 @@ spec:
             - service_id: proto-static-ngx
               listen_url: http://0.0.0.0:8545
               service_config:
-                backend_url: http://static-nginx-service:80/
+                backend_url: http://static-nginx-service.testnet-offchain-actors:80/
                 publicly_exposed_endpoints:
                   - beta-relayminer-4.us-nj.poktroll.com
 ---
@@ -24436,6 +24452,10 @@ metadata:
     testnet: "testnet-beta"
     provisioned-by: "protocol"
 spec:
+  syncPolicy:
+    syncOptions:
+      - ServerSideApply=true
+      - Replace=true
   project: default
   destination:
     namespace: testnet-beta
@@ -24463,7 +24483,7 @@ spec:
           serviceMonitor:
             enabled: true
         image:
-          tag: sha-88c6497-main-prod
+          tag: 0.0.14
         homeDirectory: /home/pocket/.poktroll
         chownDataDirTo: 1025
         podSecurityContext:
@@ -30507,7 +30527,7 @@ spec:
             - service_id: proto-static-ngx
               listen_url: http://0.0.0.0:8545
               service_config:
-                backend_url: http://static-nginx-service:80/
+                backend_url: http://static-nginx-service.testnet-offchain-actors:80/
                 publicly_exposed_endpoints:
                   - beta-relayminer-5.us-nj.poktroll.com
 
@@ -30539,6 +30559,10 @@ metadata:
     testnet: "testnet-beta"
     provisioned-by: "protocol"
 spec:
+  syncPolicy:
+    syncOptions:
+      - ServerSideApply=true
+      - Replace=true
   project: default
   destination:
     namespace: testnet-beta
@@ -30566,7 +30590,7 @@ spec:
           serviceMonitor:
             enabled: true
         image:
-          tag: sha-88c6497-main-prod
+          tag: 0.0.14
         homeDirectory: /home/pocket/.poktroll
         chownDataDirTo: 1025
         podSecurityContext:
@@ -36610,7 +36634,7 @@ spec:
             - service_id: proto-static-ngx
               listen_url: http://0.0.0.0:8545
               service_config:
-                backend_url: http://static-nginx-service:80/
+                backend_url: http://static-nginx-service.testnet-offchain-actors:80/
                 publicly_exposed_endpoints:
                   - beta-relayminer-6.us-nj.poktroll.com
 ---
@@ -36641,6 +36665,10 @@ metadata:
     testnet: "testnet-beta"
     provisioned-by: "protocol"
 spec:
+  syncPolicy:
+    syncOptions:
+      - ServerSideApply=true
+      - Replace=true
   project: default
   destination:
     namespace: testnet-beta
@@ -36668,7 +36696,7 @@ spec:
           serviceMonitor:
             enabled: true
         image:
-          tag: sha-88c6497-main-prod
+          tag: 0.0.14
         homeDirectory: /home/pocket/.poktroll
         chownDataDirTo: 1025
         podSecurityContext:
@@ -42712,7 +42740,7 @@ spec:
             - service_id: proto-static-ngx
               listen_url: http://0.0.0.0:8545
               service_config:
-                backend_url: http://static-nginx-service:80/
+                backend_url: http://static-nginx-service.testnet-offchain-actors:80/
                 publicly_exposed_endpoints:
                   - beta-relayminer-7.us-nj.poktroll.com
 ---
@@ -42743,6 +42771,10 @@ metadata:
     testnet: "testnet-beta"
     provisioned-by: "protocol"
 spec:
+  syncPolicy:
+    syncOptions:
+      - ServerSideApply=true
+      - Replace=true
   project: default
   destination:
     namespace: testnet-beta
@@ -42770,7 +42802,7 @@ spec:
           serviceMonitor:
             enabled: true
         image:
-          tag: sha-88c6497-main-prod
+          tag: 0.0.14
         homeDirectory: /home/pocket/.poktroll
         chownDataDirTo: 1025
         podSecurityContext:
@@ -48814,7 +48846,7 @@ spec:
             - service_id: proto-static-ngx
               listen_url: http://0.0.0.0:8545
               service_config:
-                backend_url: http://static-nginx-service:80/
+                backend_url: http://static-nginx-service.testnet-offchain-actors:80/
                 publicly_exposed_endpoints:
                   - beta-relayminer-8.us-nj.poktroll.com
 ---
@@ -48845,6 +48877,10 @@ metadata:
     testnet: "testnet-beta"
     provisioned-by: "protocol"
 spec:
+  syncPolicy:
+    syncOptions:
+      - ServerSideApply=true
+      - Replace=true
   project: default
   destination:
     namespace: testnet-beta
@@ -48872,7 +48908,7 @@ spec:
           serviceMonitor:
             enabled: true
         image:
-          tag: sha-88c6497-main-prod
+          tag: 0.0.14
         homeDirectory: /home/pocket/.poktroll
         chownDataDirTo: 1025
         podSecurityContext:
@@ -54916,7 +54952,7 @@ spec:
             - service_id: proto-static-ngx
               listen_url: http://0.0.0.0:8545
               service_config:
-                backend_url: http://static-nginx-service:80/
+                backend_url: http://static-nginx-service.testnet-offchain-actors:80/
                 publicly_exposed_endpoints:
                   - beta-relayminer-9.us-nj.poktroll.com
 ---
@@ -54947,6 +54983,10 @@ metadata:
     testnet: "testnet-beta"
     provisioned-by: "protocol"
 spec:
+  syncPolicy:
+    syncOptions:
+      - ServerSideApply=true
+      - Replace=true
   project: default
   destination:
     namespace: testnet-beta
@@ -54974,7 +55014,7 @@ spec:
           serviceMonitor:
             enabled: true
         image:
-          tag: sha-88c6497-main-prod
+          tag: 0.0.14
         homeDirectory: /home/pocket/.poktroll
         chownDataDirTo: 1025
         podSecurityContext:
@@ -61018,6 +61058,6 @@ spec:
             - service_id: proto-static-ngx
               listen_url: http://0.0.0.0:8545
               service_config:
-                backend_url: http://static-nginx-service:80/
+                backend_url: http://static-nginx-service.testnet-offchain-actors:80/
                 publicly_exposed_endpoints:
                   - beta-relayminer-10.us-nj.poktroll.com

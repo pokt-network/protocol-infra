@@ -22,6 +22,9 @@ spec:
         # Can be created with `kubectl create secret generic fullnode1-keys --from-file=config/node_key.json --from-file=config/priv_validator_key.json --namespace=testnet-beta`
         nodeKeysSecretName: fullnode1-keys
 
+        podLabels:
+          fullnodes-service-include: "no-because-debug-logs"
+
         # Can be created with `kubectl create cm testnet-test-genesis --from-file=config/genesis.json --namespace=testnet-beta`
         # Provisioned below
         genesis:
