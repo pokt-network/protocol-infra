@@ -13,7 +13,7 @@ spec:
       serviceAccountName: configmap-and-secret-creator
       containers:
       - name: creator
-        image: ghcr.io/pokt-network/poktrolld:{{ .Values.image.tag }}
+        image: ghcr.io/pokt-network/pocketd:{{ .Values.image.tag }}
         command: ["/bin/bash"]
         args:
         - -c
@@ -80,13 +80,13 @@ spec:
           }
 
           # Create and clean up Secrets for keyring-test directory
-          create_resource "secret" "keys" "/root/.poktroll/keyring-test/"
+          create_resource "secret" "keys" "/root/.pocketd/keyring-test/"
 
           # Create and clean up ConfigMap for configs, excluding specific files
-          create_resource "configmap" "configs" "/root/.poktroll/config/" "node_key.json" "priv_validator_key.json"
+          create_resource "configmap" "configs" "/root/.pocketd/config/" "node_key.json" "priv_validator_key.json"
 
           # Create and clean up Secret for node_key.json and priv_validator_key.json only
-          create_resource "secret" "config-keys" "/root/.poktroll/config/" "node_key.json" "priv_validator_key.json"
+          create_resource "secret" "config-keys" "/root/.pocketd/config/" "node_key.json" "priv_validator_key.json"
 
           cleanup_old_resources "secret" "keys"
           cleanup_old_resources "configmap" "configs"

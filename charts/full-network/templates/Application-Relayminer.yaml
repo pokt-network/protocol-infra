@@ -43,9 +43,9 @@ spec:
           pprof:
             enabled: true
           pocket_node:
-            query_node_rpc_url: tcp://{{ $networkType }}-{{ $networkName }}-validator-poktrolld:26657
-            query_node_grpc_url: tcp://{{ $networkType }}-{{ $networkName }}-validator-poktrolld:9090
-            tx_node_rpc_url: tcp://{{ $networkType }}-{{ $networkName }}-validator-poktrolld:26657
+            query_node_rpc_url: tcp://{{ $networkType }}-{{ $networkName }}-validator-pocketd:26657
+            query_node_grpc_url: tcp://{{ $networkType }}-{{ $networkName }}-validator-pocketd:9090
+            tx_node_rpc_url: tcp://{{ $networkType }}-{{ $networkName }}-validator-pocketd:26657
           suppliers:
             - service_id: anvil
               listen_url: http://0.0.0.0:8545

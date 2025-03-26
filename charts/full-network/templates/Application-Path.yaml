@@ -74,9 +74,9 @@ data:
   .config.yaml: |
     shannon_config:
       full_node_config:
-        rpc_url: {{ default (printf "tcp://%s-%s-validator-poktrolld:26657" $networkType $networkName) $.Values.paths.full_node_config.rpc_url }}
+        rpc_url: {{ default (printf "tcp://%s-%s-validator-pocketd:26657" $networkType $networkName) $.Values.paths.full_node_config.rpc_url }}
         grpc_config:
-          host_port: {{ default (printf "%s-%s-validator-poktrolld:9090" $networkType $networkName) $.Values.paths.full_node_config.grpc_config.host_port }}
+          host_port: {{ default (printf "%s-%s-validator-pocketd:9090" $networkType $networkName) $.Values.paths.full_node_config.grpc_config.host_port }}
           insecure: {{ $.Values.paths.full_node_config.grpc_config.insecure }}
         lazy_mode: {{ $.Values.paths.full_node_config.lazy_mode }}
       gateway_config:
