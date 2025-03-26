@@ -14,7 +14,7 @@ spec:
   source:
     path: charts/pocketd
     repoURL: https://github.com/pokt-network/helm-charts.git
-    targetRevision: main # TODO: change to versioned releases when the work on the helm chart is merged/done
+    targetRevision: pocketd-devnets # TODO: change to versioned releases when the work on the helm chart is merged/done
     helm:
       values: |
         purpose: validator
