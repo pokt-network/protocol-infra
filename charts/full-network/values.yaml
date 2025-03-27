@@ -41,7 +41,7 @@ validator:
 
 paths:
   image:
-    tag: main
+    tag: sha-2ac9406-rc # TODO: update to main
   count: 1
   replicas: 1
   resources:
