@@ -71,10 +71,11 @@ data:
 
   client.toml: |
     broadcast-mode = "sync"
-    chain-id = "pocket-beta"
+    chain-id = "pocket"
     keyring-backend = "test"
     node = "tcp://localhost:26657"
     output = "text"
+
   config.toml: |
     # This is a TOML config file.
     # For more information, see https://github.com/toml-lang/toml
@@ -86,7 +87,7 @@ data:
 
     # The version of the CometBFT binary that created or
     # last modified the config file. Do not modify this.
-    version = "0.38.10"
+    version = "0.38.12"
 
     #######################################################################
     ###                   Main Base Config Options                      ###
@@ -97,7 +98,7 @@ data:
     proxy_app = "tcp://127.0.0.1:26658"
 
     # A custom human readable name for this node
-    moniker = "validator1"
+    moniker = "default-pocket-moniker"
 
     # Database backend: goleveldb | cleveldb | boltdb | rocksdb | badgerdb
     # * goleveldb (github.com/syndtr/goleveldb - most popular implementation)
@@ -320,10 +321,10 @@ data:
     max_packet_msg_payload_size = 1024
 
     # Rate at which packets can be sent, in bytes/second
-    send_rate = 5120000
+    send_rate = 25600000
 
     # Rate at which packets can be received, in bytes/second
-    recv_rate = 5120000
+    recv_rate = 25600000
 
     # Set true to enable the peer-exchange reactor
     pex = true
@@ -367,8 +368,8 @@ data:
     recheck = true
 
     # recheck_timeout is the time the application has during the rechecking process
-    # to return CheckTx responses, once all requests have been sent. Responses that 
-    # arrive after the timeout expires are discarded. It only applies to 
+    # to return CheckTx responses, once all requests have been sent. Responses that
+    # arrive after the timeout expires are discarded. It only applies to
     # non-local ABCI clients and when recheck is enabled.
     #
     # The ideal value will strongly depend on the application. It could roughly be estimated as the
@@ -487,7 +488,7 @@ data:
     wal_file = "data/cs.wal/wal"
 
     # How long we wait for a proposal block before prevoting nil
-    timeout_propose = "5m0s"
+    timeout_propose = "1m"
     # How much timeout_propose increases with each round
     timeout_propose_delta = "5s"
     # How long we wait after receiving +2/3 prevotes for “anything” (ie. not a single block or nil)
@@ -501,7 +502,7 @@ data:
     # How long we wait after committing a block, before starting on the new
     # height (this gives us a chance to receive some more precommits, even
     # though we already have +2/3).
-    timeout_commit = "5m0s"
+    timeout_commit = "1m"
 
     # How many blocks to look back to check existence of the node's consensus votes before joining consensus
     # When non-zero, the node will panic upon restart
