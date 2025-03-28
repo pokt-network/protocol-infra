@@ -578,5 +578,5 @@ data:
 
 kind: ConfigMap
 metadata:
-  name: custom-configs
+  name: custom-configs-validators
   namespace: mainnet
