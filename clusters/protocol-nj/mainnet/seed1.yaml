@@ -39,7 +39,7 @@ spec:
         persistence:
           enabled: true
           className: "vultr-block-storage-retain"
-          size: 250Gi
+          size: 100Gi
 
         cosmovisor:
           enabled: true
@@ -58,9 +58,10 @@ spec:
 
         config:
           p2p:
-            externalAddress: "" # "66.135.21.145:26656"
-            seeds: "" # "8b9060703e81129996234350c90f77d6ecddd11c@34.45.40.180:26656"
-            # todo: add persistent peer val1
+            seedMode: true
+            externalAddress: "140.82.40.232:26656"
+            persistentPeers: "1c19e890e422fc9cbb4a736c3959d299db323f58@66.135.21.145:26656"
+            unconditionalPeerIds: "1c19e890e422fc9cbb4a736c3959d299db323f58"
 
         serviceMonitor:
           enabled: true

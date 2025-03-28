@@ -59,7 +59,7 @@ spec:
         config:
           p2p:
             externalAddress: "66.135.21.145:26656"
-            seeds: "" # "8b9060703e81129996234350c90f77d6ecddd11c@34.45.40.180:26656"
+            # seeds: "shannon-grove-seed1.mainnet.poktroll.com:26656" 
 
         serviceMonitor:
           enabled: true
