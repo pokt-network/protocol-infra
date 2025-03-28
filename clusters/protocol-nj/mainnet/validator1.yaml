@@ -13,16 +13,19 @@ spec:
     namespace: mainnet
     server: https://kubernetes.default.svc
   source:
-    path: charts/pocketd
-    repoURL: https://github.com/pokt-network/helm-charts.git
-    targetRevision: 0.1.0 # TODO: change to versioned releases when the work on the helm chart is merged/done
+    chart: pocketd
+    repoURL: https://pokt-network.github.io/helm-charts
+    targetRevision: 0.1.0
+    # path: charts/pocketd
+    # repoURL: https://github.com/pokt-network/helm-charts.git
+    # targetRevision: 0.1.0 # TODO: change to versioned releases when the work on the helm chart is merged/done
     helm:
       values: |
         # Can be created with `kubectl create secret generic validator1-keys --from-file=config/node_key.json --from-file=config/priv_validator_key.json --namespace=mainnet`
         nodeKeysSecretName: validator1-keys
 
         # Can be created with `kubectl create cm testnet-test-genesis --from-file=config/genesis.json --namespace=mainnet`
-        # Provisioned below
+        # Provisioned in a separate genesis.yaml file
         genesis:
           configMapName: genesis
 
