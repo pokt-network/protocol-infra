@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: mainnet-validator1
+  name: mainnet-seed1
   namespace: argocd
   labels:
     team: "protocol"
@@ -21,8 +21,8 @@ spec:
     # targetRevision: 0.1.0 # TODO: change to versioned releases when the work on the helm chart is merged/done
     helm:
       values: |
-        # Can be created with `kubectl create secret generic validator1-keys --from-file=config/node_key.json --from-file=config/priv_validator_key.json --namespace=mainnet`
-        nodeKeysSecretName: validator1-keys
+        # Can be created with `kubectl create secret generic seed1-keys --from-file=config/node_key.json --from-file=config/priv_validator_key.json --namespace=mainnet`
+        nodeKeysSecretName: seed1-keys
 
         # Can be created with `kubectl create cm testnet-test-genesis --from-file=config/genesis.json --namespace=mainnet`
         # Provisioned in a separate genesis.yaml file
@@ -58,8 +58,9 @@ spec:
 
         config:
           p2p:
-            externalAddress: "66.135.21.145:26656"
+            externalAddress: "" # "66.135.21.145:26656"
             seeds: "" # "8b9060703e81129996234350c90f77d6ecddd11c@34.45.40.180:26656"
+            # todo: add persistent peer val1
 
         serviceMonitor:
           enabled: true
@@ -75,7 +76,7 @@ spec:
             annotations:
               kubernetes.io/ingress.class: nginx
             hosts:
-              - name: shannon-val1-rpc.mainnet.poktroll.com
+              - name: shannon-grove-rpc.mainnet.poktroll.com
             tls:
               secretName: "mainnet-wildcard-poktroll-tls"
           grpc:
@@ -84,7 +85,7 @@ spec:
               kubernetes.io/ingress.class: nginx
               nginx.ingress.kubernetes.io/backend-protocol: "GRPC"
             hosts:
-              - name: shannon-val1-grpc.mainnet.poktroll.com
+              - name: shannon-grove-grpc.mainnet.poktroll.com
             tls:
               secretName: "mainnet-wildcard-poktroll-tls"
           api:
@@ -92,7 +93,7 @@ spec:
             annotations:
               kubernetes.io/ingress.class: nginx
             hosts:
-              - name: shannon-val1-api.mainnet.poktroll.com
+              - name: shannon-grove-api.mainnet.poktroll.com
             tls:
               secretName: "mainnet-wildcard-poktroll-tls"
 

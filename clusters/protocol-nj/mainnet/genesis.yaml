@@ -842,7 +842,7 @@ data:
                     }
                   }
                 ],
-                "memo": "1c19e890e422fc9cbb4a736c3959d299db323f58@69.69.69.69:420",
+                "memo": "1c19e890e422fc9cbb4a736c3959d299db323f58@192.168.1.16:26656",
                 "timeout_height": "0",
                 "extension_options": [],
                 "non_critical_extension_options": []
@@ -1079,4 +1079,4 @@ data:
 kind: ConfigMap
 metadata:
   name: genesis
-  namespace: testnet-beta
+  namespace: mainnet
