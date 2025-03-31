@@ -71,7 +71,7 @@ data:
 
   client.toml: |
     broadcast-mode = "sync"
-    chain-id = "pocket"
+    chain-id = "pocket-alpha"
     keyring-backend = "test"
     node = "tcp://localhost:26657"
     output = "text"

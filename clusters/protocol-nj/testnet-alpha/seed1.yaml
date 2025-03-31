@@ -60,8 +60,8 @@ spec:
           p2p:
             seedMode: true
             externalAddress: "149.28.44.58:26656"
-            persistentPeers: "281d0b7dc875bb87a0c8e4fda72d1cced2dda520@140.82.60.203:26656"
-            unconditionalPeerIds: "281d0b7dc875bb87a0c8e4fda72d1cced2dda520"
+            persistentPeers: "787b0a3ec3e415426877fe9917ddef7398665cb4@140.82.60.203:26656"
+            unconditionalPeerIds: "787b0a3ec3e415426877fe9917ddef7398665cb4"
 
         serviceMonitor:
           enabled: true
