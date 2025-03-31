@@ -1,0 +1,109 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: alpha-seed1
+  namespace: argocd
+  labels:
+    team: "protocol"
+    purpose: "testnet-alpha"
+    provisioned-by: "protocol"
+spec:
+  project: default
+  destination:
+    namespace: testnet-alpha
+    server: https://kubernetes.default.svc
+  source:
+    chart: pocketd
+    repoURL: https://pokt-network.github.io/helm-charts
+    targetRevision: 0.1.1
+    # path: charts/pocketd
+    # repoURL: https://github.com/pokt-network/helm-charts.git
+    # targetRevision: 0.1.0 # TODO: change to versioned releases when the work on the helm chart is merged/done
+    helm:
+      values: |
+        # Can be created with `kubectl create secret generic seed1-keys --from-file=config/node_key.json --from-file=config/priv_validator_key.json --namespace=testnet-alpha`
+        nodeKeysSecretName: seed1-keys
+
+        # Can be created with `kubectl create cm testnet-test-genesis --from-file=config/genesis.json --namespace=testnet-alpha`
+        # Provisioned in a separate genesis.yaml file
+        genesis:
+          configMapName: genesis
+
+        replicaCount: 1
+
+        image:
+          repository: ghcr.io/pokt-network/pocketd
+          tag: 0.1.1
+          pullPolicy: IfNotPresent
+
+        persistence:
+          enabled: true
+          className: "vultr-block-storage-retain"
+          size: 100Gi
+
+        cosmovisor:
+          enabled: true
+
+        resources:
+          limits:
+            memory: 6Gi
+            cpu: '2'
+          requests:
+            memory: 6Gi
+            cpu: '1'
+
+        serviceP2P:
+          type: LoadBalancer
+          externalTrafficPolicy: Local
+
+        config:
+          p2p:
+            seedMode: true
+            externalAddress: "149.28.44.58:26656"
+            persistentPeers: "281d0b7dc875bb87a0c8e4fda72d1cced2dda520@140.82.60.203:26656"
+            unconditionalPeerIds: "281d0b7dc875bb87a0c8e4fda72d1cced2dda520"
+
+        serviceMonitor:
+          enabled: true
+          interval: 5s
+
+        logs:
+          format: json
+          level: info
+
+        ingress:
+          rpc:
+            enabled: true
+            annotations:
+              kubernetes.io/ingress.class: nginx
+            hosts:
+              - name: shannon-testnet-grove-rpc.alpha.poktroll.com
+            tls:
+              secretName: "alpha-wildcard-poktroll-tls"
+          grpc:
+            enabled: true
+            annotations:
+              kubernetes.io/ingress.class: nginx
+              nginx.ingress.kubernetes.io/backend-protocol: "GRPC"
+            hosts:
+              - name: shannon-testnet-grove-grpc.alpha.poktroll.com
+            tls:
+              secretName: "alpha-wildcard-poktroll-tls"
+          api:
+            enabled: true
+            annotations:
+              kubernetes.io/ingress.class: nginx
+            hosts:
+              - name: shannon-testnet-grove-api.alpha.poktroll.com
+            tls:
+              secretName: "alpha-wildcard-poktroll-tls"
+
+        homeDirectory: /home/pocket/.pocket
+        chownDataDirTo: 1025
+        containerSecurityContext:
+          runAsUser: 1025
+          runAsGroup: 1025
+
+        customConfigsConfigMap:
+          enabled: true
+          name: custom-configs-validators
