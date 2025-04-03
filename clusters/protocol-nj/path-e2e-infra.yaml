@@ -88,9 +88,9 @@ spec:
     namespace: path-e2e
     server: https://kubernetes.default.svc
   source:
-    path: charts/relayminer
-    repoURL: https://github.com/pokt-network/helm-charts.git
-    targetRevision: adopt-prod-image # TODO: change to versioned releases when the work on the helm chart is merged/done
+    chart: relayminer
+    repoURL: https://pokt-network.github.io/helm-charts
+    targetRevision: 0.2.0
     helm:
       values: |
         replicaCount: 1
@@ -110,7 +110,7 @@ spec:
           serviceMonitor:
             enabled: true
         image:
-          tag: sha-6fde813 # main-dev # <- change this to the desired tag
+          tag: 0.1.1 # main-dev # <- change this to the desired tag
           pullPolicy: Always
         ingress:
           enabled: true
@@ -131,9 +131,9 @@ spec:
           default_signing_key_names: [path-e2e-relayminer-1]
           smt_store_path: /root/.poktroll/smt
           pocket_node:
-            query_node_rpc_url: tcp://testnet-beta-fullnode2-poktrolld.testnet-beta:26657
-            query_node_grpc_url: tcp://testnet-beta-fullnode2-poktrolld.testnet-beta:9090
-            tx_node_rpc_url: tcp://testnet-beta-fullnode2-poktrolld.testnet-beta:26657
+            query_node_rpc_url: tcp://testnet-beta-fullnodes.testnet-beta:26657
+            query_node_grpc_url: tcp://testnet-beta-fullnodes.testnet-beta:9090
+            tx_node_rpc_url: tcp://testnet-beta-fullnodes.testnet-beta:26657
           suppliers:
             - service_id: anvil
               service_config:
