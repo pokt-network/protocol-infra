@@ -112,6 +112,17 @@ spec:
         image:
           tag: 0.1.1 # main-dev # <- change this to the desired tag
           pullPolicy: Always
+        homeDirectory: /home/pocket/.pocket
+        chownDataDirTo: 1025
+        podSecurityContext:
+          fsGroup: 1025
+          runAsUser: 1025
+          runAsGroup: 1025
+
+        securityContext:
+          runAsNonRoot: true
+          runAsUser: 1025
+          allowPrivilegeEscalation: false
         ingress:
           enabled: true
           annotations:
