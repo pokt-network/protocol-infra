@@ -14,9 +14,9 @@ spec:
     namespace: testnet-beta
     server: https://kubernetes.default.svc
   source:
-    path: charts/poktrolld
-    repoURL: https://github.com/pokt-network/helm-charts.git
-    targetRevision: main # TODO: change to versioned releases when the work on the helm chart is merged/done
+    chart: pocketd
+    repoURL: https://pokt-network.github.io/helm-charts
+    targetRevision: 0.1.1
     helm:
       values: |
         # Can be created with `kubectl create secret generic validator2-keys --from-file=config/node_key.json --from-file=config/priv_validator_key.json --namespace=testnet-beta`
@@ -30,14 +30,14 @@ spec:
         replicaCount: 1
 
         image:
-          repository: ghcr.io/pokt-network/poktrolld
-          tag: 0.0.11-rc # Don't change. Cosmovisor handles versioning.
+          repository: ghcr.io/pokt-network/pocketd
+          tag: 0.1.1 # Don't change. Cosmovisor handles versioning.
           pullPolicy: IfNotPresent
 
         persistence:
           enabled: true
           className: "vultr-block-storage"
-          size: 250Gi
+          size: 150Gi
 
         cosmovisor:
           enabled: true
@@ -56,8 +56,8 @@ spec:
 
         config:
           p2p:
-            externalAddress: "144.202.7.54:26656"
-            seeds: 8b9060703e81129996234350c90f77d6ecddd11c@34.45.40.180:26656
+            externalAddress: "45.63.1.164:26656"
+            seeds: 78e64eb51f040b86b8e4bed6ba8d895fa2f87839@shannon-grove-seed1.beta.poktroll.com:26656
 
         serviceMonitor:
           enabled: true
@@ -94,7 +94,7 @@ spec:
         #     tls:
         #       secretName: "beta-wildcard-tls"
 
-        homeDirectory: /home/pocket/.poktroll
+        homeDirectory: /home/pocket/.pocket
         chownDataDirTo: 1025
         containerSecurityContext:
           runAsUser: 1025

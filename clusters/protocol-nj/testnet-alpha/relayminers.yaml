@@ -1,0 +1,191 @@
+# Secret created with: kubectl create secret generic --context=vke-9c40c45d-3958-46fd-8b11-3f53643ba73e --namespace=testnet-alpha --from-file=./keyring-test/alpha-relayminer-1.info relayminers
+# SVC created with:
+---
+# Staked manually with the following command:
+# cat <<EOF >stake_config.yaml
+# stake_amount: 1000001upokt
+# owner_address: pokt1mwjprc4l2g9zfmwlm68fvh774vpnhlz7r2n8pf
+# services:
+# - service_id: proto-test-0
+#   endpoints:
+#   - publicly_exposed_url: https://alpha-relayminer-1.us-nj.poktroll.com:443
+#     rpc_type: json_rpc
+# - service_id: proto-test-1
+#   endpoints:
+#   - publicly_exposed_url: https://alpha-relayminer-1.us-nj.poktroll.com:443
+#     rpc_type: json_rpc
+# - service_id: proto-test-2
+#   endpoints:
+#   - publicly_exposed_url: https://alpha-relayminer-1.us-nj.poktroll.com:443
+#     rpc_type: json_rpc
+# - service_id: proto-test-3
+#   endpoints:
+#   - publicly_exposed_url: https://alpha-relayminer-1.us-nj.poktroll.com:443
+#     rpc_type: json_rpc
+# - service_id: proto-test-4
+#   endpoints:
+#   - publicly_exposed_url: https://alpha-relayminer-1.us-nj.poktroll.com:443
+#     rpc_type: json_rpc
+# - service_id: proto-test-5
+#   endpoints:
+#   - publicly_exposed_url: https://alpha-relayminer-1.us-nj.poktroll.com:443
+#     rpc_type: json_rpc
+# - service_id: proto-test-6
+#   endpoints:
+#   - publicly_exposed_url: https://alpha-relayminer-1.us-nj.poktroll.com:443
+#     rpc_type: json_rpc
+# - service_id: proto-test-7
+#   endpoints:
+#   - publicly_exposed_url: https://alpha-relayminer-1.us-nj.poktroll.com:443
+#     rpc_type: json_rpc
+# - service_id: proto-test-8
+#   endpoints:
+#   - publicly_exposed_url: https://alpha-relayminer-1.us-nj.poktroll.com:443
+#     rpc_type: json_rpc
+# - service_id: proto-test-9
+#   endpoints:
+#   - publicly_exposed_url: https://alpha-relayminer-1.us-nj.poktroll.com:443
+#     rpc_type: json_rpc
+# EOF
+# pkd_alpha_tx tx supplier stake-supplier --config=stake_config.yaml --from=alpha-relayminer-1 --yes
+
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: alpha-relayminer-1
+  namespace: argocd
+  labels:
+    team: "protocol"
+    purpose: "testnets"
+    testnet: "testnet-alpha"
+    provisioned-by: "protocol"
+spec:
+  syncPolicy:
+    syncOptions:
+      - ServerSideApply=true
+      - Replace=true
+  project: default
+  destination:
+    namespace: testnet-alpha
+    server: https://kubernetes.default.svc
+  source:
+    chart: relayminer
+    repoURL: https://pokt-network.github.io/helm-charts
+    targetRevision: 0.2.0
+    # path: charts/relayminer
+    # repoURL: https://github.com/pokt-network/helm-charts.git
+    # targetRevision: main # TODO: change to versioned releases when the work on the helm chart is merged/done
+    helm:
+      values: |
+        replicaCount: 1
+        logs:
+          level: debug # others are info
+        chainId: pocket-alpha
+        keysSecretName: relayminers
+        resources:
+          limits:
+            cpu: 2
+            memory: 8Gi
+          requests:
+            cpu: 2
+            memory: 8Gi
+        metrics:
+          enabled: true
+          serviceMonitor:
+            enabled: true
+        image:
+          tag: 0.1.1
+        homeDirectory: /home/pocket/.pocket
+        chownDataDirTo: 1025
+        podSecurityContext:
+          fsGroup: 1025
+          runAsUser: 1025
+          runAsGroup: 1025
+
+        securityContext:
+          runAsNonRoot: true
+          runAsUser: 1025
+          allowPrivilegeEscalation: false
+        ingress:
+          enabled: true
+          annotations:
+            kubernetes.io/ingress.class: nginx
+          hosts:
+            - host: alpha-relayminer-1.us-nj.poktroll.com
+              paths:
+                - path: /
+                  pathType: ImplementationSpecific
+          tls:
+            - secretName: poktroll-wildcard-tls
+              hosts:
+                - alpha-relayminer-1.us-nj.poktroll.com
+        grpcInsecure: true
+        config:
+          signing_key_name: alpha-relayminer-1 # For backwards compatibility with chart
+          default_signing_key_names: [alpha-relayminer-1]
+          smt_store_path: /home/pocket/.pocket
+          pocket_node:
+            query_node_rpc_url: tcp://alpha-seed1-pocketd:26657
+            query_node_grpc_url: tcp://alpha-seed1-pocketd:9090
+            tx_node_rpc_url: tcp://alpha-seed1-pocketd:26657
+          suppliers:
+            - service_id: proto-test-0
+              listen_url: http://0.0.0.0:8545
+              service_config:
+                backend_url: http://nginx-evm-response.protocol-common:8547/
+                publicly_exposed_endpoints:
+                  - alpha-relayminer-1.us-nj.poktroll.com
+            - service_id: proto-test-1
+              listen_url: http://0.0.0.0:8545
+              service_config:
+                backend_url: http://nginx-evm-response.protocol-common:8547/
+                publicly_exposed_endpoints:
+                  - alpha-relayminer-1.us-nj.poktroll.com
+            - service_id: proto-test-2
+              listen_url: http://0.0.0.0:8545
+              service_config:
+                backend_url: http://nginx-evm-response.protocol-common:8547/
+                publicly_exposed_endpoints:
+                  - alpha-relayminer-1.us-nj.poktroll.com
+            - service_id: proto-test-3
+              listen_url: http://0.0.0.0:8545
+              service_config:
+                backend_url: http://nginx-evm-response.protocol-common:8547/
+                publicly_exposed_endpoints:
+                  - alpha-relayminer-1.us-nj.poktroll.com
+            - service_id: proto-test-4
+              listen_url: http://0.0.0.0:8545
+              service_config:
+                backend_url: http://nginx-evm-response.protocol-common:8547/
+                publicly_exposed_endpoints:
+                  - alpha-relayminer-1.us-nj.poktroll.com
+            - service_id: proto-test-5
+              listen_url: http://0.0.0.0:8545
+              service_config:
+                backend_url: http://nginx-evm-response.protocol-common:8547/
+                publicly_exposed_endpoints:
+                  - alpha-relayminer-1.us-nj.poktroll.com
+            - service_id: proto-test-6
+              listen_url: http://0.0.0.0:8545
+              service_config:
+                backend_url: http://nginx-evm-response.protocol-common:8547/
+                publicly_exposed_endpoints:
+                  - alpha-relayminer-1.us-nj.poktroll.com
+            - service_id: proto-test-7
+              listen_url: http://0.0.0.0:8545
+              service_config:
+                backend_url: http://nginx-evm-response.protocol-common:8547/
+                publicly_exposed_endpoints:
+                  - alpha-relayminer-1.us-nj.poktroll.com
+            - service_id: proto-test-8
+              listen_url: http://0.0.0.0:8545
+              service_config:
+                backend_url: http://nginx-evm-response.protocol-common:8547/
+                publicly_exposed_endpoints:
+                  - alpha-relayminer-1.us-nj.poktroll.com
+            - service_id: proto-test-9
+              listen_url: http://0.0.0.0:8545
+              service_config:
+                backend_url: http://nginx-evm-response.protocol-common:8547/
+                publicly_exposed_endpoints:
+                  - alpha-relayminer-1.us-nj.poktroll.com

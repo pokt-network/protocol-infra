@@ -60,7 +60,7 @@ spec:
             enabled: true
         image:
           tag: 0.0.14
-        homeDirectory: /home/pocket/.poktroll
+        homeDirectory: /home/pocket/.pocket
         chownDataDirTo: 1025
         podSecurityContext:
           fsGroup: 1025
@@ -88,7 +88,7 @@ spec:
         config:
           signing_key_name: beta-relayminer-1 # For backwards compatibility with chart
           default_signing_key_names: [beta-relayminer-1]
-          smt_store_path: /home/pocket/.poktroll
+          smt_store_path: /home/pocket/.pocket
           pocket_node:
             query_node_rpc_url: tcp://testnet-beta-fullnodes:26657
             query_node_grpc_url: tcp://testnet-beta-fullnodes:9090
@@ -6166,7 +6166,7 @@ spec:
             enabled: true
         image:
           tag: 0.0.14
-        homeDirectory: /home/pocket/.poktroll
+        homeDirectory: /home/pocket/.pocket
         chownDataDirTo: 1025
         podSecurityContext:
           fsGroup: 1025
@@ -6194,7 +6194,7 @@ spec:
         config:
           signing_key_name: beta-relayminer-2 # For backwards compatibility with chart
           default_signing_key_names: [beta-relayminer-2]
-          smt_store_path: /home/pocket/.poktroll
+          smt_store_path: /home/pocket/.pocket
           pocket_node:
             query_node_rpc_url: tcp://testnet-beta-fullnodes:26657
             query_node_grpc_url: tcp://testnet-beta-fullnodes:9090
@@ -12272,7 +12272,7 @@ spec:
             enabled: true
         image:
           tag: 0.0.14
-        homeDirectory: /home/pocket/.poktroll
+        homeDirectory: /home/pocket/.pocket
         chownDataDirTo: 1025
         podSecurityContext:
           fsGroup: 1025
@@ -12300,7 +12300,7 @@ spec:
         config:
           signing_key_name: beta-relayminer-3 # For backwards compatibility with chart
           default_signing_key_names: [beta-relayminer-3]
-          smt_store_path: /home/pocket/.poktroll
+          smt_store_path: /home/pocket/.pocket
           pocket_node:
             query_node_rpc_url: tcp://testnet-beta-fullnodes:26657
             query_node_grpc_url: tcp://testnet-beta-fullnodes:9090
@@ -18378,7 +18378,7 @@ spec:
             enabled: true
         image:
           tag: 0.0.14
-        homeDirectory: /home/pocket/.poktroll
+        homeDirectory: /home/pocket/.pocket
         chownDataDirTo: 1025
         podSecurityContext:
           fsGroup: 1025
@@ -18406,7 +18406,7 @@ spec:
         config:
           signing_key_name: beta-relayminer-4 # For backwards compatibility with chart
           default_signing_key_names: [beta-relayminer-4]
-          smt_store_path: /home/pocket/.poktroll
+          smt_store_path: /home/pocket/.pocket
           pocket_node:
             query_node_rpc_url: tcp://testnet-beta-fullnodes:26657
             query_node_grpc_url: tcp://testnet-beta-fullnodes:9090
@@ -24484,7 +24484,7 @@ spec:
             enabled: true
         image:
           tag: 0.0.14
-        homeDirectory: /home/pocket/.poktroll
+        homeDirectory: /home/pocket/.pocket
         chownDataDirTo: 1025
         podSecurityContext:
           fsGroup: 1025
@@ -24512,7 +24512,7 @@ spec:
         config:
           signing_key_name: beta-relayminer-5 # For backwards compatibility with chart
           default_signing_key_names: [beta-relayminer-5]
-          smt_store_path: /home/pocket/.poktroll
+          smt_store_path: /home/pocket/.pocket
           pocket_node:
             query_node_rpc_url: tcp://testnet-beta-fullnodes:26657
             query_node_grpc_url: tcp://testnet-beta-fullnodes:9090
@@ -30591,7 +30591,7 @@ spec:
             enabled: true
         image:
           tag: 0.0.14
-        homeDirectory: /home/pocket/.poktroll
+        homeDirectory: /home/pocket/.pocket
         chownDataDirTo: 1025
         podSecurityContext:
           fsGroup: 1025
@@ -30619,7 +30619,7 @@ spec:
         config:
           signing_key_name: beta-relayminer-6 # For backwards compatibility with chart
           default_signing_key_names: [beta-relayminer-6]
-          smt_store_path: /home/pocket/.poktroll
+          smt_store_path: /home/pocket/.pocket
           pocket_node:
             query_node_rpc_url: tcp://testnet-beta-fullnodes:26657
             query_node_grpc_url: tcp://testnet-beta-fullnodes:9090
@@ -36697,7 +36697,7 @@ spec:
             enabled: true
         image:
           tag: 0.0.14
-        homeDirectory: /home/pocket/.poktroll
+        homeDirectory: /home/pocket/.pocket
         chownDataDirTo: 1025
         podSecurityContext:
           fsGroup: 1025
@@ -36725,7 +36725,7 @@ spec:
         config:
           signing_key_name: beta-relayminer-7 # For backwards compatibility with chart
           default_signing_key_names: [beta-relayminer-7]
-          smt_store_path: /home/pocket/.poktroll
+          smt_store_path: /home/pocket/.pocket
           pocket_node:
             query_node_rpc_url: tcp://testnet-beta-fullnodes:26657
             query_node_grpc_url: tcp://testnet-beta-fullnodes:9090
@@ -42803,7 +42803,7 @@ spec:
             enabled: true
         image:
           tag: 0.0.14
-        homeDirectory: /home/pocket/.poktroll
+        homeDirectory: /home/pocket/.pocket
         chownDataDirTo: 1025
         podSecurityContext:
           fsGroup: 1025
@@ -42831,7 +42831,7 @@ spec:
         config:
           signing_key_name: beta-relayminer-8 # For backwards compatibility with chart
           default_signing_key_names: [beta-relayminer-8]
-          smt_store_path: /home/pocket/.poktroll
+          smt_store_path: /home/pocket/.pocket
           pocket_node:
             query_node_rpc_url: tcp://testnet-beta-fullnodes:26657
             query_node_grpc_url: tcp://testnet-beta-fullnodes:9090
@@ -48909,7 +48909,7 @@ spec:
             enabled: true
         image:
           tag: 0.0.14
-        homeDirectory: /home/pocket/.poktroll
+        homeDirectory: /home/pocket/.pocket
         chownDataDirTo: 1025
         podSecurityContext:
           fsGroup: 1025
@@ -48937,7 +48937,7 @@ spec:
         config:
           signing_key_name: beta-relayminer-9 # For backwards compatibility with chart
           default_signing_key_names: [beta-relayminer-9]
-          smt_store_path: /home/pocket/.poktroll
+          smt_store_path: /home/pocket/.pocket
           pocket_node:
             query_node_rpc_url: tcp://testnet-beta-fullnodes:26657
             query_node_grpc_url: tcp://testnet-beta-fullnodes:9090
@@ -55015,7 +55015,7 @@ spec:
             enabled: true
         image:
           tag: 0.0.14
-        homeDirectory: /home/pocket/.poktroll
+        homeDirectory: /home/pocket/.pocket
         chownDataDirTo: 1025
         podSecurityContext:
           fsGroup: 1025
@@ -55043,7 +55043,7 @@ spec:
         config:
           signing_key_name: beta-relayminer-10 # For backwards compatibility with chart
           default_signing_key_names: [beta-relayminer-10]
-          smt_store_path: /home/pocket/.poktroll
+          smt_store_path: /home/pocket/.pocket
           pocket_node:
             query_node_rpc_url: tcp://testnet-beta-fullnodes:26657
             query_node_grpc_url: tcp://testnet-beta-fullnodes:9090

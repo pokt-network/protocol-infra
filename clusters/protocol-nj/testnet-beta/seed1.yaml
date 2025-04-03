@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: testnet-beta-fullnode3
+  name: testnet-beta-seed1
   namespace: argocd
   labels:
     team: "protocol"
@@ -19,8 +19,8 @@ spec:
     targetRevision: 0.1.1
     helm:
       values: |
-        # Can be created with `kubectl create secret generic fullnode3-keys --from-file=config/node_key.json --from-file=config/priv_validator_key.json --namespace=testnet-beta`
-        nodeKeysSecretName: fullnode3-keys
+        # Can be created with `kubectl create secret generic seed1-keys --from-file=config/node_key.json --from-file=config/priv_validator_key.json --namespace=testnet-beta`
+        nodeKeysSecretName: seed1-keys
 
         podLabels:
           fullnodes-service-include: "true"
@@ -40,27 +40,29 @@ spec:
         persistence:
           enabled: true
           className: "vultr-block-storage"
-          size: 200Gi
+          size: 150Gi
 
         cosmovisor:
           enabled: true
 
         resources:
           limits:
-            memory: 12Gi
-            cpu: '4'
+            memory: 16Gi
+            cpu: '6'
           requests:
-            memory: 12Gi
-            cpu: '2'
+            memory: 15Gi
+            cpu: '4'
 
-        # serviceP2P:
-        #   type: LoadBalancer
-        #   externalTrafficPolicy: Local
+        serviceP2P:
+          type: LoadBalancer
+          externalTrafficPolicy: Local
 
         config:
           p2p:
-            # externalAddress: "xxx:26656"
-            seeds: 78e64eb51f040b86b8e4bed6ba8d895fa2f87839@shannon-grove-seed1.beta.poktroll.com:26656
+            seedMode: true
+            externalAddress: "45.77.207.136:26656"
+            persistentPeers: "886651a13de02c737804097ef19f426f6be37d71@45.77.220.185:26656"
+            unconditionalPeerIds: "886651a13de02c737804097ef19f426f6be37d71"
 
         serviceMonitor:
           enabled: true

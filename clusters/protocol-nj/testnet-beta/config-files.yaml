@@ -10,7 +10,7 @@ data:
     index-events = []
     inter-block-cache = true
     min-retain-blocks = 0
-    minimum-gas-prices = "0.000000001upokt"
+    minimum-gas-prices = "0.001upokt"
     pruning = "nothing"
     pruning-interval = "0"
     pruning-keep-recent = "0"
@@ -21,27 +21,27 @@ data:
       enable = true
       enabled-unsafe-cors = true
       max-open-connections = 1000
-      rpc-max-body-bytes = 1000000
-      rpc-read-timeout = 10
+      rpc-max-body-bytes = 100000000
+      rpc-read-timeout = 60
       rpc-write-timeout = 0
-      swagger = false
+      swagger = true
 
     [grpc]
       address = "localhost:9090"
       enable = true
-      max-recv-msg-size = "10485760"
+      max-recv-msg-size = "100000000"
       max-send-msg-size = "2147483647"
 
     [grpc-web]
       enable = true
 
     [mempool]
-      max-txs = 10000
+      max-txs = 100000
 
-    [poktroll]
+    [pocket]
 
-      [poktroll.telemetry]
-        cardinality-level = "medium"
+      [pocket.telemetry]
+        cardinality-level = "high"
 
     [rpc]
       cors_allowed_origins = ["*"]
@@ -65,9 +65,10 @@ data:
       enabled = true
       global-labels = []
       metrics-sink = "mem"
-      prometheus-retention-time = "14400"
+      prometheus-retention-time = 86400
       service-name = ""
       statsd-addr = ""
+
   client.toml: |
     broadcast-mode = "sync"
     chain-id = "pocket-beta"
@@ -85,7 +86,7 @@ data:
 
     # The version of the CometBFT binary that created or
     # last modified the config file. Do not modify this.
-    version = "0.38.10"
+    version = "0.38.12"
 
     #######################################################################
     ###                   Main Base Config Options                      ###
@@ -319,10 +320,10 @@ data:
     max_packet_msg_payload_size = 1024
 
     # Rate at which packets can be sent, in bytes/second
-    send_rate = 5120000
+    send_rate = 25600000
 
     # Rate at which packets can be received, in bytes/second
-    recv_rate = 5120000
+    recv_rate = 25600000
 
     # Set true to enable the peer-exchange reactor
     pex = true
