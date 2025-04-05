@@ -62,7 +62,7 @@ spec:
 
 # Staked manually with the following command:
 # cat <<EOF >stake_config.yaml
-# stake_amount: 1000000064upokt
+# stake_amount: 1000000000upokt
 # owner_address: pokt1ytsx06dfxrp7cgt7t95jkxuyu2m97563zqz5pn
 # services:
 # - service_id: anvil
@@ -140,7 +140,7 @@ spec:
         config:
           signing_key_name: path-e2e-relayminer-1
           default_signing_key_names: [path-e2e-relayminer-1]
-          smt_store_path: /root/.poktroll/smt
+          smt_store_path: /home/pocket/.pocket/smt
           pocket_node:
             query_node_rpc_url: tcp://testnet-beta-fullnodes.testnet-beta:26657
             query_node_grpc_url: tcp://testnet-beta-fullnodes.testnet-beta:9090

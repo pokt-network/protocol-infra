@@ -1,0 +1,80 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: alpha-validator2
+  namespace: argocd
+  labels:
+    team: "protocol"
+    purpose: "testnet-alpha"
+    provisioned-by: "protocol"
+spec:
+  project: default
+  destination:
+    namespace: testnet-alpha
+    server: https://kubernetes.default.svc
+  source:
+    chart: pocketd
+    repoURL: https://pokt-network.github.io/helm-charts
+    targetRevision: 0.1.1
+    # path: charts/pocketd
+    # repoURL: https://github.com/pokt-network/helm-charts.git
+    # targetRevision: 0.1.0 # TODO: change to versioned releases when the work on the helm chart is merged/done
+    helm:
+      values: |
+        # Can be created with `kubectl create secret generic validator2-keys --from-file=config/node_key.json --from-file=config/priv_validator_key.json --namespace=testnet-alpha`
+        nodeKeysSecretName: validator2-keys
+
+        # Can be created with `kubectl create cm testnet-test-genesis --from-file=config/genesis.json --namespace=testnet-alpha`
+        # Provisioned in a separate genesis.yaml file
+        genesis:
+          configMapName: genesis
+
+        replicaCount: 1
+
+        image:
+          repository: ghcr.io/pokt-network/pocketd
+          tag: 0.1.1
+          pullPolicy: IfNotPresent
+
+        persistence:
+          enabled: true
+          className: "vultr-block-storage-retain"
+          size: 100Gi
+
+        cosmovisor:
+          enabled: true
+
+        resources:
+          limits:
+            memory: 6Gi
+            cpu: '2'
+          requests:
+            memory: 6Gi
+            cpu: '1'
+
+        serviceP2P:
+          type: LoadBalancer
+          externalTrafficPolicy: Local
+
+        config:
+          p2p:
+            # externalAddress: "140.82.60.203:26656"
+            seeds: "73b259010a6334d18f76e6f437b58cf2ac622552@shannon-grove-seed1.alpha.poktroll.com:26656" 
+
+        serviceMonitor:
+          enabled: true
+          interval: 5s
+
+        logs:
+          format: json
+          level: info
+
+        homeDirectory: /home/pocket/.pocket
+        chownDataDirTo: 1025
+        containerSecurityContext:
+          runAsUser: 1025
+          runAsGroup: 1025
+
+        customConfigsConfigMap:
+          enabled: true
+          name: custom-configs-validators
