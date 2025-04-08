@@ -296,7 +296,7 @@ data:
     persistent_peers = ""
 
     # Path to address book
-    addr_book_file = "config/addrbook.json"
+    addr_book_file = "data/addrbook.json"
 
     # Set true for strict address routability rules
     # Set false for private or local networks
