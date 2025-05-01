@@ -77,7 +77,7 @@ spec:
         grafana:
           adminPassword: initialPassword
           plugins:
-            - https://github.com/VictoriaMetrics/victorialogs-datasource/releases/download/v0.13.3/victoriametrics-logs-datasource-v0.13.3.zip;victoriametrics-logs-datasource
+            - https://github.com/VictoriaMetrics/victorialogs-datasource/releases/download/v0.16.3/victoriametrics-logs-datasource-v0.16.3.zip;victoriametrics-logs-datasource
           persistence:
             enabled: true
           deploymentStrategy:
