@@ -22,18 +22,18 @@ spec:
           spec:
             resources:
               requests:
-                cpu: 1500m
-                memory: 4000Mi
+                cpu: 2500m
+                memory: 8000Mi
               limits:
                 cpu: 4000m
-                memory: 6000Mi
+                memory: 11000Mi
             extraArgs:
               maxLabelsPerTimeseries: "50"
             retentionPeriod: "6"
             storage:
               resources:
                 requests:
-                  storage: 80Gi
+                  storage: 100Gi
               storageClassName: standard
           ingress:
             enabled: true
