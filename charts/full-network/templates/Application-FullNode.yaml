@@ -13,9 +13,13 @@ metadata:
 spec:
   project: default
   source:
-    path: charts/pocketd
-    repoURL: https://github.com/pokt-network/helm-charts.git
-    targetRevision: main # TODO: change to versioned releases when the work on the helm chart is merged/done
+    # path: charts/pocketd
+    # repoURL: https://github.com/pokt-network/helm-charts.git
+    # targetRevision: main # TODO: change to versioned releases when the work on the helm chart is merged/done
+
+    chart: pocketd
+    repoURL: https://pokt-network.github.io/helm-charts
+    targetRevision: 0.1.5
     helm:
       values: |
         purpose: fullnode
