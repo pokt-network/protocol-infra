@@ -24,7 +24,7 @@ spec:
     path: charts/relayminer
     repoURL: https://github.com/pokt-network/helm-charts.git
     targetRevision: main # TODO: change to versioned releases when the work on the helm chart is merged/done # {{ $.Values.charts.relayminer.branch }}
-    helm: 
+    helm:
       values: |
         fullnameOverride: {{ $networkType }}-{{ $networkName }}-relayminer-{{ $relayMinerNumber }}
         configsConfigMapName: {{ default (printf "configs-%s" (default $imageTag $.Values.configVersion)) $.Values.customConfigMap.configsName }}
@@ -57,10 +57,16 @@ spec:
             - service_id: anvilws
               listen_url: http://0.0.0.0:8545
               service_config:
-                backend_url: {{ default "ws://anvil:8547/" $.Values.relayminers.services.anvilws.backend_url }}
+                backend_url: {{ default "http://anvil:8547/" $.Values.relayminers.services.anvil.backend_url }}
                 publicly_exposed_endpoints:
                   - relayminer{{ $relayMinerNumber }}
                   - {{ $networkType }}-{{ $networkName }}-relayminer-{{ $relayMinerNumber }}.poktroll.com
+              rpc_type_service_configs:
+                websocket:
+                  backend_url: {{ default "ws://anvil:8547/" $.Values.relayminers.services.anvilws.backend_url }}
+                  publicly_exposed_endpoints:
+                    - relayminer{{ $relayMinerNumber }}
+                    - {{ $networkType }}-{{ $networkName }}-relayminer-{{ $relayMinerNumber }}.poktroll.com
         ingress:
           enabled: true
           annotations:
