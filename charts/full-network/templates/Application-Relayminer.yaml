@@ -54,6 +54,9 @@ spec:
                 publicly_exposed_endpoints:
                   - relayminer{{ $relayMinerNumber }}
                   - {{ $networkType }}-{{ $networkName }}-relayminer-{{ $relayMinerNumber }}.poktroll.com
+              rpc_type_service_configs:
+                json_rpc:
+                  backend_url: {{ default "http://anvil:8547/" $.Values.relayminers.services.anvil.backend_url }}
             - service_id: anvilws
               listen_url: http://0.0.0.0:8545
               rpc_type_service_configs:
