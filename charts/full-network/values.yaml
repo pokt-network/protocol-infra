@@ -41,7 +41,7 @@ validator:
 
 paths:
   image:
-    tag: sha-7cdbeef-rc # TODO: update to main
+    tag: sha-4f8bbd7-rc # TODO: update to main
   count: 1
   replicas: 1
   resources:
