@@ -9,8 +9,6 @@ image:
 # Defaults to image.tag if not specified
 configVersion: ""
 
-appgateservers:
-  count: 1
 gateways:
   count: 1
 relayminers:

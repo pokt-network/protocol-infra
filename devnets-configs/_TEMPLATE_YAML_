@@ -11,8 +11,6 @@ image:
   tag: sha-7042be3
 
 # Do not scale to more than 3.
-appgateservers:
-  count: 1
 gateways:
   count: 1
 relayminers:

@@ -1,4 +1,4 @@
-# Secrets such as `testnet-validated-validator-keys` and `celestia-testnet-credentials` are pushed to the cluster manually.
+# Secrets such as `testnet-validated-validator-keys` are pushed to the cluster manually.
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
@@ -17,9 +17,6 @@ spec:
     targetRevision: add-cosmovisor # TODO: change to versioned releases when the work on the helm chart is merged/done
     helm:
       values: |
-        celestia-da:
-          enabled: false
-
         # Can be created with `kubectl create secret generic testnet-validated-validator-keys --from-file=config/node_key.json --from-file=config/priv_validator_key.json --namespace=testnet-validated`
         nodeKeysSecretName: testnet-validated-validator-keys
 
